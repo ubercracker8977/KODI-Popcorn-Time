@@ -1,3 +1,4 @@
+from os import path
 try:
     from urlparse import urlparse
 except:

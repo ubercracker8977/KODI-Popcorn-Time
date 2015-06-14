@@ -1,13 +1,14 @@
 import sys, os
+import sys, os, xbmc, traceback
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'resources', 'lib'))
 from kodipopcorntime.common import plugin, PLATFORM, RESOURCES_PATH
+from kodipopcorntime.utils import ensure_fanart, SafeDialogProgress
+from kodipopcorntime.player import TorrentPlayer
 
 if __name__ == '__main__':
     try:
         plugin.run()
     except Exception, e:
-        import xbmc
-        import traceback
         map(xbmc.log, traceback.format_exc().split("\n"))
         sys.exit(0)
 
@@ -16,9 +17,7 @@ if PLATFORM["os"] not in ["android", "linux", "windows", "darwin"]:
     sys.exit(0)
 
 from kodipopcorntime.caching import cached_route
-from kodipopcorntime.utils import ensure_fanart
 from kodipopcorntime.providers import yify
-from kodipopcorntime.player import TorrentPlayer
 
 # Cache TTLs
 DEFAULT_TTL = 24 * 3600 # 24 hours

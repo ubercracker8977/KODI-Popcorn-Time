@@ -1,11 +1,3 @@
-import os
-import sys
-import stat
-import subprocess
-from kodipopcorntime.common import RESOURCES_PATH
-from kodipopcorntime.platform import PLATFORM
-from kodipopcorntime.utils import url_get
-from xbmcswift2 import Plugin
 
 
 ANDROID_XBMC_IDS = [
@@ -23,6 +15,8 @@ def ensure_exec_perms(file_):
     os.chmod(file_, st.st_mode | stat.S_IEXEC)
     return file_
 
+import os, sys, stat, subprocess, socket
+from kodipopcorntime.common import RESOURCES_PATH, PLATFORM
 
 def get_torrent2http_binary():
     binary = "torrent2http%s" % (PLATFORM["os"] == "windows" and ".exe" or "")
@@ -60,7 +54,6 @@ def get_torrent2http_binary():
 
 
 def find_free_port():
-    import socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('', 0))
     port = s.getsockname()[1]
@@ -84,7 +77,6 @@ def start(**kwargs):
     env["LD_LIBRARY_PATH"] = torrent2http_dir
     env["DYLD_LIBRARY_PATH"] = torrent2http_dir
 
-    import xbmc
     xbmc.log(repr(args))
     kwargs = {
         "cwd": torrent2http_dir,

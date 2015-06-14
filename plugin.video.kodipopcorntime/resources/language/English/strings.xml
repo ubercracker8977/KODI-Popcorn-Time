@@ -91,7 +91,7 @@
    -->
   <string id="30300">Please review your settings.</string>
   <string id="30301">Cache cleared.</string>
-  <string id="30302">Your system "%(os)s_%(arch)s" is not supported.</string>
+  <string id="30302">Your OS is not supported.</string>
   <string id="30303">Unable to add this file. Magnet is incomplete.</string>
   <string id="30304">Unable to connect to providers.</string>
   <string id="30305">Error. Please check the log file</string>

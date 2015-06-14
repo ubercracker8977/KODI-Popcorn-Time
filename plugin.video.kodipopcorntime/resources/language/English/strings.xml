@@ -34,6 +34,7 @@
   <string id="30119">Subtitle Language Priority #1</string>
   <string id="30120">Subtitle Language Priority #2</string>
   <string id="30121">Subtitle Language Priority #3</string>
+  <string id="30122">Max Uploade Rate (kB/s - Min 10 kB/s)</string>
 
   <!-- 
    * Languages

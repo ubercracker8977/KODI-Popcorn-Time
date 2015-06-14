@@ -78,10 +78,15 @@ class OverlayText(object):
 class TorrentPlayer(xbmc.Player):
     def init(self, uri, sub=None):
         self.subtitles = sub
+        max_upload_rate = int(plugin.get_setting("max_upload_rate"))
+        if max_upload_rate and max_upload_rate < 10:
+            max_upload_rate = 0
+
         self.torrent2http_options = {
             "uri": uri,
             "dlpath": xbmc.validatePath(xbmc.translatePath(plugin.get_setting("dlpath"))) or ".",
             "dlrate": plugin.get_setting("max_download_rate") or "0",
+            "ulrate":  max_upload_rate,
             "encryption": plugin.get_setting("encryption"),
         }
 

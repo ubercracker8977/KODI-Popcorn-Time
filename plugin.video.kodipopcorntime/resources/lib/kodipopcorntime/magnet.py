@@ -14,10 +14,9 @@ PUBLIC_TRACKERS = [
     "http://exodus.desync.com:6969/announce",
 ]
 
-def from_meta_data(torrent_hash, title, quality):
+def from_meta_data(torrent_hash, dn):
     import urllib
-    name = "%s [%s]" %(title, quality)
-    return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urllib.urlencode({'dn' : name, 'tr': PUBLIC_TRACKERS}, doseq=True))
+    return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urllib.urlencode({'dn' : dn, 'tr': PUBLIC_TRACKERS}, doseq=True))
 
 def display_name(magnet_uri):
     import urlparse

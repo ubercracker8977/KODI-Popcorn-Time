@@ -29,6 +29,29 @@ QUALITY = 'all'
 @ensure_fanart
 def index():
     try:
+        items = []
+
+        if len(PROVIDERS['movies']) == 1:
+            sys_kwargs = { 
+                'module': import_module(provider),
+                'provider': PROVIDERS['movies'][0]
+            }
+            for item in sys_kwargs['module'].list():
+                if not item.get("kodipopcorn_endpoint"):
+                    continue
+                kwargs = {}
+                if item.get("kodipopcorn_kwargs"):
+                    kwargs = item.pop('kodipopcorn_kwargs')
+                item["path"] = plugin.url_for(item.pop('kodipopcorn_endpoint'), **kwargs.update(sys_kwargs))
+                items.append(item)
+
+        elif len(PROVIDERS['movies']) > 0:
+            for provider in PROVIDERS:
+                module = import_module(provider)
+                item["path"] = plugin.url_for('list', provider=provider, module=module)
+                items.append(module.INDEX)
+
+        plugin.finish(items, update_listing=False)
     except:
         plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 

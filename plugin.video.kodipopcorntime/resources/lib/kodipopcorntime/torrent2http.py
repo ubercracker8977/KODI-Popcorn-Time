@@ -16,6 +16,7 @@ def get_torrent2http_binary():
     st = os.stat(binary_path)
     os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
 
+    return binary_dir, binary_path
 
 def find_free_port():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,8 +27,8 @@ def find_free_port():
 
 
 def start(**kwargs):
-    torrent2http_dir, torrent2http_bin = get_torrent2http_binary()
-    args = [torrent2http_bin]
+    torrent2http_dir, torrent2http_path = get_torrent2http_binary()
+    args = [torrent2http_path]
     bind_port = find_free_port()
     kwargs["bind"] = ":%d" % bind_port
 

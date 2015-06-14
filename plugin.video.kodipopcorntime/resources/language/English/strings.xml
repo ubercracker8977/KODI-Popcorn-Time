@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-  <!--  -->
+  <!--
+   * The range 30000-30099 - 99
+   -->
   <string id="30000">KODI Popcorn Time</string>
   <string id="30001">KODI Popcorn Time - Search</string>
   <string id="30002">Search</string>
@@ -14,7 +16,9 @@
 
   <!-- 
    * Settings
+   * The range 30100-30199 - 99
    -->
+
   <string id="30101">General</string>
   <string id="30102">General</string>
   <string id="30103">Download Path</string>
@@ -39,6 +43,7 @@
 
   <!-- 
    * Languages
+   * The range 30200-30299 - 99
    -->
   <string id="30200">None</string>
   <string id="30201">Albanian</string>
@@ -82,6 +87,7 @@
 
   <!-- 
    * notify
+   * The range 30300-30399 - 99
    -->
   <string id="30300">Please review your settings.</string>
   <string id="30301">Cache cleared.</string>
@@ -107,7 +113,8 @@
   <string id="30321">xxxx</string>
 
   <!-- 
-   * notify
+   * Genres
+   * The range 30400-30499 - 99
    -->
   <string id="30400">Action</string>
   <string id="30401">Adventure</string>

@@ -37,8 +37,15 @@ def index():
 @contextmanager
 def list():
     try:
+        kwargs, sys_kwargs = _filter_kwargs()
+        for item in sys_kwargs['module'].list(**kwargs):
             if not item.get("kodipopcorn_endpoint"):
                 continue
+            kwargs = {}
+            if item.get("kodipopcorn_kwargs"):
+                kwargs = item.pop('kodipopcorn_kwargs')
+            item["path"] = plugin.url_for(item.pop('kodipopcorn_endpoint'), **kwargs.update(sys_kwargs))
+            yield item
     except:
         plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
@@ -47,6 +54,7 @@ def list():
 @contextmanager
 def browse(provider, item, page):
     try:
+        kwargs, sys_kwargs = _filter_kwargs()
 
 
         raise AnErrorOccurred(30307)
@@ -60,20 +68,38 @@ def search():
     try:
         query = plugin.keyboard("", plugin.addon.getLocalizedString(30001))
         if query:
+            kwargs, sys_kwargs = _filter_kwargs({
+                'query': query,
+                'page': 1
+            })
+            plugin.redirect(plugin.url_for("search_query", **kwargs.update(sys_kwargs)))
     except:
         plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
 @plugin.route("/search/<query>/<page>")
 @ensure_fanart
 def search_query(query, page):
-    return yify.search_query(query, page)
     try:
+        kwargs, sys_kwargs = _filter_kwargs()
+        return sys_kwargs['module'].search_query(query, page, **kwargs.update(sys_kwargs))
     except:
         plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
 @plugin.route("/play")
 def play():
     try:
+        TorrentPlayer().init(**dict((k, v[0]) for k, v in plugin.request.args.items())).loop()
     except:
         plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
+def _filter_kwargs(**kwargs):
+    kwargs = dict((k, v[0]) for k, v in plugin.request.args.items()).update(kwargs)
+
+    sys_kwargs['module'] = kwargs.pop('module')
+    if kwargs.get('provider'):
+        sys_kwargs['provider'] = kwargs.pop('provider')
+    sys_kwargs.update({
+        'limit': LIMIT,
+        'quality': QUALITY
+    })
+    return [kwargs or {}, sys_kwargs]

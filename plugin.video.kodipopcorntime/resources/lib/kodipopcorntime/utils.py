@@ -22,6 +22,7 @@ def url_get(url, params={}, headers={}):
 
     req = urllib2.Request(url)
     req.add_header("User-Agent", USER_AGENT)
+    req.add_header("Accept-Encoding", "gzip")
     for k, v in headers.items():
         req.add_header(k, v)
 

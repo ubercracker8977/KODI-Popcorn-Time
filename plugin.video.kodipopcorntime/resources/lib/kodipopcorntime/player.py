@@ -76,8 +76,7 @@ class OverlayText(object):
         return int(res.attrib["width"]), int(res.attrib["height"])
 
 class TorrentPlayer(xbmc.Player):
-    def init(self, uri, sub=None):
-        self.subtitles = sub
+    def init(self, uri, **kwargs):
         max_upload_rate = int(plugin.get_setting("max_upload_rate"))
         if max_upload_rate and max_upload_rate < 10:
             max_upload_rate = 0

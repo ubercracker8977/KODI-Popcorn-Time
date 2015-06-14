@@ -77,7 +77,6 @@ def start(**kwargs):
     env["LD_LIBRARY_PATH"] = torrent2http_dir
     env["DYLD_LIBRARY_PATH"] = torrent2http_dir
 
-    xbmc.log(repr(args))
     kwargs = {
         "cwd": torrent2http_dir,
         "env": env,

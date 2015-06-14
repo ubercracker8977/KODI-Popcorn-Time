@@ -110,7 +110,6 @@ class TorrentPlayer(xbmc.Player):
                 self.torrent2http_options["dlpath"] = "."
 
         if plugin.get_setting("keep_files", bool):
-            plugin.log.info("Will keep file after playback.")
             self.torrent2http_options["keep"] = None
         self.on_playback_started = []
         self.on_playback_resumed = []

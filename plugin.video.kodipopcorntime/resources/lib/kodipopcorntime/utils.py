@@ -30,9 +30,10 @@ def url_get(url, params={}, headers={}):
         with closing(urllib2.urlopen(req)) as response:
             data = response.read()
             if response.headers.get("Content-Encoding", "") == "gzip":
-                return zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
-            return data
-            return data and json.loads(data) or {}
+                data = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
+            if data
+                return json.loads(data)
+            raise
     except urllib2.HTTPError, e:
         strerror = "http error: ({url}) [{code}] {reason}".format(url=url, code=e.code, reason=e.reason)
     except:

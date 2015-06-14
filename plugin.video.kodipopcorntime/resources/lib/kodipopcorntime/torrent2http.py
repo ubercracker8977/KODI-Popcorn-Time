@@ -1,8 +1,3 @@
-def ensure_exec_perms(file_):
-    st = os.stat(file_)
-    os.chmod(file_, st.st_mode | stat.S_IEXEC)
-    return file_
-
 import os, sys, stat, subprocess, socket
 from kodipopcorntime.common import RESOURCES_PATH, PLATFORM
 
@@ -18,7 +13,8 @@ def get_torrent2http_binary():
     binary_dir = os.path.join(RESOURCES_PATH, "bin", "%(os)s_%(arch)s" % platform)
     binary_path = os.path.join(binary_dir, binary)
 
-    return binary_dir, ensure_exec_perms(binary_path)
+    st = os.stat(binary_path)
+    os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
 
 
 def find_free_port():

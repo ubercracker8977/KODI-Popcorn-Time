@@ -1,7 +1,7 @@
 import xbmc, xbmcgui, urllib, os, time
 from kodipopcorntime import torrent2http
 from kodipopcorntime.providers.yifysubs import get_subtitle, clear_subtitle
-from kodipopcorntime.common import plugin, RESOURCES_PATH, PLATFORM
+from kodipopcorntime.common import plugin, RESOURCES_PATH, PLATFORM, CACHE_DIR
 from kodipopcorntime.utils import url_get_json
 from contextlib import contextmanager, closing, nested
 
@@ -84,7 +84,7 @@ class TorrentPlayer(xbmc.Player):
 
         self.torrent2http_options = {
             "uri": uri,
-            "dlpath": xbmc.validatePath(xbmc.translatePath(plugin.get_setting("dlpath"))) or ".",
+            "dlpath": xbmc.validatePath(xbmc.translatePath(plugin.get_setting("dlpath"))) or CACHE_DIR,
             "dlrate": plugin.get_setting("max_download_rate") or "0",
             "ulrate":  max_upload_rate,
             "encryption": plugin.get_setting("encryption"),

@@ -1,5 +1,9 @@
 from kodipopcorntime.common import plugin
 import os, xbmcgui, urllib, urllib2, zlib, types, xbmc
+try:
+    import simplejson as json
+except ImportError:
+    import json
 from contextlib import closing
 from functools import wraps
 from subprocess import Popen, PIPE

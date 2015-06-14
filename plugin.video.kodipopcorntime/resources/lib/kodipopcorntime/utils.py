@@ -88,3 +88,11 @@ def get_mount_point(path):
 
 def get_path_fs(path):
     return get_mount_filesystem(get_mount_point(path))
+
+def cleanDictList(DictList):
+    if not isinstance(DictList, dict) and not isinstance(DictList, list):
+        return DictList
+    if not isinstance(DictList, dict):
+        return [clean(value) for value in DictList if value]
+    return {key: clean(value) for key, value in DictList.items() if value}
+

@@ -17,7 +17,6 @@ if not PLATFORM.get('os'):
     plugin.log.error(plugin.addon.getLocalizedString(30302))
     sys.exit(0)
 
-from kodipopcorntime.caching import cached_route
 from kodipopcorntime.providers import yify
 
 # Cache TTLs
@@ -48,7 +47,6 @@ def list():
 
 @plugin.route("/browse/<provider>/<item>/<page>")
 #contents = ['files', 'songs', 'artists', 'albums', 'movies', 'tvshows', 'episodes', 'musicvideos']
-@cached_route(ttl=DEFAULT_TTL, content_type="movies")
 @ensure_fanart
 def browse(item, page):
     return yify.browse(item, page)

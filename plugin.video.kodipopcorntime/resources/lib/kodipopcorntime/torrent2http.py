@@ -18,26 +18,6 @@ def get_torrent2http_binary():
     binary_dir = os.path.join(RESOURCES_PATH, "bin", "%(os)s_%(arch)s" % platform)
     binary_path = os.path.join(binary_dir, binary)
 
-    # On Android, we need to copy torrent2http to ext4, since the sdcard is noexec
-    if platform["os"] == "android":
-
-        # Find wether on XBMC or OUYA XBMC
-        uid = os.getuid()
-        for app_id in ANDROID_XBMC_IDS:
-            xbmc_data_path = os.path.join("/data", "data", app_id)
-            if os.path.exists(xbmc_data_path) and uid == os.stat(xbmc_data_path).st_uid:
-                android_binary_dir = os.path.join(xbmc_data_path, "files", "plugin.video.kodipopcorntime")
-                break
-
-        if not os.path.exists(android_binary_dir):
-            os.makedirs(android_binary_dir)
-        android_binary_path = os.path.join(android_binary_dir, binary)
-        if not os.path.exists(android_binary_path) or os.path.getsize(android_binary_path) != os.path.getsize(binary_path):
-            import shutil
-            shutil.copy2(binary_path, android_binary_path)
-        binary_path = android_binary_path
-        binary_dir = android_binary_dir
-
     return binary_dir, ensure_exec_perms(binary_path)
 
 

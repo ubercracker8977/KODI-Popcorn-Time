@@ -4,7 +4,6 @@ from contextlib import contextmanager, closing
 
 LOCKS = {}
 
-@contextmanager
 def shelf(filename, ttl=0):
     if ttl <= 0:
         return {}
@@ -20,3 +19,4 @@ def shelf(filename, ttl=0):
                 })
             elif (time.time() - d["created_at"]) > ttl:
                 d["data"] = {}
+            return d["data"]

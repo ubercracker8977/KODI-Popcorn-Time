@@ -6,6 +6,8 @@ LOCKS = {}
 
 @contextmanager
 def shelf(filename, ttl=0):
+    if ttl <= 0:
+        return {}
     import shelve
     filename = os.path.join(CACHE_DIR, filename)
     with LOCKS.get(filename, threading.RLock()):
@@ -16,5 +18,5 @@ def shelf(filename, ttl=0):
                     "created_at": time.time(),
                     "data": {},
                 })
-            elif ttl > 0 and (time.time() - d["created_at"]) > ttl:
+            elif (time.time() - d["created_at"]) > ttl:
                 d["data"] = {}

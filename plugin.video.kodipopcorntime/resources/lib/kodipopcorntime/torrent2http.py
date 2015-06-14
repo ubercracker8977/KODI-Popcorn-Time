@@ -1,15 +1,3 @@
-
-
-ANDROID_XBMC_IDS = [
-    "org.xbmc.kodi",                        # KODI XBMC
-    "org.xbmc.xbmc",                        # Stock XBMC
-    "tv.ouya.xbmc",                         # OUYA XBMC
-    "com.semperpax.spmc",                   # SemPer Media Center (OUYA XBMC fork)
-    "hk.minix.xbmc",                        # Minix XBMC
-    Plugin.get_setting("android_app_id"),   # Whatever the user sets
-]
-
-
 def ensure_exec_perms(file_):
     st = os.stat(file_)
     os.chmod(file_, st.st_mode | stat.S_IEXEC)

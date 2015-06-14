@@ -3,6 +3,7 @@ try:
     from urlparse import urlparse
 except:
     from urllib.parse import urlsplit as urlparse
+from kodipopcorntime.common import plugin, RESOURCES_PATH, AnErrorOccurred
 from kodipopcorntime.proxy import update_proxies, set_default_proxy
 from kodipopcorntime.utils import url_get
 PROXY_IDENTIFIER = 'movie.yify'
@@ -26,4 +27,9 @@ def getURLS():
     urls.insert(0, fUserURL)
 
     return urls
-            search_result = url_get("{proxy}/api/v2/list_movies.json".format(proxy=proxy), params=params, headers={"Referer": proxy})
+            search_result = url_get("{proxy}/api/v2/list_movies.json".format(proxy=proxy), params=params, headers={"Referer": proxy})        try:
+        except:
+            pass
+        raise AnErrorOccurred(30304)
+        raise AnErrorOccurred(30305)
+    raise AnErrorOccurred(30307)

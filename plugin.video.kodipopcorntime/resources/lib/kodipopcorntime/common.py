@@ -37,3 +37,11 @@ plugin = Plugin()
 CACHE_DIR = cacheDir()
 PLATFORM = platform()
 RESOURCES_PATH = os.path.join(plugin.addon.getAddonInfo('path'), 'resources')
+
+class AnErrorOccurred(Exception):
+    def __init__(self, errno, strerror=None):
+        self.errno = errno
+        if not strerror:
+            strerror = plugin.addon.getLocalizedString(errno)
+        self.strerror = strerror
+        plugin.log.error(strerror)

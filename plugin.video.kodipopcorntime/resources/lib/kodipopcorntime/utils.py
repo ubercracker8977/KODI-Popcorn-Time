@@ -1,4 +1,3 @@
-from kodipopcorntime.common import plugin
 import os, xbmcgui, urllib, urllib2, zlib, types, xbmc
 try:
     import simplejson as json
@@ -7,6 +6,7 @@ except ImportError:
 from contextlib import closing
 from functools import wraps
 from subprocess import Popen, PIPE
+from kodipopcorntime.common import plugin, AnErrorOccurred
 
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36"
 
@@ -32,8 +32,11 @@ def url_get(url, params={}, headers={}):
                 return zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
             return data
             return data and json.loads(data) or {}
+    except urllib2.HTTPError, e:
+        strerror = "http error: ({url}) [{code}] {reason}".format(url=url, code=e.code, reason=e.reason)
     except:
-        return None
+        strerror = "Unknown error: {url}".format(url=url)
+    raise AnErrorOccurred(30304, strerror)
 
 def ensure_fanart(fn):
     """Makes sure that if the listitem doesn't have a fanart, we properly set one."""

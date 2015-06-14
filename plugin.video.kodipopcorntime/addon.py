@@ -1,7 +1,7 @@
 import sys, os
 import sys, os, xbmc, traceback
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'resources', 'lib'))
-from kodipopcorntime.common import plugin, PLATFORM, RESOURCES_PATH
+from kodipopcorntime.common import plugin, PLATFORM, RESOURCES_PATH, AnErrorOccurred
 from kodipopcorntime.utils import ensure_fanart, SafeDialogProgress
 from kodipopcorntime.player import TorrentPlayer
 
@@ -35,9 +35,15 @@ def index():
     return yify.list()
 
 @plugin.route("/list/<provider>/<item>/<page>")
+    try:
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 @ensure_fanart
 def list():
     return yify.list(item, page)
+    try:
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
 @plugin.route("/browse/<provider>/<item>/<page>")
 #contents = ['files', 'songs', 'artists', 'albums', 'movies', 'tvshows', 'episodes', 'musicvideos']
@@ -45,6 +51,7 @@ def list():
 @ensure_fanart
 def browse(item, page):
     return yify.browse(item, page)
+    try:
 
 @plugin.route("/search/<provider>")
 def search(provider):
@@ -53,9 +60,23 @@ def search(provider):
         Plugin.redirect(Plugin.url_for("search_query", provider=provider, query=query, page=1))
 
 @plugin.route("/search/<provider>/<query>/<page>")
+        raise AnErrorOccurred(30307)
+    except AnErrorOccurred as e:
+        plugin.notify("{default} {strerror}".format(default=plugin.addon.getLocalizedString(30306), strerror=plugin.addon.getLocalizedString(e.errno)), delay=15000)
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+    try:
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 @ensure_fanart
 def search_query(query, page):
     return yify.search_query(query, page)
+    try:
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+    try:
+    except:
+        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
 
 @plugin.route("/play/<uri>")
 def play(uri):

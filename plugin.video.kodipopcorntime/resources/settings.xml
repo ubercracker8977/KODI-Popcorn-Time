@@ -21,8 +21,5 @@
 
         <setting label="30115" type="lsep"/>
         <setting id="base_yify" type="text" label="30116" default="" />
-
-        <setting label="30117" type="lsep"/>
-        <setting id="android_app_id" type="text" label="30118" default="org.xbmc.kodi" />
     </category>
 </settings>

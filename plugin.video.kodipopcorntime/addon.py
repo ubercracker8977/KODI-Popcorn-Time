@@ -12,8 +12,9 @@ if __name__ == '__main__':
         map(xbmc.log, traceback.format_exc().split("\n"))
         sys.exit(0)
 
-if PLATFORM["os"] not in ["android", "linux", "windows", "darwin"]:
-    plugin.notify(plugin.addon.getLocalizedString(30302) % PLATFORM, delay=15000)
+if not PLATFORM.get('os'):
+    plugin.notify(plugin.addon.getLocalizedString(30302), delay=15000)
+    plugin.log.error(plugin.addon.getLocalizedString(30302))
     sys.exit(0)
 
 from kodipopcorntime.caching import cached_route

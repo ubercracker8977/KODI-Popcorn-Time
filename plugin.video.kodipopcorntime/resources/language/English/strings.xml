@@ -93,10 +93,10 @@
   <string id="30301">Cache cleared.</string>
   <string id="30302">Your OS is not supported.</string>
   <string id="30303">Unable to add this file. Magnet is incomplete.</string>
-  <string id="30304">Unable to connect to providers.</string>
-  <string id="30305">Error. Please check the log file</string>
-  <string id="30306">xxxx</string>
-  <string id="30307">xxxx</string>
+  <string id="30304">Did not receive any data.</string>
+  <string id="30305">Did not find any movies.</string>
+  <string id="30306">Sorry, an error occurred.</string>
+  <string id="30307">No items was found.</string>
   <string id="30308">xxxx</string>
   <string id="30309">xxxx</string>
   <string id="30310">xxxx</string>

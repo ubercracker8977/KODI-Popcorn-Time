@@ -91,6 +91,6 @@ def start(**kwargs):
     proc.bind_address = "localhost:%d" % bind_port
     def proc_close():
         if not proc.poll():
-            url_get("http://%s/shutdown" % proc.bind_address)
+            urllib2.urlopen("http://%s/shutdown" % proc.bind_address)
     proc.close = proc_close
     return proc

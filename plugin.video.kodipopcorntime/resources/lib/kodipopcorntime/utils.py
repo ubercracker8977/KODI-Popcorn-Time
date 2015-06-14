@@ -31,6 +31,7 @@ def url_get(url, params={}, headers={}):
             if response.headers.get("Content-Encoding", "") == "gzip":
                 return zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
             return data
+            return data and json.loads(data) or {}
     except:
         return None
 
@@ -49,11 +50,6 @@ def ensure_fanart(fn):
                 properties["fanart_image"] = plugin.addon.getAddonInfo("fanart")
         return items
     return _fn
-
-def url_get_json(*args, **kwargs):
-    import json
-    data = url_get(*args, **kwargs)
-    return data and json.loads(data) or {}
 
 # Sometimes, when we do things too fast for XBMC, it doesn't like it.
 # Sometimes, it REALLY doesn't like it.

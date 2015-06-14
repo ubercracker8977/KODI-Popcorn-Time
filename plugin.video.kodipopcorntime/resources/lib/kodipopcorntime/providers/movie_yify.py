@@ -4,6 +4,7 @@ try:
 except:
     from urllib.parse import urlsplit as urlparse
 from kodipopcorntime.proxy import update_proxies, set_default_proxy
+from kodipopcorntime.utils import url_get
 PROXY_IDENTIFIER = 'movie.yify'
 
 def getURLS():
@@ -25,3 +26,4 @@ def getURLS():
     urls.insert(0, fUserURL)
 
     return urls
+            search_result = url_get("{proxy}/api/v2/list_movies.json".format(proxy=proxy), params=params, headers={"Referer": proxy})

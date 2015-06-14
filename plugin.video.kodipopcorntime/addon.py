@@ -78,8 +78,74 @@ def list():
 def browse(provider, item, page):
     try:
         kwargs, sys_kwargs = _filter_kwargs()
+        content = 'movies'
+        items = []
+        with closing(SafeDialogProgress(delay_close=0)) as dialog:
+            dialog.create(plugin.name)
+            dialog.update(percent=0, line1=plugin.addon.getLocalizedString(30007))
 
+            movies = sys_kwargs['module'].browse(item, page, **kwargs)
 
+            jobs = len(movies)*2+1
+            done = 1
+            dialog.update(percent=int(done*100/jobs), line2=plugin.addon.getLocalizedString(30007))
+
+            def on_future_done(future):
+                done = done+1
+                data = future.result()
+                dialog.update(percent=int(done*100/jobs), line2="{prefix}{label}".format(prefix=data.get('kodipopcorn_subtitle', ''), label=data.get("label", '')))
+
+            subtitle = import_module(PROVIDERS['subtitle.yify'])
+            meta = import_module(PROVIDERS['meta.tmdb'])
+            with futures.ThreadPoolExecutor(max_workers=2) as pool:
+                subtitle_list = [pool.submit(subtitle.get, id=item.get("info", {}).get("code")).add_done_callback(on_future_done) for item in movies]
+                meta_list = [pool.submit(meta.get, id=item.get("info", {}).get("code")).add_done_callback(on_future_done) for item in movies]
+                while not all(future.done() for future in subtitle_list) and not all(future.done() for future in meta_list):
+                    if dialog.iscanceled():
+                        return
+                    xbmc.sleep(100)
+
+            subtitles = map(lambda future: future.result(), subtitle_list)
+            metadata = map(lambda future: future.result(), meta_list)
+            for i, movie in enumerate(movies):
+                # Update the movie with subtitle and meta data
+                movie.update(subtitles[i])
+                movie.update(metadata[i])
+
+                # Catcher content type and remove it from movie
+                # NOTE: This is not the best way to dynamic set the content type, since the content type can not be set for each movie
+                if movie.get("kodipopcorn_content"):
+                    content = movie.pop('kodipopcorn_content')
+
+                # Catcher quality, build magnet label and remove quality from movie
+                quality=fQuality=''
+                if movie.get("kodipopcorn_quality"):
+                    quality = movie.pop('kodipopcorn_quality')
+                    fQuality = " [{quality}]".format(quality=quality)
+
+                # Build magnet label
+                fYear = ''
+                if movie.get("year"):
+                    fYear = " ({year})".format(year=movie["year"])
+
+                # Builds targets for the player
+                kwargs = {}
+                if movie.get("kodipopcorn_subtitle"):
+                    kwargs['subtitle'] = movie.pop('kodipopcorn_subtitle')
+                kwargs.update({
+                    'url': from_meta_data(movie.pop('kodipopcorn_hash'), movie["label"]+fYear+fQuality),
+                    'info': movie
+                })
+
+                # Update the final information for the movie
+                if quality and not quality == '720p':
+                    movie["label"] = "{label} ({quality})".format(label=movie["label"], quality=quality)
+                movie["path"] = plugin.url_for('play', **kwargs)
+
+                items.append(movie)
+        if items:
+            plugin.set_content(content)
+            return items
         raise AnErrorOccurred(30307)
     except AnErrorOccurred as e:
         plugin.notify("{default} {strerror}".format(default=plugin.addon.getLocalizedString(30306), strerror=plugin.addon.getLocalizedString(e.errno)), delay=15000)

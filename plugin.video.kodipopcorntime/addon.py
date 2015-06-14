@@ -21,6 +21,8 @@ from kodipopcorntime.providers import yify
 
 # Cache TTLs
 DEFAULT_TTL = 24 * 3600 # 24 hours
+LIMIT = 20
+QUALITY = 'all'
 
 @plugin.route("/")
 @ensure_fanart

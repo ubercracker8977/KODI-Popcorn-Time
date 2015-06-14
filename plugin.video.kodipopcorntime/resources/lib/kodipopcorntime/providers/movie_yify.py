@@ -30,6 +30,8 @@ def getURLS():
             search_result = url_get("{proxy}/api/v2/list_movies.json".format(proxy=proxy), params=params, headers={"Referer": proxy})        try:
         except:
             pass
+        'limit': kwargs['limit'],
+        'quality': kwargs['quality'],
         raise AnErrorOccurred(30304)
         raise AnErrorOccurred(30305)
     raise AnErrorOccurred(30307)

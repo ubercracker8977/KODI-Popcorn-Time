@@ -12,7 +12,6 @@
     
         <setting label="30108" type="lsep"/>
         <setting id="max_download_rate" label="30110" type="number" default="" />
-        <setting id="immunicity" type="bool" label="30106" default="false" />
         <setting id="encryption" label="30111" type="enum" values="Forced|Enabled|Disabled" default="1" />
     </category>
     <category label="30112">

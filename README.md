@@ -45,7 +45,6 @@ Check out the [Releases](https://github.com/Diblo/KODI-Popcorn-Time/releases) ta
 
 
 ## FAQ ##
----------------------------------------
 #### I can't code. How can I help? ####
 Spread the word. Talk about it with your friends, show them, make videos, tutorials. Talk about it on social networks, blogs etc...
 

@@ -76,3 +76,5 @@ KODI Popcorn Time will seed the file you're watching until it's finished playing
 Probably your network is too slow and you are hitting a time out used for HTTP on KODI.
 You can increase the time-out as documented [here](http://kodi.wiki/view/Advancedsettings.xml#playlisttimeout). Please
 note that increasing the time-out won't make your network faster, you just will wait more time before the torrent is interrupted.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-63872919-1/KODI-Popcorn-Time/readme.md)](https://github.com/igrigorik/ga-beacon)

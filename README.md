@@ -61,7 +61,7 @@ Of course! It will always download the proper subtitle of the film, if there is 
 Yes and yes. KODI Popcorn Time will pre-allocate the whole file before download. So if you want to watch a 4GB video, you'll need the 4GB. The file is deleted once you stop watching it.
 
 #### Where is the file located? Can I change it? ####
-Currently the file is download in the same directory as the torrent2http executable (in resources/bin/<OS>/ in the add-on directory). Yes of course.
+Currently the file is download in the same directory as the torrent2http executable (in `resources/bin/<OS>/` in the add-on directory). Yes of course.
 
 #### Can I keep the file after playback? ####
 Yes, just enable this option in the add-on settings.

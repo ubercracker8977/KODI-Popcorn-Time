@@ -68,19 +68,12 @@ def _isSettingsChanged():
     return True
 
 def _shelf_mediainfo(type, item, provider, refresh):
-    with shelf("mediainfo."+hashlib.md5(simplejson.dumps(item)).hexdigest(), 24 * 3600) as mediainfo:
+    with shelf("mediainfo.{type}.{md5}".format(type=type, md5=hashlib.md5(simplejson.dumps(item)).hexdigest()), 24 * 3600) as mediainfo:
         if refresh:
             mediainfo.clear()
-        if not mediainfo.get(type, None):
-            if not mediainfo:
-                data = {type: True, 'item': cleanDictList(provider.get(item["info"]["code"], item["label"], item["info"]["year"]))}
-            else:
-                data = mediainfo.copy()
-                data.update({type: True})
-                data['item'].update(cleanDictList(provider.get(item["info"]["code"], item["label"], item["info"]["year"])))
-            
-            mediainfo.update(data)
-        return mediainfo['item']
+        if not mediainfo:
+            mediainfo.update(cleanDictList(provider.get(item["info"]["code"], item["label"], item["info"]["year"])))
+        return mediainfo
 
 @plugin.route("/")
 @ensure_fanart
@@ -188,8 +181,9 @@ def browse(provider, separate, page):
             # Build item
             mediainfo = map(lambda i: i.result(), futures)
             for i in xrange(itemsCount):
-                # Update item with mediainfo (Meta data and subtitle)
-                items[i].update(mediainfo[i*2])
+                # Update item with mediainfo
+                items[i].update(mediainfo[i*2-1]) # Metadata
+                items[i].update(mediainfo[i*2]) # Subtitle
 
                 # Set video width and hight
                 width = 1920

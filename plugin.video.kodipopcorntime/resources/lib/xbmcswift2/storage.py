@@ -9,7 +9,7 @@
 '''
 import os
 import csv
-import json
+import simplejson
 import time
 try:
     import cPickle as pickle
@@ -79,7 +79,7 @@ class _PersistentDictMixin(object):
         if self.file_format == 'csv':
             csv.writer(fileobj).writerows(self.raw_dict().items())
         elif self.file_format == 'json':
-            json.dump(self.raw_dict(), fileobj, separators=(',', ':'))
+            simplejson.dump(self.raw_dict(), fileobj, separators=(',', ':'))
         elif self.file_format == 'pickle':
             pickle.dump(dict(self.raw_dict()), fileobj, 2)
         else:
@@ -89,7 +89,7 @@ class _PersistentDictMixin(object):
     def load(self, fileobj):
         '''Load the dict from the file object'''
         # try formats from most restrictive to least restrictive
-        for loader in (pickle.load, json.load, csv.reader):
+        for loader in (pickle.load, simplejson.load, csv.reader):
             fileobj.seek(0)
             try:
                 return self.initial_update(loader(fileobj))

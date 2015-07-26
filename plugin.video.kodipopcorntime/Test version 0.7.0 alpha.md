@@ -1,14 +1,14 @@
 KODI Popcorn Time
 ===========
 
-Test version 0.7.0 alpha
+Test the new 0.7.0 alpha version
 ----------
 1. To test the Alpha release you need to download the source code and torrent2http. torrent2http: https://github.com/anteo/torrent2http
 2. Copy the torrent2http folders to the bin folder.
 3. Make a zip file
 
 
-Warring
+Warning!
 ----------
 This is the first Alpha release, and not all work are done!
 

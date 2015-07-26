@@ -162,7 +162,7 @@ def browse(provider, separate, page):
                 if data.get('stream_info', {}).get('subtitle', {}).get('language', None):
                     dialog.update(int(status['done']*100/status['jobs']), line1=data["label"], line2=u'{lang} subtitle'.format(lang=data['stream_info']['subtitle']['language']))
                 else:
-                    dialog.update(int(status['done']*100/status['jobs']), line1=data["label"], line2='Meta data')
+                    dialog.update(int(status['done']*100/status['jobs']), line1=data["label"], line2='Metadata')
 
             futures = []
             providers = {'metadata': call_provider(PROVIDERS['meta_tmdb']), 'subtitles': call_provider(PROVIDERS['subtitle_yify'])}

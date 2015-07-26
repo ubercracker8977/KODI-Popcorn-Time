@@ -112,3 +112,5 @@ Yes of course. Just set the download directly to your NAS location, and make sur
 
 ### What about seeding? ###
 KODI Popcorn Time will seed the file you're watching until it's finished playing. For instance, if the download of a 2 hours long movie is finished in 10 minutes, you'll continue seeding it until you finish watching the movie. This is by design, to make up for the fact that we are using sequential download.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-63872919-1/KODI-Popcorn-Time/Test_the_new_0.7.0_alpha_version)](https://github.com/igrigorik/ga-beacon)

@@ -1,194 +1,288 @@
-import sys, os, xbmc, traceback
-from contextlib import contextmanager, closing
-from importlib import import_module
-from concurrent import futures
+﻿#!/usr/bin/python
+import sys, os, xbmcaddon
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'resources', 'lib'))
-from kodipopcorntime.common import plugin, PLATFORM, RESOURCES_PATH, AnErrorOccurred
-from kodipopcorntime.utils import ensure_fanart, SafeDialogProgress
-from kodipopcorntime.providers import PROVIDERS
+__addon__ = xbmcaddon.Addon()
+
+import simplejson, xbmc, traceback, xbmcgui, hashlib
+from contextlib import closing
+from torrent2http import Error
+from multiprocessing import Pool, log_to_stderr, SUBDEBUG, current_process
+from concurrent import futures as conFutures
+from kodipopcorntime.plugin import plugin
+from kodipopcorntime.msg import AnErrorOccurred, errorNotify, torrentError, log_traceback, log
+from kodipopcorntime.utils import ensure_fanart, SafeDialogProgress, cleanDictList
+from kodipopcorntime.provider import PROVIDERS, call_provider
 from kodipopcorntime.magnet import from_meta_data
-from kodipopcorntime.player import TorrentPlayer
+from kodipopcorntime.player import Player
+from kodipopcorntime.platform import Platform
+from kodipopcorntime.caching import route, shelf
 
+def _build_kwargs(base, add, **kwargs):
+    base.update(add)
+    if kwargs:
+        base.update(kwargs)
+    return base
 
-if __name__ == '__main__':
-    try:
-        plugin.run()
-    except Exception, e:
-        map(xbmc.log, traceback.format_exc().split("\n"))
-        sys.exit(0)
+def _get_kwargs(add={}):
+    # Get kwargs
+    kwargs = dict((k, v[0]) for k, v in plugin.request.args.items())
+    # Add user kwargs
+    kwargs.update(add)
 
-if not PLATFORM.get('os'):
-    plugin.notify(plugin.addon.getLocalizedString(30302), delay=15000)
-    plugin.log.error(plugin.addon.getLocalizedString(30302))
-    sys.exit(0)
+    # Build system kwargs
+    qualities_list = [
+        ['720p'],
+        ['1080p'],
+        ['720p','1080p']
+    ]
+    qualities = qualities_list[int(__addon__.getSetting("quality"))]
+    if int(__addon__.getSetting("play3d")) > 0 and int(__addon__.getSetting("quality")) > 0:
+        qualities.append('3D')
+    sys_kwargs = {
+        'limit': 20,
+        'qualities': qualities
+    }
+    provider = kwargs.get('provider', '')
+    if provider:
+        sys_kwargs['provider'] = provider
 
-LIMIT = 20
-QUALITY = 'all'
+    # Secure the right system kwargs are in kwargs
+    kwargs.update(sys_kwargs)
+
+    return [kwargs, sys_kwargs]
+
+def _isSettingsChanged():
+    with shelf("addon.settings.old", 5000 * 3600) as settings_old:
+        settings = [
+            xbmc.getLanguage(xbmc.ISO_639_1),
+            __addon__.getSetting('sub_language1'),
+            __addon__.getSetting('sub_language2'),
+            __addon__.getSetting('sub_language3'),
+            __addon__.getSetting('hearing_impaired'),
+            __addon__.getSetting('quality')
+        ]
+        if settings_old: 
+            if all(s in settings_old['list'] for s in settings):
+                return False
+        settings_old.update({'list': settings})
+    return True
+
+def _shelf_mediainfo(type, item, provider, refresh):
+    with shelf("mediainfo."+hashlib.md5(simplejson.dumps(item)).hexdigest(), 24 * 3600) as mediainfo:
+        if refresh:
+            mediainfo.clear()
+        if not mediainfo.get(type, None):
+            if not mediainfo:
+                data = {type: True, 'item': cleanDictList(provider.get(item["info"]["code"], item["label"], item["info"]["year"]))}
+            else:
+                data = mediainfo.copy()
+                data.update({type: True})
+                data['item'].update(cleanDictList(provider.get(item["info"]["code"], item["label"], item["info"]["year"])))
+            
+            mediainfo.update(data)
+        return mediainfo['item']
 
 @plugin.route("/")
 @ensure_fanart
 def index():
     try:
-        items = []
+        providers_count = len(PROVIDERS['movie'])
+        if not providers_count > 0:
+            raise AnErrorOccurred(30315)
 
-        if len(PROVIDERS['movies']) == 1:
-            sys_kwargs = { 
-                'module': import_module(provider),
-                'provider': PROVIDERS['movies'][0]
-            }
-            for item in sys_kwargs['module'].list():
-                if not item.get("kodipopcorn_endpoint"):
-                    continue
-                kwargs = {}
-                if item.get("kodipopcorn_kwargs"):
-                    kwargs = item.pop('kodipopcorn_kwargs')
-                item["path"] = plugin.url_for(item.pop('kodipopcorn_endpoint'), **kwargs.update(sys_kwargs))
-                items.append(item)
-
-        elif len(PROVIDERS['movies']) > 0:
-            for provider in PROVIDERS:
-                module = import_module(provider)
-                item["path"] = plugin.url_for('list', provider=provider, module=module)
-                items.append(module.INDEX)
-
-        plugin.finish(items, update_listing=False)
+        if providers_count == 1:
+            sys_kwargs = _get_kwargs()[1]
+            item = call_provider(PROVIDERS['movie'][0]).catalogs(**sys_kwargs)
+            plugin.redirect(plugin.url_for(item.pop('endpoint'), **_build_kwargs(item.pop("kwargs", {}), sys_kwargs, **{'provider': PROVIDERS['movie'][0]})))
+        # If we have more end one provider we createt a provider index
+        else:
+            sys_kwargs = _get_kwargs()[1]
+            for provider in PROVIDERS['movie']:
+                item = call_provider(provider).catalogs(**sys_kwargs)
+                item["path"] = plugin.url_for(item.pop('endpoint'), **_build_kwargs(item.pop("kwargs", {}), sys_kwargs, **{'provider': provider}))
+                yield item
+    except AnErrorOccurred as e:
+        errorNotify(e.errno)
     except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+        errorNotify(30308)
 
-@plugin.route("/list")
+@plugin.route("/catalogs")
 @ensure_fanart
-@contextmanager
-def list():
+def catalogs():
     try:
-        kwargs, sys_kwargs = _filter_kwargs()
-        for item in sys_kwargs['module'].list(**kwargs):
-            if not item.get("kodipopcorn_endpoint"):
-                continue
-            kwargs = {}
-            if item.get("kodipopcorn_kwargs"):
-                kwargs = item.pop('kodipopcorn_kwargs')
-            item["path"] = plugin.url_for(item.pop('kodipopcorn_endpoint'), **kwargs.update(sys_kwargs))
+        kwargs, sys_kwargs = _get_kwargs()
+        for item in call_provider(sys_kwargs['provider']).catalogs(**kwargs):
+            item["path"] = plugin.url_for(item.pop('endpoint'), **_build_kwargs(item.pop("kwargs", {}), sys_kwargs))
             yield item
     except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+        errorNotify(30308)
 
-@plugin.route("/browse/<provider>/<item>/<page>")
+@plugin.route("/browse/<provider>/<separate>/<page>")
 @ensure_fanart
-@contextmanager
-def browse(provider, item, page):
+def browse(provider, separate, page):
     try:
-        kwargs, sys_kwargs = _filter_kwargs()
-        content = 'movies'
-        items = []
+        page = int(page)
+        kwargs = _get_kwargs()[0]
+        mediaprovider = call_provider(provider)
+
         with closing(SafeDialogProgress(delay_close=0)) as dialog:
-            dialog.create(plugin.name)
-            dialog.update(percent=0, line1=plugin.addon.getLocalizedString(30007))
+            dialog.create(__addon__.getAddonInfo('name'))
+            # Update progress
+            dialog.update(0, line1=__addon__.getLocalizedString(30007))
 
-            movies = sys_kwargs['module'].browse(item, page, **kwargs)
+            # Setting content type
+            plugin.set_content(mediaprovider.provides)
 
-            jobs = len(movies)*2+1
-            done = 1
-            dialog.update(percent=int(done*100/jobs), line2=plugin.addon.getLocalizedString(30007))
+            # Getting items
+            result = None
+            with conFutures.ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(mediaprovider.browse, *(separate, page), **kwargs)
+                while not future.done():
+                    if xbmc.abortRequested or dialog.iscanceled():
+                        pool.shutdown(wait=False)
+                        return
+                    xbmc.sleep(100)
+                result = future.result()
 
-            def on_future_done(future):
-                done = done+1
+            if not result:
+                raise AnErrorOccurred(30305)
+            items = result.pop('items', [])
+            if not items:
+                raise AnErrorOccurred(30307)
+            itemsCount = len(items)
+
+            # Build status
+            status = {
+                'jobs': (itemsCount+1)*2,
+                'done': 1
+            }
+
+            # Update progress
+            dialog.update(int(status['done']*100/status['jobs']), line1=__addon__.getLocalizedString(30018))
+
+            # Getting meta data and subtitles
+            def on_status_update(future):
                 data = future.result()
-                dialog.update(percent=int(done*100/jobs), line2="{prefix}{label}".format(prefix=data.get('kodipopcorn_subtitle', ''), label=data.get("label", '')))
+                status['done'] = status['done']+1
+                if not data:
+                    dialog.update(int(status['done']*100/status['jobs']))
+                if data.get('stream_info', {}).get('subtitle', {}).get('language', None):
+                    dialog.update(int(status['done']*100/status['jobs']), line1=data["label"], line2=u'{lang} subtitle'.format(lang=data['stream_info']['subtitle']['language']))
+                else:
+                    dialog.update(int(status['done']*100/status['jobs']), line1=data["label"], line2='Meta data')
 
-            subtitle = import_module(PROVIDERS['subtitle.yify'])
-            meta = import_module(PROVIDERS['meta.tmdb'])
-            with futures.ThreadPoolExecutor(max_workers=2) as pool:
-                subtitle_list = [pool.submit(subtitle.get, id=item.get("info", {}).get("code")).add_done_callback(on_future_done) for item in movies]
-                meta_list = [pool.submit(meta.get, id=item.get("info", {}).get("code")).add_done_callback(on_future_done) for item in movies]
-                while not all(future.done() for future in subtitle_list) and not all(future.done() for future in meta_list):
-                    if dialog.iscanceled():
+            futures = []
+            providers = {'metadata': call_provider(PROVIDERS['meta_tmdb']), 'subtitles': call_provider(PROVIDERS['subtitle_yify'])}
+            refresh = _isSettingsChanged()
+            with conFutures.ThreadPoolExecutor(max_workers=2) as pool:
+                for item in items:
+                    futures.append(pool.submit(_shelf_mediainfo, *('metadata', item, providers['metadata'], refresh,)))
+                    futures.append(pool.submit(_shelf_mediainfo, *('subtitles', item, providers['subtitles'], refresh,)))
+                [future.add_done_callback(on_status_update) for future in futures]
+                while not all(future.done() for future in futures):
+                    if xbmc.abortRequested or dialog.iscanceled():
+                        pool.shutdown(wait=False)
                         return
                     xbmc.sleep(100)
 
-            subtitles = map(lambda future: future.result(), subtitle_list)
-            metadata = map(lambda future: future.result(), meta_list)
-            for i, movie in enumerate(movies):
-                # Update the movie with subtitle and meta data
-                movie.update(subtitles[i])
-                movie.update(metadata[i])
+            # Build item
+            mediainfo = map(lambda i: i.result(), futures)
+            for i in xrange(itemsCount):
+                # Update item with mediainfo (Meta data and subtitle)
+                items[i].update(mediainfo[i*2])
 
-                # Catcher content type and remove it from movie
-                # NOTE: This is not the best way to dynamic set the content type, since the content type can not be set for each movie
-                if movie.get("kodipopcorn_content"):
-                    content = movie.pop('kodipopcorn_content')
+                # Set video width and hight
+                width = 1920
+                height = 1080
+                if not items[i]['torrents'].get('1080p', None):
+                    width = 1280
+                    height = 720
+                items[i].setdefault("stream_info", {}).setdefault("video", {}).update({"width": width, "height": height})
+                
+                # Create player url
+                play_kwargs = {
+                    'torrents': items[i].pop('torrents'),
+                    'subtitle': items[i].pop('subtitle', None),
+                    'item': items[i]
+                }
+                items[i]["path"] = plugin.url_for('play', **play_kwargs)
 
-                # Catcher quality, build magnet label and remove quality from movie
-                quality=fQuality=''
-                if movie.get("kodipopcorn_quality"):
-                    quality = movie.pop('kodipopcorn_quality')
-                    fQuality = " [{quality}]".format(quality=quality)
+                # The item is now playable
+                items[i]["is_playable"] = True
 
-                # Build magnet label
-                fYear = ''
-                if movie.get("year"):
-                    fYear = " ({year})".format(year=movie["year"])
-
-                # Builds targets for the player
-                kwargs = {}
-                if movie.get("kodipopcorn_subtitle"):
-                    kwargs['subtitle'] = movie.pop('kodipopcorn_subtitle')
-                kwargs.update({
-                    'url': from_meta_data(movie.pop('kodipopcorn_hash'), movie["label"]+fYear+fQuality),
-                    'info': movie
+            # Add next page, but we stop at page 20... yes 20 pages sounds all right
+            if page < int(result.get("pages", 1)) and page < 21:
+                plugin.log.debug('(Main) page: '+str(page))
+                items.append({
+                    "label": '>> '+__addon__.getLocalizedString(30009),
+                    "path": plugin.url_for('browse', **_build_kwargs(kwargs, {'provider':provider,'separate':separate,'page':page+1}))
                 })
 
-                # Update the final information for the movie
-                if quality and not quality == '720p':
-                    movie["label"] = "{label} ({quality})".format(label=movie["label"], quality=quality)
-                movie["path"] = plugin.url_for('play', **kwargs)
+            # Update progress
+            dialog.update(100, line1=__addon__.getLocalizedString(30017), line2=' ')
 
-                items.append(movie)
-        if items:
-            plugin.set_content(content)
             return items
-        raise AnErrorOccurred(30307)
+
     except AnErrorOccurred as e:
-        plugin.notify("{default} {strerror}".format(default=plugin.addon.getLocalizedString(30306), strerror=plugin.addon.getLocalizedString(e.errno)), delay=15000)
+        errorNotify(e.errno)
     except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+        errorNotify(30308)
+    return
 
 @plugin.route("/search")
 def search():
     try:
-        query = plugin.keyboard("", plugin.addon.getLocalizedString(30001))
+        query = plugin.keyboard("", __addon__.getLocalizedString(30001))
         if query:
-            kwargs, sys_kwargs = _filter_kwargs({
-                'query': query,
-                'page': 1
-            })
-            plugin.redirect(plugin.url_for("search_query", **kwargs.update(sys_kwargs)))
+            plugin.redirect(plugin.url_for(item.pop('endpoint'), **_get_kwargs({'query': query, 'page': 1})[0]))
     except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+        errorNotify(30308)
 
 @plugin.route("/search/<query>/<page>")
 @ensure_fanart
 def search_query(query, page):
-    try:
-        kwargs, sys_kwargs = _filter_kwargs()
-        return sys_kwargs['module'].search_query(query, page, **kwargs.update(sys_kwargs))
-    except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+    pass
 
 @plugin.route("/play")
 def play():
     try:
-        TorrentPlayer().init(**dict((k, v[0]) for k, v in plugin.request.args.items())).loop()
+        kwargs = dict((k, v[0]) for k, v in plugin.request.args.items())
+
+        play3d = False
+        if kwargs['torrents'].get('3D') and int(__addon__.getSetting("play3d")) > 0:
+            play3d = True
+            if __addon__.getSetting("play3d") == '1':
+                play3d = xbmcgui.Dialog().yesno(heading=__addon__.getLocalizedString(30010), line1=__addon__.getLocalizedString(30011))
+
+        if play3d:
+            url = from_meta_data(kwargs['torrents']['3D'], "quality 3D")
+        elif kwargs['torrents'].get('1080p'):
+            url = from_meta_data(kwargs['torrents']['1080p'], "quality 1080p")
+        else:
+            url = from_meta_data(kwargs['torrents']['720p'], "quality 720p")
+
+        subtitle_provider = None
+        if kwargs['subtitle']:
+            subtitle_provider = call_provider(PROVIDERS['subtitle_yify'])
+
+        Player().play(url, kwargs["item"], kwargs['subtitle'], subtitle_provider)
+
+    except Error as e:
+        torrentError(e)
+    except AnErrorOccurred as e:
+        errorNotify(e.errno)
     except:
-        plugin.notify("{default}".format(default=plugin.addon.getLocalizedString(30306)), delay=15000)
+        errorNotify(30308)
 
-def _filter_kwargs(**kwargs):
-    kwargs = dict((k, v[0]) for k, v in plugin.request.args.items()).update(kwargs)
+if __name__ == '__main__':
+    try:
+        Platform.system
+    except AnErrorOccurred as e:
+        errorNotify(e.errno)
+        sys.exit(0)
 
-    sys_kwargs['module'] = kwargs.pop('module')
-    if kwargs.get('provider'):
-        sys_kwargs['provider'] = kwargs.pop('provider')
-    sys_kwargs.update({
-        'limit': LIMIT,
-        'quality': QUALITY
-    })
-    return [kwargs or {}, sys_kwargs]
+    try:
+        plugin.run()
+    except Exception, e:
+        log_traceback(4)
+        sys.exit(0)

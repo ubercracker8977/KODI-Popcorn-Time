@@ -1,162 +1,155 @@
-import os, xbmc
-from xbmcswift2 import Plugin
+﻿#!/usr/bin/python
+import os, sys
+from urllib import urlretrieve
+from zipfile import ZipFile
 from kodipopcorntime.caching import CACHE_DIR
+from kodipopcorntime.utils import url_get
 
-BASE_URL = "http://www.yifysubtitles.com"
-API_BASE_URL = "http://api.yifysubtitles.com/subs"
-HEADERS = {
-    "Referer": API_BASE_URL,
+__addon__ = sys.modules['__main__'].__addon__
+provides = 'movies.subtitles'
+
+_subtitles_formats = ['.aqt', '.gsub', '.jss', '.sub', '.ttxt', '.pjs', '.psb', '.rt', '.smi', '.stl', '.ssf', '.srt', '.ssa', '.ass', '.usf', '.idx']
+
+_subtitlelang = [
+    None,
+    "albanian",
+    "arabic",
+    "bengali",
+    "brazilian-portuguese",
+    "bulgarian",
+    "chinese",
+    "croatian",
+    "czech",
+    "danish",
+    "dutch",
+    "english",
+    "farsi-persian",
+    "finnish",
+    "french",
+    "german",
+    "greek",
+    "hebrew",
+    "hungarian",
+    "indonesian",
+    "italian",
+    "japanese",
+    "korean",
+    "lithuanian",
+    "macedonian",
+    "malay",
+    "norwegian",
+    "polish",
+    "portuguese",
+    "romanian",
+    "russian",
+    "serbian",
+    "slovenian",
+    "spanish",
+    "swedish",
+    "thai",
+    "turkish",
+    "urdu",
+    "vietnamese"
+]
+_subtitle_iso = {
+    "None": None,
+    "albanian": "sq",
+    "arabic": "ar",
+    "bengali": "bn",
+    "brazilian-portuguese": "pt-br",
+    "bulgarian": "bg",
+    "chinese": "zh",
+    "croatian": "hr",
+    "czech": "cs",
+    "danish": "da",
+    "dutch": "nl",
+    "english": "en",
+    "farsi-persian": "fa",
+    "finnish": "fi",
+    "french": "fr",
+    "german": "de",
+    "greek": "el",
+    "hebrew": "he",
+    "hungarian": "hu",
+    "indonesian": "id",
+    "italian": "it",
+    "japanese": "ja",
+    "korean": "ko",
+    "lithuanian": "lt",
+    "macedonian": "mk",
+    "malay": "ms",
+    "norwegian": "no",
+    "polish": "pl",
+    "portuguese": "pt",
+    "romanian": "ro",
+    "russian": "ru",
+    "serbian": "sr",
+    "slovenian": "sl",
+    "spanish": "es",
+    "swedish": "sv",
+    "thai": "th",
+    "turkish": "tr",
+    "urdu": "ur",
+    "vietnamese": "vi"
 }
-SUBLANG_EN = {
-    "0" : "none",
-    "1" : "albanian",
-    "2" : "arabic",
-    "3" : "bengali",
-    "4" : "brazilian-portuguese",
-    "5" : "bulgarian",
-    "6" : "chinese",
-    "7" : "croatian",
-    "8" : "czech",
-    "9" : "danish",
-    "10" : "dutch",
-    "11" : "english",
-    "12" : "farsi-persian",
-    "13" : "finnish",
-    "14" : "french",
-    "15" : "german",
-    "16" : "greek",
-    "17" : "hebrew",
-    "18" : "hungarian",
-    "19" : "indonesian",
-    "20" : "italian",
-    "21" : "japanese",
-    "22" : "korean",
-    "23" : "lithuanian",
-    "24" : "macedonian",
-    "25" : "malay",
-    "26" : "norwegian",
-    "27" : "polish",
-    "28" : "portuguese",
-    "29" : "romanian",
-    "30" : "russian",
-    "31" : "serbian",
-    "32" : "slovenian",
-    "33" : "spanish",
-    "34" : "swedish",
-    "35" : "thai",
-    "36" : "turkish",
-    "37" : "urdu",
-    "38" : "vietnamese",
-}
-SUBLANG_ISO = {
-    "0" : "0",
-    "1" : "sq",
-    "2" : "ar",
-    "3" : "bn",
-    "4" : "pt-br",
-    "5" : "bg",
-    "6" : "zh",
-    "7" : "hr",
-    "8" : "cs",
-    "9" : "da",
-    "10" : "nl",
-    "11" : "en",
-    "12" : "fa",
-    "13" : "fi",
-    "14" : "fr",
-    "15" : "de",
-    "16" : "el",
-    "17" : "he",
-    "18" : "hu",
-    "19" : "id",
-    "20" : "it",
-    "21" : "ja",
-    "22" : "ko",
-    "23" : "lt",
-    "24" : "mk",
-    "25" : "ms",
-    "26" : "no",
-    "27" : "pl",
-    "28" : "pt",
-    "29" : "ro",
-    "30" : "ru",
-    "31" : "sr",
-    "32" : "sl",
-    "33" : "es",
-    "34" : "sv",
-    "35" : "th",
-    "36" : "tr",
-    "37" : "ur",
-    "38" : "vi",
-}
 
-SUBTYPES = ['.srt']
+def get(id, label, year):
+    data = url_get('http://api.yifysubtitles.com', "/subs/"+id).get("subs", {}).get(id)
+    if not data:
+        return {}
 
-def get_lang(sub_lang_id):
-    return [ SUBLANG_EN[sub_lang_id], SUBLANG_ISO[sub_lang_id] ]
+    for l in [_subtitlelang[int(__addon__.getSetting('sub_language1'))], _subtitlelang[int(__addon__.getSetting('sub_language2'))], _subtitlelang[int(__addon__.getSetting('sub_language3'))]]:
+        subtitles = data.get(l)
+        if not subtitles:
+            continue
+        subtitle = subtitles.pop(0)
+        for s in subtitles:
+            hi = s["hi"]
+            if __addon__.getSetting("hearing_impaired") == 'true':
+                hi = -(s["hi"]-2)
+            if s["rating"] <= subtitle["rating"] and hi >= subtitle["hi"] or hi > subtitle["hi"]:
+                continue
+            subtitle = s
 
-SUBLANG_EN_1, SUBLANG_ISO_1 = get_lang(Plugin.get_setting("sub_language1"))
-SUBLANG_EN_2, SUBLANG_ISO_2 = get_lang(Plugin.get_setting("sub_language2"))
-SUBLANG_EN_3, SUBLANG_ISO_3 = get_lang(Plugin.get_setting("sub_language3"))
+        lang = _subtitle_iso[l]
+        return {
+            'label': label,
+            'subtitle': 'http://www.yifysubtitles.com'+subtitle["url"],
+            'stream_info': {
+                'subtitle': {
+                    'language':  lang
+                }
+            }
+        }
+    return {}
 
-def get_sub_items(imdb_id):
-    if SUBLANG_EN_1 == 'none':
-        return None
+def download(url, dirname, filename):
+    if int(__addon__.getSetting('sub_language1')) == 0:
+        return {}
 
-    import urllib2
-    from kodipopcorntime.utils import url_get_json
+    cache_path = os.path.join(CACHE_DIR, 'temp.zip')
     try:
-        data = url_get_json("%s/%s" % (API_BASE_URL, imdb_id), headers=HEADERS) or {}
-    except urllib2.HTTPError:
+        urlretrieve(url, cache_path)
+        z = ZipFile(cache_path)
+    except:
         return None
 
-    if data["subtitles"] == 0:
-        return None
+    path = None
+    for f in z.namelist():
+        ext = os.path.splitext(f)[1]
+        if not ext in _subtitles_formats:
+            continue
+        path = os.path.join(dirname, filename+ext)
+        z.extract(f, CACHE_DIR)
+        if os.path.isfile(path):
+            os.unlink(path)
+        os.rename(os.path.join(CACHE_DIR, f), path)
+        break
 
-    data = data["subs"][imdb_id]
-    if data.has_key(SUBLANG_EN_1):
-        sub = "%s%s" % (BASE_URL, data[SUBLANG_EN_1][0]["url"])
-        sublang = SUBLANG_ISO_1
-    elif data.has_key(SUBLANG_EN_2):
-        sub = "%s%s" % (BASE_URL, data[SUBLANG_EN_2][0]["url"])
-        sublang = SUBLANG_ISO_2
-    elif data.has_key(SUBLANG_EN_3):
-        sub = "%s%s" % (BASE_URL, data[SUBLANG_EN_3][0]["url"])
-        sublang = SUBLANG_ISO_3
-    else:
-        return None
-
-    return [
-        sub,
-        sublang,
-    ]
-
-def get_subtitle(url):
-    if url == '' or not type(url) is str:
-        return None
-
-    import urllib
-    import zipfile
-    name = os.path.join(CACHE_DIR, 'temp.zip')
-    try:
-        name, hdrs = urllib.urlretrieve(url, name)
-        z = zipfile.ZipFile(name)
-    except IOError, e:
-        return None
-    except zipfile.error, e:
-        return None
-
-    for each in z.namelist():
-        if os.path.splitext(each)[1] in SUBTYPES:
-            z.extract(each, CACHE_DIR)
-            break
     z.close()
-    os.unlink(name)
-    return os.path.join(CACHE_DIR, each)
+    os.unlink(cache_path)
+    return path
 
-def clear_subtitle(file):
-    if file == '' or not type(file) is str:
-        return
-    name = os.path.basename(file)
-    if os.path.splitext(name)[1] in SUBTYPES:
-        os.unlink(os.path.join(CACHE_DIR, name))
+def remove(path):
+    if os.path.splitext(os.path.basename(path))[1] in _subtitles_formats:
+        os.unlink(path)

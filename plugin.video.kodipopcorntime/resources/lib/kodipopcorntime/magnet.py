@@ -1,4 +1,8 @@
-PUBLIC_TRACKERS = [
+﻿#!/usr/bin/python
+from urlparse import parse_qs
+from urllib import urlencode
+
+_public_trackers = [
     "udp://tracker.publicbt.com:80/announce",
     "udp://tracker.openbittorrent.com:80/announce",
     "udp://open.demonii.com:1337/announce",
@@ -15,11 +19,4 @@ PUBLIC_TRACKERS = [
 ]
 
 def from_meta_data(torrent_hash, dn):
-    import urllib
-    return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urllib.urlencode({'dn' : dn, 'tr': PUBLIC_TRACKERS}, doseq=True))
-
-def display_name(magnet_uri):
-    import urlparse
-    from kodipopcorntime.utils import first
-    magnet_args = urlparse.parse_qs(magnet_uri.replace("magnet:?", ""))
-    return first(magnet_args.get("dn", []))
+    return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urlencode({'dn' : dn, 'tr': _public_trackers}, doseq=True))

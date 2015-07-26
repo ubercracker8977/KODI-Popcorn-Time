@@ -1,44 +1,54 @@
-import os, xbmcgui, urllib, urllib2, zlib, types, xbmc
-try:
-    import simplejson as json
-except ImportError:
-    import json
+﻿#!/usr/bin/python
+import os, xbmcgui, zlib, types, xbmc, urllib2, simplejson, sys
+from urllib import urlencode
 from contextlib import closing
 from functools import wraps
-from subprocess import Popen, PIPE
-from kodipopcorntime.common import plugin, AnErrorOccurred
+from kodipopcorntime.msg import AnErrorOccurred, log
+from kodipopcorntime import proxy
 
-USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36"
+__addon__ = sys.modules['__main__'].__addon__
 
-def first(iterable, default=None):
-    if iterable:
-        for item in iterable:
-            return item
-    return default
-
-def url_get(url, params={}, headers={}):
+def url_get(domain, uri, params={}, headers={}, proxyid=None):
+    querystring = ""
     if params:
-        url = "".join([url, "?", urlencode(params)])
+        querystring = "".join(['?', urlencode(params)])
+    if proxyid:
+        log("(urllib2) Proxy domain is activated", xbmc.LOGDEBUG)
+    for pd in (proxyid and proxy.update_list(proxyid, domain) or [domain]):
+        url = "".join([pd, uri, querystring])
 
-    req = urllib2.Request(url)
-    req.add_header("User-Agent", USER_AGENT)
-    req.add_header("Accept-Encoding", "gzip")
-    for k, v in headers.items():
-        req.add_header(k, v)
+        req = urllib2.Request(url)
+        log("(urllib2) (Request URL) "+url, xbmc.LOGDEBUG)
+        req.add_header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36")
+        log("(urllib2) (Request header) User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", xbmc.LOGDEBUG)
+        req.add_header("Accept-Encoding", "gzip")
+        log("(urllib2) (Request header) Accept-Encoding: gzip", xbmc.LOGDEBUG)
+        for k, v in headers.items():
+            req.add_header(k, v)
+            log("(urllib2) (Request header) {key}: {val}".format(key=k, val=v), xbmc.LOGDEBUG)
 
-    try:
-        with closing(urllib2.urlopen(req)) as response:
-            data = response.read()
-            if response.headers.get("Content-Encoding", "") == "gzip":
-                data = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
-            if data
-                return json.loads(data)
-            raise
-    except urllib2.HTTPError, e:
-        strerror = "http error: ({url}) [{code}] {reason}".format(url=url, code=e.code, reason=e.reason)
-    except:
-        strerror = "Unknown error: {url}".format(url=url)
-    raise AnErrorOccurred(30304, strerror)
+        try:
+            with closing(urllib2.urlopen(req, timeout=20)) as response:
+                res = response.read()
+                if response.headers.get("Content-Encoding", "") == "gzip":
+                    log("(urllib2) The content is gzip compressed", xbmc.LOGDEBUG)
+                    res = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(res)
+                if res:
+                    data = simplejson.loads(res)
+                    if proxyid:
+                        log("(urllib2) Proxy domain ({proxydomaine}) worked and will be given as first choice in the future".format(proxydomaine=pd), xbmc.LOGDEBUG)
+                        proxy.set_default(proxyid, pd)
+                    log("(urllib2) Done", xbmc.LOGDEBUG)
+                    return data
+                raise AnErrorOccurred(0)
+        except urllib2.HTTPError as e:
+            log("(urllib2) http error: ({url}) [{code}] {reason}".format(url=url, code=e.code, reason=e.reason), xbmc.LOGERROR)
+        except ValueError as e:
+            log("(urllib2) JSON error: {e} ({url})".format(e=e, url=url), xbmc.LOGERROR)
+        except AnErrorOccurred as e:
+            log("(urllib2) Empty or wrrong response: "+url, xbmc.LOGERROR)
+        except:
+            log("(urllib2) Unknown error: "+url, xbmc.LOGERROR)
 
 def ensure_fanart(fn):
     """Makes sure that if the listitem doesn't have a fanart, we properly set one."""
@@ -52,7 +62,7 @@ def ensure_fanart(fn):
         for item in items:
             properties = item.setdefault("properties", {})
             if not properties.get("fanart_image"):
-                properties["fanart_image"] = plugin.addon.getAddonInfo("fanart")
+                properties["fanart_image"] = __addon__.getAddonInfo("fanart")
         return items
     return _fn
 
@@ -72,27 +82,9 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
         xbmc.sleep(self._delay_close)
         super(SafeDialogProgress, self).close(*args, **kwargs)
 
-def get_mount_filesystem(mount_point):
-    for line in Popen(["/system/bin/mount"], stdout=PIPE).stdout:
-        dev, mp, fs, opts, _, _ = line.split(" ")
-        if mount_point == mp:
-            return fs
-
-def get_mount_point(path):
-    path = os.path.realpath(os.path.abspath(path))
-    while path != os.path.sep:
-        if os.path.ismount(path):
-            return path
-        path = os.path.abspath(os.path.join(path, os.pardir))
-    return path
-
-def get_path_fs(path):
-    return get_mount_filesystem(get_mount_point(path))
-
 def cleanDictList(DictList):
     if not isinstance(DictList, dict) and not isinstance(DictList, list):
         return DictList
     if not isinstance(DictList, dict):
-        return [clean(value) for value in DictList if value]
-    return {key: clean(value) for key, value in DictList.items() if value}
-
+        return [cleanDictList(value) for value in DictList if value]
+    return {key: cleanDictList(value) for key, value in DictList.items() if value}

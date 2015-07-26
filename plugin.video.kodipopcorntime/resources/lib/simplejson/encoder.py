@@ -3,7 +3,8 @@
 from __future__ import absolute_import
 import re
 from operator import itemgetter
-from decimal import Decimal
+# Do not import Decimal directly to avoid reload issues
+import decimal
 from .compat import u, unichr, binary_type, string_types, integer_types, PY3
 def _import_speedups():
     try:
@@ -311,6 +312,9 @@ class JSONEncoder(object):
             elif o == _neginf:
                 text = '-Infinity'
             else:
+                if type(o) != float:
+                    # See #118, do not trust custom str/repr
+                    o = float(o)
                 return _repr(o)
 
             if ignore_nan:
@@ -334,7 +338,7 @@ class JSONEncoder(object):
                 self.namedtuple_as_object, self.tuple_as_array,
                 int_as_string_bitcount,
                 self.item_sort_key, self.encoding, self.for_json,
-                self.ignore_nan, Decimal)
+                self.ignore_nan, decimal.Decimal)
         else:
             _iterencode = _make_iterencode(
                 markers, self.default, _encoder, self.indent, floatstr,
@@ -343,7 +347,7 @@ class JSONEncoder(object):
                 self.namedtuple_as_object, self.tuple_as_array,
                 int_as_string_bitcount,
                 self.item_sort_key, self.encoding, self.for_json,
-                Decimal=Decimal)
+                Decimal=decimal.Decimal)
         try:
             return _iterencode(o, 0)
         finally:
@@ -386,7 +390,7 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
         _PY3=PY3,
         ValueError=ValueError,
         string_types=string_types,
-        Decimal=Decimal,
+        Decimal=None,
         dict=dict,
         float=float,
         id=id,
@@ -396,6 +400,8 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
         str=str,
         tuple=tuple,
     ):
+    if _use_decimal and Decimal is None:
+        Decimal = decimal.Decimal
     if _item_sort_key and not callable(_item_sort_key):
         raise TypeError("item_sort_key must be None or callable")
     elif _sort_keys and not _item_sort_key:
@@ -412,6 +418,9 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
             or
             _int_as_string_bitcount < 1
         )
+        if type(value) not in integer_types:
+            # See #118, do not trust custom str/repr
+            value = int(value)
         if (
             skip_quoting or
             (-1 << _int_as_string_bitcount)
@@ -501,6 +510,9 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
         elif key is None:
             key = 'null'
         elif isinstance(key, integer_types):
+            if type(key) not in integer_types:
+                # See #118, do not trust custom str/repr
+                key = int(key)
             key = str(key)
         elif _use_decimal and isinstance(key, Decimal):
             key = str(key)

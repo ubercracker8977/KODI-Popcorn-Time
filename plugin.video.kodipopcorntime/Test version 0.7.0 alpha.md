@@ -3,7 +3,7 @@ KODI Popcorn Time
 
 Test the new 0.7.0 alpha version
 ----------
-1. To test the Alpha release you need to download the source code from [master branch](https://github.com/Diblo/KODI-Popcorn-Time/tree/master/plugin.video.kodipopcorntime) and [torrent2http](https://github.com/anteo/torrent2http)
+1. To test the Alpha release you need to download the source code from [master branch](https://github.com/Diblo/KODI-Popcorn-Time/tree/master/plugin.video.kodipopcorntime) and 'torrent2http-x.x.x.zip' file from [torrent2http](https://github.com/anteo/torrent2http/releases)
 2. Copy torrent2http's folders to the bin folder
 3. Make a zip file and install
 

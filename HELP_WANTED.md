@@ -12,10 +12,10 @@ Can you compile torrent2http for android x86 please feel free to send it to me. 
 
 ### Multilanguage ###
 - [x] Spanish: https://github.com/Diblo/KODI-Popcorn-Time/issues/14
-- [] German: ?
-- [] French: ?
-- [] English: ? (One who can save me from all my mistakes)
-- [] Chinese: ?
+- [ ] German: ?
+- [ ] French: ?
+- [ ] English: ? (One who can save me from all my mistakes)
+- [ ] Chinese: ?
 
 ### SOCKS 5 proxy ###
 Does anteo torrent2http support SOCKS 5 proxy?

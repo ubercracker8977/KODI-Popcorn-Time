@@ -15,7 +15,7 @@ Alpha test: [Test the new 0.7.0 alpha version](https://github.com/Diblo/KODI-Pop
 * Gotham 13.x (XBMC) - Still in beta-release
 * Windows x32 x64
 * OS X x32 and x64
-* Linux x32 and x64
+* Linux x32, x64 and ARM
 * Raspberry Pi
 * Android 4.0+
 

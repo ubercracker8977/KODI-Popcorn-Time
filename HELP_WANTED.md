@@ -11,10 +11,10 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
 [torrent2http](https://github.com/anteo/torrent2http)
 
 ### Multilanguage ###
-- [x] Spanish: https://github.com/Diblo/KODI-Popcorn-Time/issues/14
-- [ ] German: ?
+- [ ] Spanish: ?
+- [x] German: https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml
 - [ ] French: ?
-- [ ] English: ? (One who can save me from all my mistakes)
+- [ ] English: (One who can save me from all my mistakes) https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml
 - [ ] Chinese: ?
 
 ### SOCKS 5 proxy ###

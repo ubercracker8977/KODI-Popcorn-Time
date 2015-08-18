@@ -16,8 +16,8 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
     - [Dutch/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml)
     - [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
 - [ ] English (One who can save me from all my mistakes)
-- [ ] German
 - [ ] French
+- [ ] German
 - [ ] Spanish
 
 Other translations are welcome

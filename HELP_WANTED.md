@@ -12,9 +12,12 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
 
 ### Multilanguage ###
 - [ ] Spanish: ?
-- [x] German: https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml
+- [x] German:
+    - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml (https://github.com/JKetelaar)
 - [ ] French: ?
-- [ ] English: (One who can save me from all my mistakes) https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml
+- [ ] English: (One who can save me from all my mistakes)
+    - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml
+    - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml
 - [ ] Chinese: ?
 
 ### SOCKS 5 proxy ###

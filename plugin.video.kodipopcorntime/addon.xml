@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.kodipopcorntime" name="KODI Popcorn Time" version="0.7.0~alpha" provider-name="Diblo">
     <requires>
-        <import addon="xbmc.python" version="2.19.0"/>
+        <import addon="xbmc.python" version="2.14.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="addon.py">
         <provides>video</provides>
@@ -11,9 +11,16 @@
         <website><![CDATA[https://github.com/Diblo/KODI-Popcorn-Time]]></website>
         <forum><![CDATA[http://forums.tvaddons.ag/threads/32586-KODI-Popcorn-Time]]></forum>
         <source><![CDATA[https://github.com/Diblo/KODI-Popcorn-Time]]></source>
-        <language>English</language>
         <license><![CDATA[GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007]]></license>
-        <summary lang="en"><![CDATA[KODI Popcorn Time: Immediately stream movies in KODI.]]></summary>
-        <description lang="en"><![CDATA[With KODI Popcorn Time you can search for movies that you can see immediately in KODI.]]></description>
+		<summary lang="de"><![CDATA[Immediately stream movies and tv shows.]]></summary>
+        <summary lang="en"><![CDATA[Immediately stream movies and tv shows.]]></summary>
+		<summary lang="es"><![CDATA[Immediately stream movies and tv shows.]]></summary>
+		<summary lang="fr"><![CDATA[Immediately stream movies and tv shows.]]></summary>
+		<summary lang="zh"><![CDATA[Immediately stream movies and tv shows.]]></summary>
+        <description lang="de"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
+        <description lang="en"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
+        <description lang="es"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
+        <description lang="fr"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
+        <description lang="zh"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
     </extension>
 </addon>

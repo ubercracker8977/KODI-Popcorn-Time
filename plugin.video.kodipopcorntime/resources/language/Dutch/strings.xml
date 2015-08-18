@@ -20,7 +20,7 @@
   <string id="30011">Wilt u deze film in 3D afspelen?</string>
   <string id="30012">Bevestigen</string>
   <string id="30013">Weet u zeker dat u de Torrent instellingen wilt herstellen?</string>
-  <string id="30014">Locatie, download and upload snelheid zullen not worden hersteld.</string>
+  <string id="30014">Locatie, download and upload snelheid zullen niet worden hersteld.</string>
   <string id="30015">Seeds: {num_seeds}</string>
   <string id="30016">Begint met downloaden</string>
   <string id="30017">Klaar</string>
@@ -148,7 +148,7 @@
   <string id="30300">Kan poort niet vinden om te binden met torrent2http</string>
   <string id="30301">Cache verwijderd</string>
   <string id="30302">Uw OS wordt ondersteund</string>
-  <string id="30303">Kant torrent2http niet starten, zie het log bestand voor details</string>
+  <string id="30303">Kan torrent2http niet starten, zie het log bestand voor details</string>
   <string id="30304">Er zijn geen gegevens ontvangen</string>
   <string id="30305">Er zijn geen films ontvangen</string>
   <string id="30306">Er is een fout opgetreden</string>
@@ -158,7 +158,7 @@
   <string id="30310">Incorrecte download locatie</string>
   <string id="30311">torrent2http is gecrasht.</string>
   <string id="30312">Er is een fout ontstaan bij torrent2http</string>
-  <string id="30313">Verandert de upload snelheid naar 15 kB/s</string>
+  <string id="30313">De upload snelheid is naar 15 kB/s veranderd</string>
   <string id="30314">Torrent instellingen zijn hersteld</string>
   <string id="30315">Geen film of tv-programma aanbieders gevonden</string>
   <string id="30316">Torrent bestand bevat geen film</string>
@@ -190,7 +190,7 @@
   <string id="30414">Musical</string>
   <string id="30415">Mysterie</string>
   <string id="30416">Romantiek</string>
-  <string id="30417">Science fiction</string>
+  <string id="30417">Sciencefiction</string>
   <string id="30418">Sport</string>
   <string id="30419">Thriller</string>
   <string id="30420">Oorlog</string>

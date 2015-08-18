@@ -13,11 +13,11 @@ Alpha test: [Test the new 0.7.0 alpha version](https://github.com/Diblo/KODI-Pop
 ## Supported Platforms ##
 * Helix 14.x (KODI)
 * Gotham 13.x (XBMC) - Still in beta-release
-* Windows x32 x64
+* Windows x32 and x64
 * OS X x32 and x64
 * Linux x32, x64 and ARM
 * Raspberry Pi
-* Android 4.0+
+* Android ARM 4.0+
 
 
 ## How it works ##

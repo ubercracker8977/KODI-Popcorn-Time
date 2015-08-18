@@ -12,8 +12,8 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
 
 ### Multilanguage ###
 - [ ] Spanish: ?
-- [x] German:
-    - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml (https://github.com/JKetelaar)
+- [x] German: [@JKetelaar](https://github.com/JKetelaar)
+    - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml
 - [ ] French: ?
 - [ ] English: (One who can save me from all my mistakes)
     - https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml

@@ -20,7 +20,7 @@
   <string id="30011">Wilt u deze film in 3D afspelen?</string>
   <string id="30012">Bevestigen</string>
   <string id="30013">Weet u zeker dat u de Torrent instellingen wilt herstellen?</string>
-  <string id="30014">Locatie, download and upload snelheid zullen niet worden hersteld.</string>
+  <string id="30014">Locatie, download and upload-snelheid zullen niet worden hersteld.</string>
   <string id="30015">Seeds: {num_seeds}</string>
   <string id="30016">Begint met downloaden</string>
   <string id="30017">Klaar</string>
@@ -46,7 +46,7 @@
   <string id="30107">Alleen 1080p</string>
   <string id="30108">Internet</string>
   <string id="30109">Afspelen van 3D video</string>
-  <string id="30110">Max Download Snelheid (Kilobyte - 0: Oneindig)</string>
+  <string id="30110">Max downloadsnelheid (Kilobyte - 0: Oneindig)</string>
   <string id="30111">Beveiliging</string>
   <string id="30112">Overig</string>
   <string id="30113">Onderhoud</string>
@@ -58,7 +58,7 @@
   <string id="30119">Ondertitel prioriteit #1</string>
   <string id="30120">Ondertitel prioriteit #2</string>
   <string id="30121">Ondertitel prioriteit #3</string>
-  <string id="30122">Max Upload Snelheid (Kilobyte - 0: Oneindig - Min 15 kB/s)</string>
+  <string id="30122">Max uploadsnelheid (Kilobyte - 0: Oneindig - Min 15 kB/s)</string>
   <string id="30123">Gedwongen</string>
   <string id="30124">Ingeschakeld</string>
   <string id="30125">Uitgeschakeld</string>
@@ -158,7 +158,7 @@
   <string id="30310">Incorrecte download locatie</string>
   <string id="30311">torrent2http is gecrasht.</string>
   <string id="30312">Er is een fout ontstaan bij torrent2http</string>
-  <string id="30313">De upload snelheid is naar 15 kB/s veranderd</string>
+  <string id="30313">De uploadsnelheid is naar 15 kB/s veranderd</string>
   <string id="30314">Torrent instellingen zijn hersteld</string>
   <string id="30315">Geen film of tv-programma aanbieders gevonden</string>
   <string id="30316">Torrent bestand bevat geen film</string>

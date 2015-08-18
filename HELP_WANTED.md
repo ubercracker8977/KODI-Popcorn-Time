@@ -18,11 +18,12 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
     - [English/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml)
     - [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
 - [ ] Chinese
+
+And other translations are welcome
+
 - [x] Dutch by [@JKetelaar](https://github.com/JKetelaar)
     - [Dutch/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml)
     - [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
-
-And other translations are welcome
 
 ### SOCKS 5 proxy ###
 Does anteo torrent2http support SOCKS 5 proxy?

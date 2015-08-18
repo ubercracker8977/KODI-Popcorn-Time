@@ -4,7 +4,7 @@
 ### Re-draw icons ###
 The icons are a little pixelated if you study them closely.
 Therefore, I would like to have them redraw with vector-based graphics.
-[KODI Popcorn Time - Graphic.psd](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/Other/KODI%20Popcorn%20Time%20-%20Graphic.psd)
+[KODI Popcorn Time - Graphic.psd](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/Other/KODI%20Popcorn%20Time%20-%20Graphic.psd) - Main, Nav, Index and Genres icons
 
 ### Compile android x86 binary ###
 Can you compile torrent2http for android x86 please feel free to send it to me.

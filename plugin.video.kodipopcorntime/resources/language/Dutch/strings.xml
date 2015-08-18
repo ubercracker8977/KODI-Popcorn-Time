@@ -40,7 +40,7 @@
   <string id="30101">Algemeen</string>
   <string id="30102">Bestanden</string>
   <string id="30103">Download locatie</string>
-  <string id="30104">Behoudt bestanden nadat het afspelen/downloaden stopt</string>
+  <string id="30104">Behoud bestanden nadat het afspelen/downloaden stopt</string>
   <string id="30105">Ondertitels</string>
   <string id="30106">Alleen 720p</string>
   <string id="30107">Alleen 1080p</string>
@@ -72,8 +72,8 @@
   <string id="30133">Peers</string>
   <string id="30134">Eigenschappen</string>
   <string id="30135">Log / debug</string>
-  <string id="30136">Houd incomplete bestanden na het verlaten</string>
-  <string id="30137">Houd complete bestanden na het verlaten</string>
+  <string id="30136">Behoud incomplete bestanden na het verlaten</string>
+  <string id="30137">Behoud complete bestanden na het verlaten</string>
   <string id="30138">Extra</string>
   <string id="30139">Poort voor inkomende connecties</string>
   <string id="30140">Gebruik een willekeurig poort (49152-65535)</string>

@@ -11,19 +11,18 @@ Can you compile torrent2http for android x86 please feel free to send it to me.
 [torrent2http](https://github.com/anteo/torrent2http)
 
 ### Multilanguage ###
-- [ ] Spanish
+- [ ] Chinese
+- [x] Dutch by [@JKetelaar](https://github.com/JKetelaar)
+    - [Dutch/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml)
+    - [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
+- [ ] English (One who can save me from all my mistakes)
 - [ ] German
 - [ ] French
-- [ ] English (One who can save me from all my mistakes)
-- [ ] Chinese
+- [ ] Spanish
 
 Other translations are welcome
 
 Files: [English/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/English/strings.xml) and [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
-
-- [x] Dutch by [@JKetelaar](https://github.com/JKetelaar)
-    - [Dutch/strings.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/resources/language/Dutch/strings.xml)
-    - [addon.xml](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/addon.xml)
 
 ### SOCKS 5 proxy ###
 Does anteo torrent2http support SOCKS 5 proxy?

@@ -3,7 +3,7 @@
 
 ### Re-draw icons ###
 The icons are a little pixelated if you study them closely.
-Therefore, I would like to have them redraw with vector-based graphics.
+Therefore, I would like to have them redraw with vector-based graphics.<br>
 [KODI Popcorn Time - Graphic.psd](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/Other/KODI%20Popcorn%20Time%20-%20Graphic.psd) - Main, Nav, Index and Genres icons
 
 ### Compile android x86 binary ###

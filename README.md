@@ -11,8 +11,7 @@ Check out the [Releases](https://github.com/Diblo/KODI-Popcorn-Time/releases) ta
 Alpha test: [Test the new 0.7.0 alpha version](https://github.com/Diblo/KODI-Popcorn-Time/blob/master/plugin.video.kodipopcorntime/Test%20version%200.7.0%20alpha.md)
 
 ## Supported Platforms ##
-* Helix 14.x (KODI)
-* Gotham 13.x (XBMC) - Still in beta-release
+* XBMC/KODI 13.x and later
 * Windows x32 and x64
 * OS X x32 and x64
 * Linux x32, x64 and ARM

@@ -182,8 +182,8 @@ def browse(provider, separate, page):
             mediainfo = map(lambda i: i.result(), futures)
             for i in xrange(itemsCount):
                 # Update item with mediainfo
-                items[i].update(mediainfo[i*2-1]) # Metadata
-                items[i].update(mediainfo[i*2]) # Subtitle
+                items[i].update(mediainfo[i*2]) # Metadata
+                items[i].update(mediainfo[i*2+1]) # Subtitle
 
                 # Set video width and hight
                 width = 1920

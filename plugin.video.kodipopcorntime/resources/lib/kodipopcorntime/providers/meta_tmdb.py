@@ -69,7 +69,7 @@ def _create_item(meta):
             "plotoutline": meta.get("overview", ''),
             "tagline": meta.get("tagline", ''),
             "rating": float(meta.get("vote_average", 0.0)),
-            "duration": str(meta.get("runtime", '')),
+            "duration": float(meta.get("runtime",0.0))*60,
             "code": meta.get("imdb_id", ''),
             "studio": " / ".join([s['name'] for s in meta.get("production_companies", [])]),
             "votes": meta.get("vote_average") and str(meta.get("vote_count", '')) or ''
@@ -108,7 +108,7 @@ def _create_item(meta):
         writer = []
  
         for c in credits.get("cast", []):
-            castandrole.append(u"{name}|{character}".format(name=c["name"], character=c.get("character", '')))
+             castandrole.append((u"{name}".format(name=c["name"]),u"{character}".format(character=c.get("character", ''))))
 
         for c in credits.get("crew", []):
             if c["job"] == 'Director':

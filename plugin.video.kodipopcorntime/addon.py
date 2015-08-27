@@ -6,7 +6,6 @@ __addon__ = xbmcaddon.Addon()
 import simplejson, xbmc, traceback, xbmcgui, hashlib
 from contextlib import closing
 from torrent2http import Error
-from multiprocessing import Pool, log_to_stderr, SUBDEBUG, current_process
 from concurrent import futures as conFutures
 from kodipopcorntime.plugin import plugin
 from kodipopcorntime.msg import AnErrorOccurred, errorNotify, torrentError, log_traceback, log

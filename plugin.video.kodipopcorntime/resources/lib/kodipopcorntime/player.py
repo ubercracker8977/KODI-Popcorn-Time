@@ -192,7 +192,7 @@ class Player(xbmc.Player):
                         continue
 
                     if status.state == State.DOWNLOADING:
-                        self._calculate_progress(int(self.item['info'].get('duration', 0))*60, status, file_status)
+                        self._calculate_progress(int(self.item['info'].get('duration', 0)), status, file_status)
                         if self.progressed >= 100:
                             ready = True
                             break

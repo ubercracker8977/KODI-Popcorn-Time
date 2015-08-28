@@ -227,7 +227,7 @@ def search():
     try:
         query = plugin.keyboard("", __addon__.getLocalizedString(30001))
         if query:
-            plugin.redirect(plugin.url_for(item.pop('endpoint'), **_get_kwargs({'query': query, 'page': 1})[0]))
+            plugin.redirect(plugin.url_for("search_query", **_get_kwargs({'query': query, 'page': 1})[0]))
     except:
         errorNotify(30308)
 

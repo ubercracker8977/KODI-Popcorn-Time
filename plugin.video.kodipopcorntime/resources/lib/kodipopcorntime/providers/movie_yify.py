@@ -238,7 +238,7 @@ def _create_item(movie, qualities):
         "info": {
             "title": movie["title"],
             "genre": movie.get("genres") and " / ".join([genre for genre in movie["genres"]]) or "",
-            "duration": movie.get("runtime", 0),
+            "duration": int(movie.get("runtime", 0))*60,
             "code": movie["imdb_code"],
             "year": movie.get("year", '')
         },

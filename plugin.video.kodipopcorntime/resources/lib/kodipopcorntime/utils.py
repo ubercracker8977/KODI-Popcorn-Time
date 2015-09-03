@@ -83,8 +83,12 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
         super(SafeDialogProgress, self).close(*args, **kwargs)
 
 def cleanDictList(DictList):
-    if not isinstance(DictList, dict) and not isinstance(DictList, list):
-        return DictList
-    if not isinstance(DictList, dict):
-        return [cleanDictList(value) for value in DictList if value]
-    return {key: cleanDictList(value) for key, value in DictList.items() if value}
+    if isinstance(DictList, dict):
+        items = {}
+        for v in [(key, cleanDictList(value)) for key, value in DictList.items() if value]:
+            if v[1]:
+                items[v[0]] = v[1]
+        return items
+    if isinstance(DictList, list):
+        return [v for v in [cleanDictList(value) for value in DictList if value] if v]
+    return DictList

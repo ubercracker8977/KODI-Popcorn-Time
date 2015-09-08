@@ -12,7 +12,8 @@ class Platform:
 
     @staticmethod
     def arch():
-        if sys.platform.startswith('linux') and os.uname()[4].startswith('arm'):
+        arch = os.uname()[4]
+        if sys.platform.startswith('linux') and (arch.startswith('arm') or arch.startswith('aarch')):
             return 'arm'
         elif sys.maxsize > 2**32:
             return 'x64'

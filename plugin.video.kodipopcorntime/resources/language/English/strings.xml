@@ -11,14 +11,14 @@
   <string id="30005">Best Rated</string>
   <string id="30006">Recently added</string>
   <string id="30007">Fetching content</string>
-   <string id="30008">Down: {download_rate:.1f} kB/s, Up: {upload_rate:.1f} kB/s</string>
+  <string id="30008">Speed: {download_rate:.1f} kB/s</string>
   <string id="30009">Next page</string>
   <string id="30010">3D Movie</string>
   <string id="30011">Do you want to play this movie in 3D?</string>
   <string id="30012">Confirm</string>
   <string id="30013">Are you sure you want to reset Torrent settings!</string>
   <string id="30014">Path, download and upload rate will not be reset.</string>
-  <string id="30015">Seeds: {num_seeds}, Progress: {progress:.2%}</string>
+  <string id="30015">Seeds: {num_seeds}</string>
   <string id="30016">Begins downloading</string>
   <string id="30017">Done</string>
   <string id="30018">Fetching information</string>

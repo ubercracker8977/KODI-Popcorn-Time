@@ -75,13 +75,13 @@ class Player(xbmc.Player):
             if status.state in [State.FINISHED, State.SEEDING]:
                 return [
                     __addon__.getLocalizedString(30022),
-                    __addon__.getLocalizedString(30008).format(download_rate=status.download_rate,upload_rate=status.upload_rate),
-                   ' '
+                    ' ',
+                    ' '
                 ]
             return [
                 __addon__.getLocalizedString(30021),
-                __addon__.getLocalizedString(30008).format(download_rate=status.download_rate,upload_rate=status.upload_rate),
-                __addon__.getLocalizedString(30015).format(num_seeds=status.num_seeds, progress=status.progress)
+                __addon__.getLocalizedString(30008).format(download_rate=status.download_rate),
+                __addon__.getLocalizedString(30015).format(num_seeds=status.num_seeds)
             ]
 
         return [

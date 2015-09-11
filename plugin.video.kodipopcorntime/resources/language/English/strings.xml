@@ -93,6 +93,7 @@
   <string id="30157">DHT routers (comma-separated host:port pairs)</string>
   <string id="30158">Debug</string>
   <string id="30159">Show debug notifications</string>
+  <string id="30160">Clear downloaded files</string>
 
   <!-- 
    * Languages
@@ -164,6 +165,7 @@
   <string id="30319">xxxx</string>
   <string id="30320">xxxx</string>
   <string id="30321">xxxx</string>
+  <string id="30322">Downloaded content deleted</string>
 
   <!-- 
    * Genres

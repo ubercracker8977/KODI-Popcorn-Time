@@ -236,6 +236,16 @@ def search():
 def search_query(query, page):
     pass
 
+@plugin.route("/cmd/clear_cache")
+def _clear_cache():
+    from kodipopcorntime.cmd import clear_cache
+    clear_cache()
+
+@plugin.route("/cmd/reset_torrent_settings")
+def _reset_torrent_settings():
+    from kodipopcorntime.cmd import reset_torrent_settings
+    reset_torrent_settings()
+
 @plugin.route("/play")
 def play():
     try:

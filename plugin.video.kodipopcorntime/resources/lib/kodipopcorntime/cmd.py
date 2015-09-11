@@ -6,18 +6,14 @@ from kodipopcorntime.path import CACHE_DIR
 
 __addon__ = sys.modules['__main__'].__addon__
 
-@plugin.route("/cmd/clear_cache")
 def clear_cache():
     for directory in [CACHE_DIR, plugin.storage_path]:
         for dbfile in glob.glob(os.path.join(directory, "*.db")):
             os.remove(dbfile)
-    for file in glob.glob(CACHE_DIR + '/com.imdb.*'):
-        os.remove(file)
-    for file in glob.glob(CACHE_DIR + '/kodipopcorntime.route.*'):
+    for file in glob.glob(CACHE_DIR + '/*'):
         os.remove(file)
     notify(__addon__.getLocalizedString(30301))
 
-@plugin.route("/cmd/reset_torrent_settings")
 def reset_torrent_settings():
     if xbmcgui.Dialog().yesno(heading=__addon__.getLocalizedString(30012), line1=__addon__.getLocalizedString(30013), line2=__addon__.getLocalizedString(30014)):
         # Files

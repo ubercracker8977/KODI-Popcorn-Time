@@ -6,10 +6,10 @@
 With KODI Popcorn Time you can search for movies that you can see immediately in KODI.
 
 
-## Download
+## Download ##
 Check out the [releases](https://github.com/Diblo/KODI-Popcorn-Time/releases) tab to download the ZIP file.
 
-# Test Alpha version
+## Test Alpha version ##
 Read [Test Alpha version](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-Alpha-version) - [Screenshots/Version-0.7.x](https://github.com/Diblo/KODI-Popcorn-Time/tree/master/Screenshots/Version-0.7.x)
 
 ## Supported Platforms ##

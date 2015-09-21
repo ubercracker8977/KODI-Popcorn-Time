@@ -1,9 +1,6 @@
 # Test Alpha version
 Read [Test Alpha version](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-Alpha-version)
 
-KODI Popcorn Time
------------------
-
 What it is
 ----------
 With KODI Popcorn Time you can search for movies that you can see immediately in KODI.

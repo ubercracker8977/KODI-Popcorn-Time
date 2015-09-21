@@ -30,3 +30,7 @@ Please, file an issue :) - [Issues](https://github.com/Diblo/KODI-Popcorn-Time/i
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Welcome-to-the-KODI-Popcorn-Time-wiki!)
+
+## HELP WANTED ##
+Please, see our WIKI page https://github.com/Diblo/KODI-Popcorn-Time/wiki/Help-wanted
+Many thanks in advance.

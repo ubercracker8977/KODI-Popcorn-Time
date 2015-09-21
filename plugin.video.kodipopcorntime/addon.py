@@ -241,6 +241,11 @@ def _clear_cache():
     from kodipopcorntime.cmd import clear_cache
     clear_cache()
 
+@plugin.route("/cmd/clear_content")
+def _clear_content():
+    from kodipopcorntime.cmd import clear_content
+    clear_content()
+
 @plugin.route("/cmd/reset_torrent_settings")
 def _reset_torrent_settings():
     from kodipopcorntime.cmd import reset_torrent_settings

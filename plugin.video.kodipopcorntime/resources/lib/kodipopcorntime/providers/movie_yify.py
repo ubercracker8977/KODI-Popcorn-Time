@@ -238,7 +238,7 @@ def _create_item(movie, qualities):
         "info": {
             "title": movie["title"],
             "genre": movie.get("genres") and " / ".join([genre for genre in movie["genres"]]) or "",
-            "duration": int(movie.get("runtime", 0))*60,
+            "duration": int(movie.get("runtime") or 0),
             "code": movie["imdb_code"],
             "year": movie.get("year", '')
         },
@@ -248,7 +248,7 @@ def _create_item(movie, qualities):
         "stream_info": {
             "video": {
                 "codec": "h264",
-                "duration": movie.get("runtime", 0)
+                "duration": int((movie.get("runtime") or 0)*60),
             },
             "audio": {
                 "codec": "aac",

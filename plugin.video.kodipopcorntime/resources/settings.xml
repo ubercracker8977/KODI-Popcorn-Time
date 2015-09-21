@@ -75,5 +75,6 @@
 
         <setting label="30113" type="lsep"/>
         <setting type="action" label="30114" action="RunPlugin(plugin://plugin.video.kodipopcorntime/cmd/clear_cache)" />
+        <setting type="action" label="30160" action="RunPlugin(plugin://plugin.video.kodipopcorntime/cmd/clear_content)" />
     </category>
 </settings>

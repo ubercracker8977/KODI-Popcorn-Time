@@ -14,6 +14,12 @@ def clear_cache():
         os.remove(file)
     notify(__addon__.getLocalizedString(30301))
 
+def clear_content():
+    import shutil, xbmc
+    for file in glob.glob(os.path.join(xbmc.validatePath(xbmc.translatePath(__addon__.getSetting("download_path"))), "*")):
+        shutil.rmtree(file, True)
+    notify(__addon__.getLocalizedString(30322))
+
 def reset_torrent_settings():
     if xbmcgui.Dialog().yesno(heading=__addon__.getLocalizedString(30012), line1=__addon__.getLocalizedString(30013), line2=__addon__.getLocalizedString(30014)):
         # Files

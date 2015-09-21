@@ -69,7 +69,7 @@ def _create_item(meta):
             "plotoutline": meta.get("overview", ''),
             "tagline": meta.get("tagline", ''),
             "rating": float(meta.get("vote_average", 0.0)),
-            "duration": int(meta.get("runtime",0.0))*60,
+            "duration": int(meta.get("runtime") or 0),
             "code": meta.get("imdb_id", ''),
             "studio": " / ".join([s['name'] for s in meta.get("production_companies", [])]),
             "votes": meta.get("vote_average") and str(meta.get("vote_count", '')) or ''

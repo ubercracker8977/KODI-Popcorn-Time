@@ -31,6 +31,9 @@ Please, file an issue :) - [Issues](http://github.com/Diblo/KODI-Popcorn-Time/is
 ## Need more information ##
 Check out our [WIKI page](http://github.com/Diblo/KODI-Popcorn-Time/wiki/Welcome-to-the-KODI-Popcorn-Time-wiki!)
 
+## Test releases ##
+https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-releases
+
 ## HELP WANTED ##
 Please, see our WIKI page [Help wanted](http://github.com/Diblo/KODI-Popcorn-Time/wiki/Help-wanted)
 

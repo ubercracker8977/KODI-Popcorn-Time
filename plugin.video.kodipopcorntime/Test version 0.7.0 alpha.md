@@ -1,7 +1,13 @@
+
+
+
+** Read [Test Alpha version](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-Alpha-version) **
+
+
+
+
 KODI Popcorn Time
 ===========
-
-Read [Test Alpha version](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-Alpha-version)
 
 What it is
 ----------

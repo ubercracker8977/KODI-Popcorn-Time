@@ -1,38 +1,7 @@
 KODI Popcorn Time
 ===========
 
-Test the new 0.7.0 alpha version
-----------
-1. To test the Alpha release you need to download the source code from [master branch](https://github.com/Diblo/KODI-Popcorn-Time/tree/master/plugin.video.kodipopcorntime) and 'torrent2http-x.x.x.zip' file from [torrent2http](https://github.com/anteo/torrent2http/releases)
-2. Copy torrent2http's folders to the bin folder
-3. Make a zip file and install
-
-
-Warning!
-----------
-This is the first Alpha release, and not all work is done!
-
-
-Great deal of new things
-----------
-- [x] New and more icons
-- [x] New and improved setting possibilities (You will love it!)
-- [x] Has become ready to integrate TV series provider
-- [ ] Writing provider to TV series (metadata and subtitles included)
-- [ ] Search
-- [ ] Search in more languages than English
-- [x] Setting: Preferred video quality
-- [x] Setting: Download and upload rate limit
-- [x] Setting: Prioritize hearing impaired subtitles
-- [x] Setting: Ability to add more proxy domains at once
-- [x] Integrated proxy domains
-- [ ] Better cache cleanup
-- [x] New and better torrent2http provider (https://github.com/anteo/torrent2http)
-- [x] Several modules have been removed
-- [x] Tuning and optimization
-- [x] New structure
-- [ ] Do not show the loading window, when there is a cache
-
+Read [Test Alpha version](https://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-Alpha-version)
 
 What it is
 ----------

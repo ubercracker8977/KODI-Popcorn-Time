@@ -90,6 +90,18 @@ class Player(xbmc.Player):
             ' '
         ]
 
+    def _calculate_free_space(self, download_path):
+        import ctypes
+        from kodipopcorntime.platform import Platform
+        
+        if Platform.system() == 'windows':
+            free_bytes = ctypes.c_ulonglong(0)
+            ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(download_path), None, None, ctypes.pointer(free_bytes))
+            return free_bytes.value 
+        else:
+            st = os.statvfs(download_path)
+            return st.f_bavail * st.f_frsize
+
     def _calculate_progress(self, movieTime, status, filestatus):
         if not status == '' and not filestatus == '' and status.download_rate > 0:
             needSizeInProcent = 0.02
@@ -152,6 +164,8 @@ class Player(xbmc.Player):
             notify(__addon__.getLocalizedString(30313))
             torrent2http_options['upload_kbps'] = 15
             __addon__.setSetting('upload_kbps', '15')
+        downloadpath = os.path.dirname(xbmc.validatePath(xbmc.translatePath(__addon__.getSetting("download_path"))))
+        free_space = self._calculate_free_space(downloadpath)
 
         log('(Player) Start the torrent2http file', xbmc.LOGDEBUG)
         with closing(Engine(**torrent2http_options)) as engine:
@@ -190,6 +204,11 @@ class Player(xbmc.Player):
                     file_status = engine.file_status(file_id)
                     if not file_status:
                         continue
+
+                    if file_status.size > free_space:
+                        notify (__addon__.getLocalizedString(30323) + downloadpath);
+                        log('(Player) Not enough space on filesystem. ' + str(file_status.size / 1024 / 1024) + 'MB needed, ' + str(free_space / 1024 /1024) + ' MB available in ' + downloadpath, xbmc.LOGDEBUG)
+                        break
 
                     if status.state == State.DOWNLOADING:
                         self._calculate_progress(int(self.item['info'].get('duration', 0)), status, file_status)

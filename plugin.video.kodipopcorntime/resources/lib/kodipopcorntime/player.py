@@ -164,7 +164,7 @@ class Player(xbmc.Player):
             notify(__addon__.getLocalizedString(30313))
             torrent2http_options['upload_kbps'] = 15
             __addon__.setSetting('upload_kbps', '15')
-        downloadpath = os.path.dirname(xbmc.validatePath(xbmc.translatePath(__addon__.getSetting("download_path"))))
+        downloadpath = os.path.dirname(xbmc.validatePath(xbmc.translatePath(__addon__.getSetting("download_path")))) or CACHE_DIR 
         free_space = self._calculate_free_space(downloadpath)
 
         log('(Player) Start the torrent2http file', xbmc.LOGDEBUG)

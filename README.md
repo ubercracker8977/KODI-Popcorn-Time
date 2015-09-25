@@ -25,6 +25,9 @@ Please, file an issue :) - [Issues](http://github.com/Diblo/KODI-Popcorn-Time/is
 * http://github.com/steeve/libtorrent-go
 * http://github.com/steeve/torrent2http
 
+## Changelog ##
+Check out [releases](http://github.com/Diblo/KODI-Popcorn-Time/releases).
+
 ## Need more information ##
 Check out our [WIKI page](http://github.com/Diblo/KODI-Popcorn-Time/wiki/Welcome-to-the-KODI-Popcorn-Time-wiki!)
 

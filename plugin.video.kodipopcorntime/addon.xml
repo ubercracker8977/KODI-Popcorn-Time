@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.kodipopcorntime" name="KODI Popcorn Time" version="0.7.0~alpha" provider-name="Diblo">
+<addon id="plugin.video.kodipopcorntime" name="KODI Popcorn Time" version="0.7.0~alpha2" provider-name="Diblo">
     <requires>
         <import addon="xbmc.python" version="2.14.0"/>
     </requires>
@@ -18,7 +18,7 @@
         <summary lang="fr"><![CDATA[Immediately stream movies and tv shows.]]></summary>
         <summary lang="zh"><![CDATA[Immediately stream movies and tv shows.]]></summary>
         <summary lang="nl"><![CDATA[Direct streamen van films en tv-shows.]]></summary>
-	<summary lang="pl"><![CDATA[Oglądaj bezpośrednio filmy i programy TV.]]></summary>
+	    <summary lang="pl"><![CDATA[Oglądaj bezpośrednio filmy i programy TV.]]></summary>
 		<summary lang="pt_BR"><![CDATA[KODI Popcorn Time: Transmitir imediatamente filmes para o KODI.]]></summary>
         <description lang="de"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>
         <description lang="en"><![CDATA[With KODI Popcorn Time you can search for movies and tv shows that you can see immediately in KODI. NOTE: KODI Popcorn Time will continue sharing content while watching a movie or TV show.]]></description>

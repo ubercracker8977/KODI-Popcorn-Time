@@ -198,6 +198,8 @@ class Loader(Thread):
     PRELOADING              = 4
     DOWNLOADING_SUBTITLE    = 5
     FINISHED                = 6
+    url                     = None
+    subtitle                = None
 
     def __init__(self, mediaSettings, TorrentEngine, item, subtitleURL=None, callback=None):
         log('(Loader) Initialize loader')

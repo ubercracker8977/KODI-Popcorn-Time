@@ -1,21 +1,28 @@
+v0.7.0 alpha 2
+- [x] Improved view and navigation
+- [x] More icons
+- [x] Improved setting possibilities
+- [x] Setting: Improved proxy settings
+- [x] Search
+- [x] Better cache cleanup
+- [x] Several modules have been removed
+- [x] New structure
+- [x] Do not show the loading window, when there is a cache
+- [x] Improved debugging
+
 v0.7.0 alpha
 - [x] New and more icons
 - [x] New and improved setting possibilities (You will love it!)
 - [x] Has become ready to integrate TV series provider
-- [ ] Writing provider to TV series (metadata and subtitles included)
-- [ ] Search
-- [ ] Search in more languages than English
 - [x] Setting: Preferred video quality
 - [x] Setting: Download and upload rate limit
 - [x] Setting: Prioritize hearing impaired subtitles
 - [x] Setting: Ability to add more proxy domains at once
 - [x] Integrated proxy domains
-- [ ] Better cache cleanup
 - [x] New and better torrent2http provider (https://github.com/anteo/torrent2http)
 - [x] Several modules have been removed
 - [x] Tuning and optimization
 - [x] New structure
-- [ ] Do not show the loading window, when there is a cache
 
 v0.6.5
 - Support XBMC/KODI 13.x and later

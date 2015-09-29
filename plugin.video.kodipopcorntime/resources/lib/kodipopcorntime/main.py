@@ -287,8 +287,8 @@ class PopcornTime:
         else:
             magnet = build_magnetFromMeta(params['720p'], "quality 720p")
 
-        with closing(TorrentPlayer()) as _player:
-            _player.playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+        with closing(TorrentPlayer()) as _TorrentPlayer:
+            _TorrentPlayer.play(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):

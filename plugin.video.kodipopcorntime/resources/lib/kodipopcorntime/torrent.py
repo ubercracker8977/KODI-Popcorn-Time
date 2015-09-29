@@ -7,7 +7,8 @@ from simplejson import JSONDecodeError
 from kodipopcorntime.utils import SafeDialogProgress, notify, ListItem, get_free_port
 from kodipopcorntime.logging import log, LOGLEVEL, LogPipe, log_error
 from kodipopcorntime.exceptions import Error, TorrentError, Abort
-from kodipopcorntime import settings, request
+from kodipopcorntime.settings import addon as _settings
+from kodipopcorntime import request
 from kodipopcorntime.platform import Platform
 from kodipopcorntime.threads import Thread
 
@@ -21,7 +22,7 @@ class OverlayText(object):
         self._shown       = False
         self._window     = xbmcgui.Window(12005)
         self._label      = xbmcgui.ControlLabel(x, y, w, h, '', alignment=0x00000002 | 0x00000004)
-        self._background = xbmcgui.ControlImage(x, y, w, h, os.path.join(settings.addon.resources_path, "media", "black.png"))
+        self._background = xbmcgui.ControlImage(x, y, w, h, os.path.join(_settings.resources_path, "media", "black.png"))
 
         self._background.setColorDiffuse("0xD0000000")
 
@@ -100,7 +101,7 @@ class TorrentEngine:
                 startupinfo.dwFlags |= 1
                 startupinfo.wShowWindow = 0
 
-            if settings.addon.debug:
+            if _settings.debug:
                 self._logpipe = LogPipe(self._debug)
 
             try:
@@ -211,7 +212,7 @@ class Loader(Thread):
         # Subtitle
         self._subtitleURL   = subtitleURL
         self._request       = request.Download()
-        self._path          = os.path.join(settings.addon.cache_path, 'temp.zip')
+        self._path          = os.path.join(_settings.cache_path, 'temp.zip')
         self._tmppath       = None
 
         super(Loader, self).__init__(target=self._run)
@@ -278,7 +279,7 @@ class Loader(Thread):
         free_space = self._calculate_free_space()
         if self._TEngine.playFile()['size'] > free_space:
             notify (__addon__.getLocalizedString(30323) + self._mediaSettings.download_path);
-            log('(Player) Not enough space on filesystem. %s MB needed, %s MB available in %s' %((self._TEngine.playFile()['size'] / 1024 / 1024), (free_space / 1024 /1024), self._mediaSettings.download_path))
+            log('(Loader) Not enough space on filesystem. %s MB needed, %s MB available in %s' %((self._TEngine.playFile()['size'] / 1024 / 1024), (free_space / 1024 /1024), self._mediaSettings.download_path))
             return False
 
         progress = 0
@@ -291,11 +292,11 @@ class Loader(Thread):
 
             filestatus = self._TEngine.playFile()
 
-            bytSeconds = status['download_rate']*0.7*1024
+            bytSeconds = status['download_rate']*0.7*1024 # Download rate is reduced by 20 percent to make sure against fluctuations.
             needSizeInProcent = 0.015 # Fix cache size
             if duration > 0:
                 # How long does it take to download the entire movie in seconds.
-                seconds = filestatus['size']/bytSeconds # Download rate is reduced by 30 percent to make sure against fluctuations.
+                seconds = filestatus['size']/bytSeconds
                 # Does it take longer time than to play the movie? Otherwise we only
                 # need a buffer to protect against fluctuations (0.02)
                 if seconds > duration:
@@ -340,8 +341,8 @@ class Loader(Thread):
         with closing(ZipFile(self._path)) as zip:
             for subtitle in zip.namelist():
                 if os.path.splitext(subtitle)[1] in ['.aqt', '.gsub', '.jss', '.sub', '.ttxt', '.pjs', '.psb', '.rt', '.smi', '.stl', '.ssf', '.srt', '.ssa', '.ass', '.usf', '.idx']:
-                    zip.extract(subtitle, settings.addon.cache_path)
-                    self._tmppath = os.path.join(settings.addon.cache_path, subtitle)
+                    zip.extract(subtitle, _settings.cache_path)
+                    self._tmppath = os.path.join(_settings.cache_path, subtitle)
         if not os.path.isfile(self._tmppath) or self.stop.is_set():
             return False
         os.unlink(self._path)
@@ -378,22 +379,22 @@ class TorrentPlayer(xbmc.Player):
         self._TEngine       = None
 
     def onPlayBackStarted(self):
-        log('(Player) onPlayBackStarted')
+        log('(Torrent Player) onPlayBackStarted')
 
     def onPlayBackResumed(self):
-        log('(Player) onPlayBackResumed')
+        log('(Torrent Player) onPlayBackResumed')
         self._overlay.hide()
 
     def onPlayBackPaused(self):
-        log('(Player) onPlayBackPaused')
+        log('(Torrent Player) onPlayBackPaused')
         self._overlay.open()
 
     def onPlayBackStopped(self):
-        log('(Player) Stop playback')
+        log('(Torrent Player) Stop playback')
         self._overlay.hide()
 
     def onPlayBackSeek(self):
-        log('(Player) onPlayBackSeek')
+        log('(Torrent Player) onPlayBackSeek')
         self.pause()
 
     def playTorrentFile(self, mediaSettings, magnet, item, subtitleURL=None):
@@ -402,7 +403,7 @@ class TorrentPlayer(xbmc.Player):
         self._TEngine       = TorrentEngine(mediaSettings, magnet)
 
         # Loading
-        log('(Player) Loading', LOGLEVEL.INFO)
+        log('(Torrent Player) Loading', LOGLEVEL.INFO)
         with closing(SafeDialogProgress()) as dialog:
             dialog.create(item['info']['title'])
             dialog.update(0, __addon__.getLocalizedString(30031), ' ', ' ')
@@ -428,12 +429,12 @@ class TorrentPlayer(xbmc.Player):
                         raise Abort()
 
         # Starts the playback
-        log('(Player) Start the playback', LOGLEVEL.INFO)
+        log('(Torrent Player) Start the playback', LOGLEVEL.INFO)
         #self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
         xbmcplugin.setResolvedUrl(_settings.handle, True, ListItem.from_dict(**dict([('path', Loader.url)], **item)).as_xbmc_listitem())
 
         # Waiting for playback to start
-        log('(Player) Waiting for playback to start')
+        log('(Torrent Player) Waiting for playback to start')
         for _ in xrange(600):
             if self.isPlaying():
                 break
@@ -442,7 +443,7 @@ class TorrentPlayer(xbmc.Player):
             raise Error('Playback is terminated due to timeout', 30318)
 
         if Loader.subtitle:
-            log('(Player) Add subtitle to the playback')
+            log('(Torrent Player) Add subtitle to the playback')
             self.setSubtitles(Loader.subtitle)
 
         while not xbmc.abortRequested and self.isPlaying():
@@ -451,7 +452,7 @@ class TorrentPlayer(xbmc.Player):
                 time.sleep(0.100)
                 continue
             time.sleep(0.250)
-        log('(Player) The playback has stop')
+        log('(Torrent Player) The playback has stop')
 
     def _get_status_lines(self):
         if self._TEngine:

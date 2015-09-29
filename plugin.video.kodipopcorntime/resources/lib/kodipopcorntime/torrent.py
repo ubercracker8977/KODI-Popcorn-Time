@@ -232,6 +232,7 @@ class Torrent:
                     _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
             except:
                 pass
+
 class Loader(Thread):
     STARTING                = 1
     WAITING_FOR_PLAY_FILE   = 2
@@ -257,9 +258,6 @@ class Loader(Thread):
 
         super(Loader, self).__init__(target=self._run)
 
-    def __enter__(self):
-        return self
-
     def is_done(self, wait=0):
         time.sleep(wait)
         return self.stop.is_set()
@@ -284,7 +282,6 @@ class Loader(Thread):
             if self.callbackfn:
                 self.callbackfn(self.FINISHED, 1)
             Loader.url = playFileInfo['url']
-        self.close()
 
     def _getPlayFile(self):
         log('(Loader) Waiting on play file')
@@ -402,13 +399,6 @@ class Loader(Thread):
         self._path = self._tmppath
         self._tmppath = None
         return not self.stop.is_set()
-
-    def __exit__(self, *exc_info):
-        self.close()
-        return not exc_info[0]
-
-    def __del__(self):
-        self.close()
 
     def close(self):
         if hasattr(self, '_tmppath'):

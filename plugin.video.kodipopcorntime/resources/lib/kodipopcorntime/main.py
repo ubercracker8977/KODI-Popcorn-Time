@@ -30,6 +30,9 @@ class PopcornTime:
         log("(Main) Adding item '%s'" %item["label"])
         path = "%s?%s" %(settings.addon.base_url, urllib.urlencode(dict([('mediaType', mediaType), ('endpoint', endpoint)], **params)))
 
+        if not isFolder:
+            item['is_playable'] = True
+
         # Ensure fanart
         if not item.setdefault("properties", {}).get("fanart_image"):
             item["properties"]["fanart_image"] = settings.addon.fanart

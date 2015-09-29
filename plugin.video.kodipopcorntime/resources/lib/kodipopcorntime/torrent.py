@@ -428,9 +428,9 @@ class TorrentPlayer(xbmc.Player):
                         raise Abort()
 
         # Starts the playback
-        item['path'] = Loader.url
         log('(Player) Start the playback', LOGLEVEL.INFO)
-        self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem())
+        #self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
+        xbmcplugin.setResolvedUrl(_settings.handle, True, ListItem.from_dict(**dict([('path', Loader.url)], **item)).as_xbmc_listitem())
 
         # Waiting for playback to start
         log('(Player) Waiting for playback to start')

@@ -292,7 +292,7 @@ class Loader(Thread):
 
             filestatus = self._TEngine.playFile()
 
-            bytSeconds = status['download_rate']*0.7*1024 # Download rate is reduced by 20 percent to make sure against fluctuations.
+            bytSeconds = status['download_rate']*0.8*1024 # Download rate is reduced by 20 percent to make sure against fluctuations.
             needSizeInProcent = 0.015 # Fix cache size
             if duration > 0:
                 # How long does it take to download the entire movie in seconds.
@@ -313,7 +313,7 @@ class Loader(Thread):
                 self.callbackfn(self.PRELOADING, progressValue)
 
             progress = progress+progressValue
-            if progress >= 100 or filestatus['download'] >= needCacheSize:
+            if progress >= 100 or (filestatus['download']*0.45) >= needCacheSize: # We are caching about 65% (filestatus['download']*0.45) more end need (needCacheSize).
                 if self.callbackfn:
                     self.callbackfn(self.PRELOADING, (100-progress) > 0 and (100-progress) or 0)
                 log('(Loader) Finished with pre-loading media')

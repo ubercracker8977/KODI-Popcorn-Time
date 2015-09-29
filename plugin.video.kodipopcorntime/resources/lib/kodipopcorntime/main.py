@@ -351,6 +351,27 @@ def run():
         if not Platform.system:
             raise Error("Unsupported OS", 30302)
 
+        # Clean debris from the cache dir
+        try:
+            def _empty_dir(path):
+                if os.path.isdir(path):
+                    for x in os.listdir(path):
+                        if x in ['.', '..']:
+                            continue
+                        _path = os.path.join(path, x)
+                        if os.path.isfile(_path):
+                            os.remove(_path)
+                        elif os.path.isdir(_path):
+                            _empty_dir(_path)
+                            os.rmdir(_path)
+
+            for mediaType in ['movies', 'tvshows']:
+                if getattr(settings, mediaType).delete_files:
+                    _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
+        except:
+            log_error()
+            sys.exc_clear()
+
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):
             PopcornTime(**params)

@@ -486,5 +486,23 @@ class TorrentPlayer(xbmc.Player):
             if self._mediaSettings.delete_files and Loader.subtitle and os.path.isfile(Loader.subtitle):
                 os.unlink(Loader.subtitle)
             self._TEngine.close()
+            # Clean debris from the cache dir
+            try:
+                def _empty_dir(path):
+                    if os.path.isdir(path):
+                        for x in os.listdir(path):
+                            if x in ['.', '..']:
+                                continue
+                            _path = os.path.join(path, x)
+                            if os.path.isfile(_path):
+                                os.remove(_path)
+                            elif os.path.isdir(_path):
+                                _empty_dir(_path)
+                                os.rmdir(_path)
+
+                if self._mediaSettings.delete_files:
+                    _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
+            except:
+                pass
             self._TEngine = self._overlay = None
    

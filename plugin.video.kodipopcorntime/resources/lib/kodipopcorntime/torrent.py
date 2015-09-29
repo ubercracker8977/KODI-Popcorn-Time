@@ -192,6 +192,46 @@ class TorrentEngine:
             self.shutdown()
             self._json = self._logpipe = self._process = None
 
+class Torrent:
+    def __init__(self, mediaSettings, magnet):
+        self._mediaSettings = mediaSettings
+        self._TorrentEngine = TorrentEngine(mediaSettings, magnet)
+        self._close = False
+
+    def __enter__(self):
+        return self._TorrentEngine
+
+    def __exit__(self, *exc_info):
+        self.close()
+        return not exc_info[0]
+
+    def __del__(self):
+        self.close()
+
+    def close(self):
+        if hasattr(self, '_close') and not self._close:
+            self._close = True
+            if self._mediaSettings.delete_files and Loader.subtitle and os.path.isfile(Loader.subtitle):
+                os.unlink(Loader.subtitle)
+            self._TorrentEngine.close()
+            # Clean debris from the cache dir
+            try:
+                def _empty_dir(path):
+                    if os.path.isdir(path):
+                        for x in os.listdir(path):
+                            if x in ['.', '..']:
+                                continue
+                            _path = os.path.join(path, x)
+                            if os.path.isfile(_path):
+                                os.remove(_path)
+                            elif os.path.isdir(_path):
+                                _empty_dir(_path)
+                                os.rmdir(_path)
+
+                if self._mediaSettings.delete_files:
+                    _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
+            except:
+                pass
 class Loader(Thread):
     STARTING                = 1
     WAITING_FOR_PLAY_FILE   = 2
@@ -216,6 +256,9 @@ class Loader(Thread):
         self._tmppath       = None
 
         super(Loader, self).__init__(target=self._run)
+
+    def __enter__(self):
+        return self
 
     def is_done(self, wait=0):
         time.sleep(wait)
@@ -360,23 +403,26 @@ class Loader(Thread):
         self._tmppath = None
         return not self.stop.is_set()
 
+    def __exit__(self, *exc_info):
+        self.close()
+        return not exc_info[0]
+
     def __del__(self):
-        if hasattr(self, '_tmppath'):
-            self.close()
+        self.close()
 
     def close(self):
-        super(Loader, self).close()
-        self._request.cancel()
-        if self._tmppath and os.path.isfile(self._tmppath):
-            os.unlink(self._tmppath)
-        if self._path and os.path.isfile(self._path) and not (Loader.subtitle or Loader.subtitle == self._path):
-            os.unlink(self._path)
-        self.raiseAnyError()
+        if hasattr(self, '_tmppath'):
+            super(Loader, self).close()
+            self._request.cancel()
+            if self._tmppath and os.path.isfile(self._tmppath):
+                os.unlink(self._tmppath)
+            if self._path and os.path.isfile(self._path) and not (Loader.subtitle or Loader.subtitle == self._path):
+                os.unlink(self._path)
+            self.raiseAnyError()
 
 class TorrentPlayer(xbmc.Player):
     def __init__(self):
         self._mediaSettings = None
-        self._TEngine       = None
 
     def onPlayBackStarted(self):
         log('(Torrent Player) onPlayBackStarted')
@@ -397,74 +443,72 @@ class TorrentPlayer(xbmc.Player):
         log('(Torrent Player) onPlayBackSeek')
         self.pause()
 
-    def playTorrentFile(self, mediaSettings, magnet, item, subtitleURL=None):
+    def play(self, mediaSettings, magnet, item, subtitleURL=None):
         self._overlay       = OverlayText()
         self._mediaSettings = mediaSettings
-        self._TEngine       = TorrentEngine(mediaSettings, magnet)
 
-        # Loading
-        log('(Torrent Player) Loading', LOGLEVEL.INFO)
-        with closing(SafeDialogProgress()) as dialog:
-            dialog.create(item['info']['title'])
-            dialog.update(0, __addon__.getLocalizedString(30031), ' ', ' ')
+        with Torrent(mediaSettings, magnet) as _TorrentEngine:
+            # Loading
+            log('(Torrent Player) Loading', LOGLEVEL.INFO)
+            with closing(SafeDialogProgress()) as dialog:
+                dialog.create(item['info']['title'])
+                dialog.update(0, __addon__.getLocalizedString(30031), ' ', ' ')
 
-            # Update progress dialog
-            dialog.set_mentions((101+bool(subtitleURL)))
-         
-            def on_update(state, progressValue):
-                if state == Loader.PRELOADING:
-                    dialog.update(progressValue, *self._get_status_lines())
-                elif state == Loader.CHECKING_DATA:
-                    dialog.update(progressValue, __addon__.getLocalizedString(30037), ' ', ' ')
-                elif state == Loader.WAITING_FOR_PLAY_FILE:
-                    dialog.update(progressValue, __addon__.getLocalizedString(30016), ' ', ' ')
-                elif state == Loader.DOWNLOADING_SUBTITLE:
-                    dialog.update(progressValue, __addon__.getLocalizedString(30019), ' ', ' ')
-                elif state == Loader.FINISHED:
-                    dialog.update(progressValue, __addon__.getLocalizedString(30020), ' ', ' ')
+                # Update progress dialog
+                dialog.set_mentions((101+bool(subtitleURL)))
+             
+                def on_update(state, progressValue):
+                    if state == Loader.PRELOADING:
+                        dialog.update(progressValue, *self._get_status_lines(_TorrentEngine.status()))
+                    elif state == Loader.CHECKING_DATA:
+                        dialog.update(progressValue, __addon__.getLocalizedString(30037), ' ', ' ')
+                    elif state == Loader.WAITING_FOR_PLAY_FILE:
+                        dialog.update(progressValue, __addon__.getLocalizedString(30016), ' ', ' ')
+                    elif state == Loader.DOWNLOADING_SUBTITLE:
+                        dialog.update(progressValue, __addon__.getLocalizedString(30019), ' ', ' ')
+                    elif state == Loader.FINISHED:
+                        dialog.update(progressValue, __addon__.getLocalizedString(30020), ' ', ' ')
 
-            with closing(Loader(mediaSettings, self._TEngine, item, subtitleURL, on_update)) as _loader:
-                while not _loader.is_done(0.100):
-                    if xbmc.abortRequested or dialog.iscanceled():
-                        raise Abort()
+                with Loader(mediaSettings, _TorrentEngine, item, subtitleURL, on_update) as _loader:
+                    while not _loader.is_done(0.100):
+                        if xbmc.abortRequested or dialog.iscanceled():
+                            raise Abort()
 
-        # Starts the playback
-        log('(Torrent Player) Start the playback', LOGLEVEL.INFO)
-        #self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
-        xbmcplugin.setResolvedUrl(_settings.handle, True, ListItem.from_dict(**dict([('path', Loader.url)], **item)).as_xbmc_listitem())
+            # Starts the playback
+            log('(Torrent Player) Start the playback', LOGLEVEL.INFO)
+            #self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
+            xbmcplugin.setResolvedUrl(_settings.handle, True, ListItem.from_dict(**dict([('path', Loader.url)], **item)).as_xbmc_listitem())
 
-        # Waiting for playback to start
-        log('(Torrent Player) Waiting for playback to start')
-        for _ in xrange(600):
-            if self.isPlaying():
-                break
-            time.sleep(0.100)
-        else:
-            raise Error('Playback is terminated due to timeout', 30318)
-
-        if Loader.subtitle:
-            log('(Torrent Player) Add subtitle to the playback')
-            self.setSubtitles(Loader.subtitle)
-
-        while not xbmc.abortRequested and self.isPlaying():
-            if self._overlay.isShowing():
-                self._overlay.setText("\n".join(self._get_status_lines()))
+            # Waiting for playback to start
+            log('(Torrent Player) Waiting for playback to start')
+            for _ in xrange(600):
+                if self.isPlaying():
+                    break
                 time.sleep(0.100)
-                continue
-            time.sleep(0.250)
-        log('(Torrent Player) The playback has stop')
+            else:
+                raise Error('Playback is terminated due to timeout', 30318)
 
-    def _get_status_lines(self):
-        if self._TEngine:
-            status = self._TEngine.status()
+            if Loader.subtitle:
+                log('(Torrent Player) Add subtitle to the playback')
+                self.setSubtitles(Loader.subtitle)
+
+            while not xbmc.abortRequested and self.isPlaying():
+                if self._overlay.isShowing():
+                    self._overlay.setText("\n".join(self._get_status_lines(_TorrentEngine.status())))
+                    time.sleep(0.100)
+                    continue
+                time.sleep(0.250)
+            log('(Torrent Player) The playback has stop')
+
+    def _get_status_lines(self, status):
             if status:
-                if status['state'] == self._TEngine.DOWNLOADING:
+                if status['state'] == TorrentEngine.DOWNLOADING:
                     return [
                         __addon__.getLocalizedString(30021),
                         __addon__.getLocalizedString(30008) %(status['download_rate'], status['upload_rate']),
                         __addon__.getLocalizedString(30015) %status['num_seeds']
                     ]
-                if status['state'] in [self._TEngine.FINISHED, self._TEngine.SEEDING]:
+                if status['state'] in [TorrentEngine.FINISHED, TorrentEngine.SEEDING]:
                     return [
                         __addon__.getLocalizedString(30022),
                         ' ',
@@ -480,29 +524,8 @@ class TorrentPlayer(xbmc.Player):
         self.close()
 
     def close(self):
-        if hasattr(self, '_TEngine'):
+        if hasattr(self, '_mediaSettings'):
             self.stop()
             self._overlay.close()
-            if self._mediaSettings.delete_files and Loader.subtitle and os.path.isfile(Loader.subtitle):
-                os.unlink(Loader.subtitle)
-            self._TEngine.close()
-            # Clean debris from the cache dir
-            try:
-                def _empty_dir(path):
-                    if os.path.isdir(path):
-                        for x in os.listdir(path):
-                            if x in ['.', '..']:
-                                continue
-                            _path = os.path.join(path, x)
-                            if os.path.isfile(_path):
-                                os.remove(_path)
-                            elif os.path.isdir(_path):
-                                _empty_dir(_path)
-                                os.rmdir(_path)
-
-                if self._mediaSettings.delete_files:
-                    _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
-            except:
-                pass
-            self._TEngine = self._overlay = None
+            self._overlay = None
    

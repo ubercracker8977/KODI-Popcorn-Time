@@ -33,11 +33,10 @@ class Thread(threading.Thread):
         return not exc_info[0]
 
     def __del__(self):
-        if hasattr(self, 'stop'):
-            self.close()
+        self.close()
 
     def close(self):
-        if not self.stop.is_set():
+        if hasattr(self, 'stop') and not self.stop.is_set():
             self.stop.set()
 
 class FLock:

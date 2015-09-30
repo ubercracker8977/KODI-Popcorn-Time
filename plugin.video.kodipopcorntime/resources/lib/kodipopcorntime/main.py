@@ -30,9 +30,6 @@ class PopcornTime:
         log("(Main) Adding item '%s'" %item["label"])
         path = "%s?%s" %(settings.addon.base_url, urllib.urlencode(dict([('mediaType', mediaType), ('endpoint', endpoint)], **params)))
 
-        if not isFolder:
-            item['is_playable'] = True
-
         # Ensure fanart
         if not item.setdefault("properties", {}).get("fanart_image"):
             item["properties"]["fanart_image"] = settings.addon.fanart
@@ -275,6 +272,9 @@ class PopcornTime:
     def player(self, subtitle=None, **params):
         log("(Main) Creating player options")
 
+        if settings.addon.handle > -1:
+            xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
+
         play3d = False
         if params.get('3D') and '3D' in self.mediaSettings.qualities:
             play3d = True
@@ -288,7 +288,7 @@ class PopcornTime:
         else:
             magnet = build_magnetFromMeta(params['720p'], "quality 720p")
 
-        TorrentPlayer().play(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+        TorrentPlayer().playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):

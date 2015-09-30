@@ -422,7 +422,7 @@ class TorrentPlayer(xbmc.Player):
         log('(Torrent Player) onPlayBackSeek')
         self.pause()
 
-    def play(self, mediaSettings, magnet, item, subtitleURL=None):
+    def playTorrentFile(self, mediaSettings, magnet, item, subtitleURL=None):
         with TorrentEngine(mediaSettings, magnet) as _TorrentEngine:
             # Loading
             log('(Torrent Player) Loading', LOGLEVEL.INFO)
@@ -452,8 +452,7 @@ class TorrentPlayer(xbmc.Player):
 
             # Starts the playback
             log('(Torrent Player) Start the playback', LOGLEVEL.INFO)
-            #self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
-            xbmcplugin.setResolvedUrl(_settings.handle, True, ListItem.from_dict(**dict([('path', Loader.url)], **item)).as_xbmc_listitem())
+            self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
 
             # Waiting for playback to start
             log('(Torrent Player) Waiting for playback to start')

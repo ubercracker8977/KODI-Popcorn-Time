@@ -289,7 +289,12 @@ class _MetaClass2(_MetaClass):
 
             cls.download_path = _path.encode(addon.fsencoding)
         else:
-            cls.download_path = addon.cache_path
+            _path = os.path.join(addon.cache_path, cls.mediaType)
+            if not os.path.exists(_path):
+                os.makedirs(_path)
+                if not os.path.exists(_path):
+                    raise Error("Unable to create cache directory %s" % _path, 30322)
+            cls.download_path = _path
 
     def _delete_files(cls):
         if cls.keep_files or cls.keep_complete or cls.keep_incomplete:

@@ -37,8 +37,10 @@ class PopcornTime:
         xbmcplugin.addDirectoryItem(settings.addon.handle, path, ListItem.from_dict(**item).as_xbmc_listitem(), isFolder)
 
     def addItems(self, mediaType, items, endpoint=None, isFolder=True):
+        xbmcgui.lock() # http://mirrors.xbmc.org/docs/python-docs/13.0-gotham/xbmcgui.html#-lock
         for item in items:
             self.addItem(mediaType, endpoint=endpoint, isFolder=isFolder, **item)
+        xbmcgui.unlock()
 
     def finish(self, contentType='files', updateListing=False, cacheToDisc=True):
         log("(Main) Finish", LOGLEVEL.INFO)
@@ -271,6 +273,10 @@ class PopcornTime:
 
     def player(self, subtitle=None, **params):
         log("(Main) Creating player options")
+
+        if settings.addon.handle > -1:
+            xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
+
         play3d = False
         if params.get('3D') and '3D' in self.mediaSettings.qualities:
             play3d = True
@@ -284,8 +290,7 @@ class PopcornTime:
         else:
             magnet = build_magnetFromMeta(params['720p'], "quality 720p")
 
-        with closing(TorrentPlayer()) as _player:
-            _player.playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+        TorrentPlayer().playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):
@@ -347,6 +352,27 @@ def run():
 
         if not Platform.system:
             raise Error("Unsupported OS", 30302)
+
+        # Clean debris from the cache dir
+        try:
+            def _empty_dir(path):
+                if os.path.isdir(path):
+                    for x in os.listdir(path):
+                        if x in ['.', '..']:
+                            continue
+                        _path = os.path.join(path, x)
+                        if os.path.isfile(_path):
+                            os.remove(_path)
+                        elif os.path.isdir(_path):
+                            _empty_dir(_path)
+                            os.rmdir(_path)
+
+            for mediaType in ['movies', 'tvshows']:
+                if getattr(settings, mediaType).delete_files:
+                    _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
+        except:
+            log_error()
+            sys.exc_clear()
 
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):

@@ -23,7 +23,7 @@
   <string id="30017">Done</string>
   <string id="30018">Fetching information</string>
   <string id="30019">Downloading subtitle</string>
-  <string id="30020">Playback starts</string>
+  <string id="30020">Starting playback</string>
   <string id="30021">Downloading</string>
   <string id="30022">Download is complete</string>
   <string id="30023">Title</string>
@@ -33,7 +33,7 @@
   <string id="30027">Cancel</string>
   <string id="30028">Searching</string>
   <string id="30030">Movies</string>
-  <string id="30031">Starter</string>
+  <string id="30031">Starting</string>
   <string id="30032">Checking media file</string>
   <string id="30033">Are you sure you want to delete the cache?</string>
   <string id="30034">Title:</string>
@@ -61,7 +61,7 @@
   <string id="30113">Maintenance</string>
   <string id="30114">Clear cache</string>
   <string id="30115">Proxy domains</string>
-  <string id="30116">Movies (comma-separated host)</string>
+  <string id="30116">Movies (comma-separated hosts)</string>
   <string id="30117">Video Quality</string>
   <string id="30118">1080p and lower</string>
   <string id="30119">First priority</string>
@@ -74,7 +74,7 @@
   <string id="30126">No</string>
   <string id="30127">Ask me</string>
   <string id="30128">Always</string>
-  <string id="30129">TV Shows (comma-separated host)</string>
+  <string id="30129">TV Shows (comma-separated hosts)</string>
   <string id="30130">Advanced</string>
   <string id="30131">Torrent settings</string>
   <string id="30132">Providers</string>
@@ -174,7 +174,7 @@
   <string id="30304">Did not receive any data</string>
   <string id="30305">Did not receive any movies</string>
   <string id="30306">An error has occurred</string>
-  <string id="30307">No items was found</string>
+  <string id="30307">No items were found</string>
   <string id="30308">An unknown error has occurred</string>
   <string id="30309">Suppose we are running XBMC, but environment variable XBMC_HOME or KODI_HOME is not found</string>
   <string id="30310">Download path does not exist. Please check your addon settings</string>
@@ -182,7 +182,7 @@
   <string id="30312">An error has occurred with torrent2http</string>
   <string id="30313">A torrent error has occurred</string>
   <string id="30314">Torrent settings were reset</string>
-  <string id="30315">No movie or tv-show providers was found</string>
+  <string id="30315">No movie or tv-show providers were found</string>
   <string id="30316">Torrent file did not contain a movie</string>
   <string id="30317">A connection has not answered before timeout</string>
   <string id="30318">Playback is terminated due to timeout</string>

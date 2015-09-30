@@ -28,11 +28,11 @@ class OverlayText:
 
     def __enter__(self):
         return self
+
     def open(self):
         if not self._shown:
             self._window.addControls([self._background, self._label])
             self._shown = True
-
 
     def isShowing(self):
         return self._shown
@@ -221,7 +221,7 @@ class TorrentEngine:
                 # Clean debris from the cache dir
                 if self._mediaSettings.delete_files:
                     try:
-                        _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
+                        _empty_dir(os.path.join(_settings.cache_path, self._mediaSettings.mediaType))
                     except:
                         pass
 

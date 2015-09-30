@@ -1,34 +1,27 @@
 ﻿#!/usr/bin/python
 import sys, os
-from kodipopcorntime.msg import AnErrorOccurred
 
-class Platform:
-    def __init__(self):
-        self.arch = self.arch()
-        self.system = self.system()
+class Platform(object):
+    class __metaclass__(type):
+        def __getattr__(cls, name):
+            getattr(cls, "_%s" % name)()
+            return getattr(cls, name)
 
-    def __str__(self):
-        return "%s/%s" % (self.system, self.arch)
+        def _arch(cls):
+            if sys.platform.startswith('linux') and (os.uname()[4].startswith('arm') or os.uname()[4].startswith('aarch')):
+                cls.arch = 'arm'
+            elif sys.maxsize > 2**32:
+                cls.arch = 'x64'
+            cls.arch = 'x86'
 
-    @staticmethod
-    def arch():
-        if sys.platform.startswith('linux') and (os.uname()[4].startswith('arm') or os.uname()[4].startswith('aarch')):
-            return 'arm'
-        elif sys.maxsize > 2**32:
-            return 'x64'
-        else:
-            return 'x86'
-
-    @staticmethod
-    def system():
-        if sys.platform.startswith('linux'):
-            if 'ANDROID_DATA' in os.environ:
-                return 'android'
+        def _system(cls):
+            if sys.platform.lower().startswith('linux'):
+                cls.system = 'linux'
+                if 'ANDROID_DATA' in os.environ:
+                    cls.system = 'android'
+            elif sys.platform.lower().startswith('win'):
+                cls.system = 'windows'
+            elif sys.platform.lower().startswith('darwin'):
+                cls.system = 'darwin'
             else:
-                return 'linux'
-        elif sys.platform.startswith('win'):
-            return 'windows'
-        elif sys.platform.startswith('darwin'):
-            return 'darwin'
-        else:
-            raise AnErrorOccurred(30302)
+                cls.system = None

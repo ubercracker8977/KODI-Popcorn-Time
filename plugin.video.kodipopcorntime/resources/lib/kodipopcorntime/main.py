@@ -274,6 +274,7 @@ class PopcornTime:
 
     def player(self, subtitle=None, **params):
         log("(Main) Creating player options")
+
         play3d = False
         if params.get('3D') and '3D' in self.mediaSettings.qualities:
             play3d = True
@@ -287,8 +288,7 @@ class PopcornTime:
         else:
             magnet = build_magnetFromMeta(params['720p'], "quality 720p")
 
-        with closing(TorrentPlayer()) as _TorrentPlayer:
-            _TorrentPlayer.play(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+        TorrentPlayer().play(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):

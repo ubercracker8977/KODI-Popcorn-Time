@@ -14,7 +14,7 @@ from kodipopcorntime.threads import Thread
 
 __addon__ = sys.modules['__main__'].__addon__
 
-class OverlayText(object):
+class OverlayText:
     def __init__(self):
         log('(Overlay) Initialize overlay text', LOGLEVEL.INFO)
         x, y, w, h = self._calculate_the_size()
@@ -26,15 +26,13 @@ class OverlayText(object):
 
         self._background.setColorDiffuse("0xD0000000")
 
-    def show(self):
+    def __enter__(self):
+        return self
+    def open(self):
         if not self._shown:
             self._window.addControls([self._background, self._label])
             self._shown = True
 
-    def hide(self):
-        if self._shown:
-            self._window.removeControls([self._background, self._label])
-            self._shown = False
 
     def isShowing(self):
         return self._shown
@@ -56,12 +54,17 @@ class OverlayText(object):
         y = (viewport_h - h) / 2
         return x, y, w, h
 
+    def __exit__(self, *exc_info):
+        self.close()
+        return not exc_info[0]
+
     def __del__(self):
-        if hasattr(self, '_background'):
-            self.close()
+        self.close()
 
     def close(self):
-        self.hide()
+        if hasattr(self, '_background') and self._shown:
+            self._window.removeControls([self._background, self._label])
+            self._shown = False
 
 class TorrentEngine:
     QUEUED_FOR_CHECKING     = 0
@@ -87,6 +90,9 @@ class TorrentEngine:
         # "IOError: [Errno 9] Bad file descriptor" FIX!!!
         self._last_status   = {"name":"","state":self.NO_CONNECTION,"state_str":"no_connection","error":"","progress":0,"download_rate":0, "upload_rate":0,"total_download":0,"total_upload":0,"num_peers":0,"num_seeds":0,"total_seeds":-1,"total_peers":-1}
         self._last_files    = []
+
+    def __enter__(self):
+        return self
 
     def start(self):
         if not self._shutdown:
@@ -122,25 +128,27 @@ class TorrentEngine:
         return self._process and self._process.poll() is None
 
     def status(self, timeout=10):
-        try:
-            if not self.isAlive():
-                raise TorrentError("torrent2http are not running")
-            self._last_status = self._json.request(self._bind, "/status", timeout=timeout) or self._last_status
-            if self._last_status.get('error'):
-                raise TorrentError("torrent2http error: %s" %self._last_status['error'])
-        except (JSONDecodeError, socket.timeout, IOError) as e:
-            log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
-            sys.exc_clear()
+        if not self._shutdown:
+            try:
+                if not self.isAlive():
+                    raise TorrentError("torrent2http are not running")
+                self._last_status = self._json.request(self._bind, "/status", timeout=timeout) or self._last_status
+                if self._last_status.get('error'):
+                    raise TorrentError("torrent2http error: %s" %self._last_status['error'])
+            except (JSONDecodeError, socket.timeout, IOError) as e:
+                log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
+                sys.exc_clear()
         return self._last_status
 
     def files(self, timeout=10):
-        try:
-            if not self.isAlive():
-                raise TorrentError("torrent2http are not running")
-            self._last_files = self._json.request(self._bind, "/ls", timeout=timeout)['files'] or self._last_files
-        except (JSONDecodeError, socket.timeout, IOError) as e:
-            log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
-            sys.exc_clear()
+        if not self._shutdown:
+            try:
+                if not self.isAlive():
+                    raise TorrentError("torrent2http are not running")
+                self._last_files = self._json.request(self._bind, "/ls", timeout=timeout)['files'] or self._last_files
+            except (JSONDecodeError, socket.timeout, IOError) as e:
+                log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
+                sys.exc_clear()
         return self._last_files
 
     def playFile(self, timeout=10):
@@ -177,29 +185,12 @@ class TorrentEngine:
             if self.isAlive():
                 log("(Torrent) Killing torrent2http", LOGLEVEL.WARNING)
                 self._process.kill()
+            if self._logpipe:
+                self._logpipe.close()
+            self._logpipe = self._process = None
 
     def _debug(self, message):
         log("(Torrent) (torrent2http) %s" % message)
-
-    def __del__(self):
-        if hasattr(self, '_json'):
-            self.close()
-
-    def close(self):
-        if not self._shutdown:
-            self._shutdown = True
-            self._json.cancel()
-            self.shutdown()
-            self._json = self._logpipe = self._process = None
-
-class Torrent:
-    def __init__(self, mediaSettings, magnet):
-        self._mediaSettings = mediaSettings
-        self._TorrentEngine = TorrentEngine(mediaSettings, magnet)
-        self._close = False
-
-    def __enter__(self):
-        return self._TorrentEngine
 
     def __exit__(self, *exc_info):
         self.close()
@@ -209,13 +200,13 @@ class Torrent:
         self.close()
 
     def close(self):
-        if hasattr(self, '_close') and not self._close:
-            self._close = True
-            if self._mediaSettings.delete_files and Loader.subtitle and os.path.isfile(Loader.subtitle):
-                os.unlink(Loader.subtitle)
-            self._TorrentEngine.close()
-            # Clean debris from the cache dir
+        if hasattr(self, '_json') and not self._shutdown:
+            self._shutdown = True
             try:
+                self._json.cancel()
+                self.shutdown()
+            finally:
+                self._json = None
                 def _empty_dir(path):
                     if os.path.isdir(path):
                         for x in os.listdir(path):
@@ -227,11 +218,12 @@ class Torrent:
                             elif os.path.isdir(_path):
                                 _empty_dir(_path)
                                 os.rmdir(_path)
-
+                # Clean debris from the cache dir
                 if self._mediaSettings.delete_files:
-                    _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
-            except:
-                pass
+                    try:
+                        _empty_dir(os.path.join(settings.addon.cache_path, self._mediaSettings.mediaType))
+                    except:
+                        pass
 
 class Loader(Thread):
     STARTING                = 1
@@ -260,7 +252,7 @@ class Loader(Thread):
 
     def is_done(self, wait=0):
         time.sleep(wait)
-        return self.stop.is_set()
+        return Loader.url is not None
 
     def _run(self):
         if self.callbackfn:
@@ -411,15 +403,12 @@ class Loader(Thread):
             self.raiseAnyError()
 
 class TorrentPlayer(xbmc.Player):
-    def __init__(self):
-        self._mediaSettings = None
-
     def onPlayBackStarted(self):
         log('(Torrent Player) onPlayBackStarted')
 
     def onPlayBackResumed(self):
         log('(Torrent Player) onPlayBackResumed')
-        self._overlay.hide()
+        self._overlay.close()
 
     def onPlayBackPaused(self):
         log('(Torrent Player) onPlayBackPaused')
@@ -427,17 +416,14 @@ class TorrentPlayer(xbmc.Player):
 
     def onPlayBackStopped(self):
         log('(Torrent Player) Stop playback')
-        self._overlay.hide()
+        self._overlay.close()
 
     def onPlayBackSeek(self):
         log('(Torrent Player) onPlayBackSeek')
         self.pause()
 
     def play(self, mediaSettings, magnet, item, subtitleURL=None):
-        self._overlay       = OverlayText()
-        self._mediaSettings = mediaSettings
-
-        with Torrent(mediaSettings, magnet) as _TorrentEngine:
+        with TorrentEngine(mediaSettings, magnet) as _TorrentEngine:
             # Loading
             log('(Torrent Player) Loading', LOGLEVEL.INFO)
             with closing(SafeDialogProgress()) as dialog:
@@ -471,7 +457,7 @@ class TorrentPlayer(xbmc.Player):
 
             # Waiting for playback to start
             log('(Torrent Player) Waiting for playback to start')
-            for _ in xrange(600):
+            for _ in xrange(300):
                 if self.isPlaying():
                     break
                 time.sleep(0.100)
@@ -482,13 +468,14 @@ class TorrentPlayer(xbmc.Player):
                 log('(Torrent Player) Add subtitle to the playback')
                 self.setSubtitles(Loader.subtitle)
 
-            while not xbmc.abortRequested and self.isPlaying():
-                if self._overlay.isShowing():
-                    self._overlay.setText("\n".join(self._get_status_lines(_TorrentEngine.status())))
-                    time.sleep(0.100)
-                    continue
-                time.sleep(0.250)
-            log('(Torrent Player) The playback has stop')
+            with OverlayText() as self._overlay:
+                while not xbmc.abortRequested and self.isPlaying():
+                    if self._overlay.isShowing():
+                        self._overlay.setText("\n".join(self._get_status_lines(_TorrentEngine.status())))
+                        time.sleep(0.100)
+                        continue
+                    time.sleep(0.250)
+                log('(Torrent Player) The playback has stop')
 
     def _get_status_lines(self, status):
             if status:
@@ -509,13 +496,3 @@ class TorrentPlayer(xbmc.Player):
                 __addon__.getLocalizedString(30015) %status['num_seeds'],
                 ' '
             ]
-
-    def __del__(self):
-        self.close()
-
-    def close(self):
-        if hasattr(self, '_mediaSettings'):
-            self.stop()
-            self._overlay.close()
-            self._overlay = None
-   

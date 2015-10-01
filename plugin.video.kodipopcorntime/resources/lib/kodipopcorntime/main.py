@@ -37,10 +37,8 @@ class PopcornTime:
         xbmcplugin.addDirectoryItem(settings.addon.handle, path, ListItem.from_dict(**item).as_xbmc_listitem(), isFolder)
 
     def addItems(self, mediaType, items, endpoint=None, isFolder=True):
-        xbmcgui.lock() # http://mirrors.xbmc.org/docs/python-docs/13.0-gotham/xbmcgui.html#-lock
         for item in items:
             self.addItem(mediaType, endpoint=endpoint, isFolder=isFolder, **item)
-        xbmcgui.unlock()
 
     def finish(self, contentType='files', updateListing=False, cacheToDisc=True):
         log("(Main) Finish", LOGLEVEL.INFO)

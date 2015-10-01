@@ -18,7 +18,7 @@
   <string id="30012">Confirmer</string>
   <string id="30013">Êtes vous sûr de vouloir réinitialiser les paramètres Torrent!</string>
   <string id="30014">Ni le chemin ni les taux d'envoi et de réception ne seront réinitialisés.</string>
-  <string id="30015">Sources: {num_seeds}, Progrès: {progress:.2%}</string>
+  <string id="30015">Sources: %d</string>
   <string id="30016">Démarrage du téléchargement</string>
   <string id="30017">Effectué</string>
   <string id="30018">Récupération des informations</string>

@@ -18,7 +18,7 @@
   <string id="30012">Confirmar</string>
   <string id="30013">¿Estás seguro que quieres resetear los ajustes de Torrent?</string>
   <string id="30014">Path, download and upload rate will not be reset.</string>
-  <string id="30015">Semillas: {num_seeds}, Progreso: {progress:.2%}</string>
+  <string id="30015">Semillas: %d</string>
   <string id="30016">Descarga iniciada</string>
   <string id="30017">Hecho</string>
   <string id="30018">Consiguiendo información</string>
@@ -160,10 +160,6 @@
   <string id="30315">No se han encontrado proveedores de películas o series</string>
   <string id="30316">El fichero Torrent no contiene una película</string>
   <string id="30317">La conexión no ha respondido en el tiempo esperado</string>
-  <string id="30318">xxxx</string>
-  <string id="30319">xxxx</string>
-  <string id="30320">xxxx</string>
-  <string id="30321">xxxx</string>
 
   <!-- 
    * Genres

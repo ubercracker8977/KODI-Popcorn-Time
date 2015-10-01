@@ -21,7 +21,7 @@
   <string id="30012">Bevestigen</string>
   <string id="30013">Weet u zeker dat u de Torrent instellingen wilt herstellen?</string>
   <string id="30014">Locatie, download and upload-snelheid zullen niet worden hersteld.</string>
-  <string id="30015">Seeds: {num_seeds}</string>
+  <string id="30015">Seeds: %d</string>
   <string id="30016">Begint met downloaden</string>
   <string id="30017">Klaar</string>
   <string id="30018">Informatie ophalen</string>
@@ -163,10 +163,6 @@
   <string id="30315">Geen film of tv-programma aanbieders gevonden</string>
   <string id="30316">Torrent bestand bevat geen film</string>
   <string id="30317">Een verbinding is niet beantwoord binnen de timeout</string>
-  <string id="30318">xxxx</string>
-  <string id="30319">xxxx</string>
-  <string id="30320">xxxx</string>
-  <string id="30321">xxxx</string>
 
   <!-- 
    * Genres

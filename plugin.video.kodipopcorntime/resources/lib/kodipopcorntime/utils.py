@@ -15,7 +15,7 @@ class NOTIFYLEVEL:
     WARNING = 1
     ERROR = 2
 
-def notify(messageID, level=NOTIFYLEVEL.INFO):
+def notify(messageID=0, message=None, level=NOTIFYLEVEL.INFO):
     delay = 3500
     if level == NOTIFYLEVEL.WARNING:
         image = _settings.warning_image
@@ -25,7 +25,7 @@ def notify(messageID, level=NOTIFYLEVEL.INFO):
     else:
         image = _settings.info_image
 
-    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(__addon__.getLocalizedString(messageID), _settings.name, delay, image))
+    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(messageID and __addon__.getLocalizedString(messageID) or message, _settings.name, delay, image))
 
 class ListItem:
     '''

@@ -1,10 +1,10 @@
 ﻿#!/usr/bin/python
-import os, sys, xbmc, xbmcgui, xbmcplugin, urllib2, mimetypes, time, subprocess, socket, urlparse, ctypes
+import os, sys, xbmc, xbmcgui, xbmcplugin, urllib2, mimetypes, time, subprocess, socket, urlparse
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing
 from simplejson import JSONDecodeError
-from kodipopcorntime.utils import SafeDialogProgress, notify, ListItem, get_free_port
+from kodipopcorntime.utils import SafeDialogProgress, ListItem, get_free_port
 from kodipopcorntime.logging import log, LOGLEVEL, LogPipe, log_error
 from kodipopcorntime.exceptions import Error, TorrentError, Abort
 from kodipopcorntime.settings import addon as _settings
@@ -308,12 +308,6 @@ class Loader(Thread):
         if self.callbackfn:
             self.callbackfn(self.PRELOADING, 0)
 
-        free_space = self._calculate_free_space()
-        if self._TEngine.playFile()['size'] > free_space:
-            notify (__addon__.getLocalizedString(30323) + self._mediaSettings.download_path);
-            log('(Loader) Not enough space on filesystem. %s MB needed, %s MB available in %s' %((self._TEngine.playFile()['size'] / 1024 / 1024), (free_space / 1024 /1024), self._mediaSettings.download_path))
-            return False
-
         progress = 0
         while not self.stop.is_set():
             time.sleep(0.100)
@@ -352,15 +346,6 @@ class Loader(Thread):
                 return not self.stop.is_set()
 
         return False
-
-    def _calculate_free_space(self):
-        if Platform.system == 'windows':
-            free_bytes = ctypes.c_ulonglong(0)
-            ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(self._mediaSettings.download_path), None, None, ctypes.pointer(free_bytes))
-            return free_bytes.value 
-        else:
-            st = os.statvfs(self._mediaSettings.download_path)
-            return st.f_bavail * st.f_frsize
 
     def _getSubtitle(self, dirname, filename):
         log('(Loader) Downloading')

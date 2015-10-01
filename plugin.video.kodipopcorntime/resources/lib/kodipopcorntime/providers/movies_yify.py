@@ -41,8 +41,13 @@ def _create_item(data):
     if not data.get("title"): # Title is require
         return {}
 
-    # Do not return movies without hash or no quality (require)
-    torrents = dict((torrent["quality"], torrent["hash"]) for torrent in data.get("torrents", []) if torrent.get("hash") and torrent.get("quality"))
+    # Do not return movies without hash, quality and size (require)
+    torrents = {}
+    for torrent in data.get("torrents", []):
+        if torrent.get("quality") and torrent.get("hash") and torrent.get("size_bytes"):
+            torrents[torrent["quality"]] = torrent["hash"]
+            torrents['%ssize' %torrent["quality"]] = torrent["size_bytes"]
+
     if not torrents:
         return {}
 

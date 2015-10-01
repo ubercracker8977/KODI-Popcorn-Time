@@ -260,14 +260,13 @@ class _MetaClass2(_MetaClass):
         cls.proxies = p
 
     def _qualities(cls):
-        _quality = __addon__.getSetting("%s_quality" %cls.__name__)
-        if _quality == '0':
-            _qualities = ['720p']
+        __qualities = []
+        if cls.play3d > 0:
+            __qualities = ['3D']
+        if __addon__.getSetting("%s_quality" %cls.__name__) == '0':
+            cls.qualities = __qualities+['720p']
         else:
-            _qualities = ['720p','1080p']
-        if not cls.play3d == 0:
-            _qualities.append('3D')
-        cls.qualities = _qualities
+            cls.qualities = __qualities+['1080p', '720p']
 
     def _play3d(cls):
         if not __addon__.getSetting("%s_quality" %cls.__name__) == '0':

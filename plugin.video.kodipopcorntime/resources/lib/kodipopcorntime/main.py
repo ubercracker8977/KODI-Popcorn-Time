@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, xbmcgui
+import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, xbmcgui, ctypes
 from contextlib import closing
 from kodipopcorntime import settings, media
 from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, TorrentError, Abort
@@ -180,6 +180,14 @@ class PopcornTime:
         item.setdefault('properties',  {}).update(dict((key, str(value)) for key, value in kwargs.items() if value))
         xbmcplugin.addDirectoryItem(settings.addon.handle, "%s?%s" %(settings.addon.base_url, settings.addon.cur_uri), ListItem.from_dict(**item).as_xbmc_listitem(), True)
 
+    def _calculate_free_space(self):
+        if Platform.system == 'windows':
+            free_bytes = ctypes.c_ulonglong(0)
+            ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(self.mediaSettings.download_path), None, None, ctypes.pointer(free_bytes))
+            return free_bytes.value
+        st = os.statvfs(self.mediaSettings.download_path)
+        return st.f_bavail * st.f_frsize
+
     """ Views """
     def index(self, **params):
         if settings.tvshows.provider:
@@ -273,24 +281,32 @@ class PopcornTime:
 
     def player(self, subtitle=None, **params):
         log("(Main) Creating player options")
-
         if settings.addon.handle > -1:
             xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
 
-        play3d = False
-        if params.get('3D') and '3D' in self.mediaSettings.qualities:
-            play3d = True
-            if self.mediaSettings.play3d == 1:
-                play3d = Dialog().yesno(30010, 30011)
+        quality    = None
+        free_space = self._calculate_free_space()
+        waring     = []
+        for _q in self.mediaSettings.qualities:
+            if params.get(_q):
+                if params['%ssize' %_q] > free_space:
+                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011):
+                        continue
+                    quality = _q
+                    break
+                waring = waring+[_q.upper()]
 
-        if play3d:
-            magnet = build_magnetFromMeta(params['3D'], "quality 3D")
-        elif params.get('1080p') and '1080p' in self.mediaSettings.qualities:
-            magnet = build_magnetFromMeta(params['1080p'], "quality 1080p")
-        else:
-            magnet = build_magnetFromMeta(params['720p'], "quality 720p")
+        if waring:
+            if not quality:
+                raise Notify('TThere is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
 
-        TorrentPlayer().playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+            if len(waring) > 1:
+                notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
+            else:
+                notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
+            log('(Main) There must be a minimum of %s MB, %s MB available in %s' %((params['720p']['size'] / 1024 / 1024), (free_space / 1024 / 1024), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
+
+        TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), self.getSelectedItem(), subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):
@@ -381,15 +397,15 @@ def run():
             Cmd(**params)
 
     except (Error, HTTPError, ProxyError, TorrentError) as e:
-        notify(e.messageID, NOTIFYLEVEL.ERROR)
+        notify(e.messageID, level=NOTIFYLEVEL.ERROR)
         log_error()
     except Notify as e:
-        notify(e.messageID, level)
-        log("(Main) Notify: %s" %str(e))
+        notify(e.messageID, e.message, level=e.level)
+        log("(Main) Notify: %s" %str(e), LOGLEVEL.NOTICE)
         sys.exc_clear()
     except Abort:
         log("(Main) Abort", LOGLEVEL.INFO)
         sys.exc_clear()
     except:
-        notify(30308, NOTIFYLEVEL.ERROR)
+        notify(30308, level=NOTIFYLEVEL.ERROR)
         log_error()

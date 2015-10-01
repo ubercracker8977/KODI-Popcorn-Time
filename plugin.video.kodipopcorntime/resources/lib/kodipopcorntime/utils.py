@@ -411,3 +411,23 @@ def get_free_port(port=5001):
         except socket.error:
             raise Error("Can not find a TCP port to bind torrent2http", 30300)
     return port
+
+BYTEABBR = [
+    'B',
+    'kB',
+    'MB',
+    'GB',
+    'TB',
+    'PB',
+    'EB',
+    'ZB',
+    'YB'
+]
+
+def shortenBytes(byts):
+    for i in xrange(9):
+        _B = byts/1024.0
+        if _B < 1:
+            return "%.1f %s" %(byts, BYTEABBR[i])
+        byts = _B
+    return ""

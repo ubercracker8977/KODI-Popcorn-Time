@@ -11,7 +11,7 @@
   <string id="30005">Classificados como Melhores</string>
   <string id="30006">Adicionados Recentemente</string>
   <string id="30007">Obtendo conteúdo ...</string>
-  <string id="30008">Velocidade: {download_rate:.1f} kB/s</string>
+  <string id="30008">Velocidade: %s/s, Up %s/s</string>
   <string id="30009">Próxima página</string>
   <string id="30010">Filme 3D</string>
   <string id="30011">Você deseja assistir este filme em 3D?</string>

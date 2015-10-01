@@ -5,7 +5,7 @@ from kodipopcorntime import settings, media
 from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, TorrentError, Abort
 from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.platform import Platform
-from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta
+from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta, shortenBytes
 from kodipopcorntime.torrent import TorrentPlayer
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -304,7 +304,7 @@ class PopcornTime:
                 notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
             else:
                 notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
-            log('(Main) There must be a minimum of %s MB, %s MB available in %s' %((params['720p']['size'] / 1024 / 1024), (free_space / 1024 / 1024), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
+            log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['720p']['size']), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
 
         TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), self.getSelectedItem(), subtitle)
 

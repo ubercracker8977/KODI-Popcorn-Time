@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing
 from simplejson import JSONDecodeError
-from kodipopcorntime.utils import SafeDialogProgress, ListItem, get_free_port
+from kodipopcorntime.utils import SafeDialogProgress, ListItem, get_free_port, shortenBytes
 from kodipopcorntime.logging import log, LOGLEVEL, LogPipe, log_error
 from kodipopcorntime.exceptions import Error, TorrentError, Abort
 from kodipopcorntime.settings import addon as _settings
@@ -466,7 +466,7 @@ class TorrentPlayer(xbmc.Player):
                 if status['state'] == TorrentEngine.DOWNLOADING:
                     return [
                         __addon__.getLocalizedString(30021),
-                        __addon__.getLocalizedString(30008) %(status['download_rate'], status['upload_rate']),
+                        __addon__.getLocalizedString(30008) %(shortenBytes(status['download_rate']*1024), shortenBytes(status['upload_rate']*1024)),
                         __addon__.getLocalizedString(30015) %status['num_seeds']
                     ]
                 if status['state'] in [TorrentEngine.FINISHED, TorrentEngine.SEEDING]:

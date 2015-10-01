@@ -12,7 +12,7 @@
   <string id="30005">Najwyżej oceniane</string>
   <string id="30006">Ostatnio dodane</string>
   <string id="30007">Pobieranie zawartości</string>
-  <string id="30008">Pobieranie: %.1f kB/s, Wysyłanie: %.1f kB/s</string>
+  <string id="30008">Pobieranie: %s/s, Wysyłanie: %s/s</string>
   <string id="30009">Następna strona</string>
   <string id="30010">Film 3D</string>
   <string id="30011">Chcesz obejrzeć ten film w 3D?</string>

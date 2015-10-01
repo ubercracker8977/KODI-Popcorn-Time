@@ -14,7 +14,7 @@
   <string id="30005">Best beoordeeld</string>
   <string id="30006">Recent toegevoegd</string>
   <string id="30007">Inhoud ophalen</string>
-  <string id="30008">Snelheid: {download_rate:.1f} kB/s</string>
+  <string id="30008">Snelheid: %s/s, Up %s/s</string>
   <string id="30009">Volgende pagina</string>
   <string id="30010">3D Film</string>
   <string id="30011">Wilt u deze film in 3D afspelen?</string>

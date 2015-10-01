@@ -11,7 +11,7 @@
   <string id="30005">Por Valoración</string>
   <string id="30006">Añadido recientemente</string>
   <string id="30007">Descargando contenido</string>
-   <string id="30008">Descargado: {download_rate:.1f} kB/s, Subido: {upload_rate:.1f} kB/s</string>
+   <string id="30008">Descargado: %s/s, Subido: %s/s</string>
   <string id="30009">Siguiente página</string>
   <string id="30010">Película 3D</string>
   <string id="30011">¿Quieres reproducir esta película en 3D?</string>

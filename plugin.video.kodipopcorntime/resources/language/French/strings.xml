@@ -11,7 +11,7 @@
   <string id="30005">Mieux Classés</string>
   <string id="30006">Ajouts récents</string>
   <string id="30007">Récupération du contenu</string>
-  <string id="30008">Réception: {download_rate:.1f} kB/s, Envoi: {upload_rate:.1f} kB/s</string>
+  <string id="30008">Réception: %s/s, Envoi: %s/s</string>
   <string id="30009">Page suivante</string>
   <string id="30010">Film 3D</string>
   <string id="30011">Voulez-vous jouer ce film en 3D?</string>

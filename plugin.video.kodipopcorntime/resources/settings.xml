@@ -104,5 +104,7 @@
 
         <setting label="30131" type="lsep" />
         <setting type="action" label="30144" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=reset_torrent_settings)" />
+
+        <setting id="last_update_id"  type="text" value="" visible="false" />
     </category>
 </settings>

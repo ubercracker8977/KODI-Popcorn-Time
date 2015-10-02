@@ -184,9 +184,11 @@ class addon(_Base):
         def _limit(cls):
             cls.limit = 20
 
+        def _last_update_id(cls):
+            cls.last_update_id = __addon__.getSetting("last_update_id")
+
         def _fsencoding(cls):
             cls.fsencoding = sys.getfilesystemencoding() or 'utf-8'
-
 
 class _MetaClass2(_MetaClass):
     def _mediaType(cls):

@@ -8,11 +8,12 @@ class Platform(object):
             return getattr(cls, name)
 
         def _arch(cls):
-            if sys.platform.startswith('linux') and (os.uname()[4].startswith('arm') or os.uname()[4].startswith('aarch')):
+            if sys.platform.lower().startswith('linux') and (os.uname()[4].lower().startswith('arm') or os.uname()[4].lower().startswith('aarch')):
                 cls.arch = 'arm'
             elif sys.maxsize > 2**32:
                 cls.arch = 'x64'
-            cls.arch = 'x86'
+            else:
+                cls.arch = 'x86'
 
         def _system(cls):
             if sys.platform.lower().startswith('linux'):

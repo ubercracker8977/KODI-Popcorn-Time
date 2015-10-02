@@ -24,7 +24,7 @@
   <string id="30017">Zrobione</string>
   <string id="30018">Pobieranie informacji</string>
   <string id="30019">Pobieranie napisów</string>
-  <string id="30020">Odtwarzanie w trakcie</string>
+  <string id="30020">Rozpoczynanie odtwarzania</string>
   <string id="30021">Pobieranie</string>
   <string id="30022">Pobieranie zakończone</string>
   <string id="30023">Tytuł</string>
@@ -34,7 +34,7 @@
   <string id="30027">Anuluj</string>
   <string id="30028">Wyszukiwanie</string>
   <string id="30030">Filmy</string>
-  <string id="30031">Starter</string>
+  <string id="30031">Rozpoczynanie</string>
   <string id="30032">Sprawdzanie pliku</string>
   <string id="30033">Na pewno chcesz wyczyścić pamięć podręczną?</string>
   <string id="30034">Tytuł:</string>
@@ -62,7 +62,7 @@
   <string id="30113">Konserwacja</string>
   <string id="30114">Wyczyść pamięć podręczną</string>
   <string id="30115">Domeny proxy</string>
-  <string id="30116">Filmy (host oddzielany przecinkiem)</string>
+  <string id="30116">Filmy (hosty oddzielane przecinkiem)</string>
   <string id="30117">Jakość obrazu</string>
   <string id="30118">1080p lub słabsza</string>
   <string id="30119">Priorytet #1</string>
@@ -75,7 +75,7 @@
   <string id="30126">Nie</string>
   <string id="30127">Pytaj</string>
   <string id="30128">Zawsze</string>
-  <string id="30129">Programy TV (host oddzielany przecinkiem)</string>
+  <string id="30129">Programy TV (hosty oddzielane przecinkiem)</string>
   <string id="30130">Zaawansowane</string>
   <string id="30131">Ustawienia Torrenta</string>
   <string id="30132">Dostawcy</string>

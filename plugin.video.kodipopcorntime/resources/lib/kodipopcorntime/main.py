@@ -370,7 +370,7 @@ def run():
         def _empty_dir(path):
             if os.path.isdir(path):
                 for x in os.listdir(path):
-                    if x in ['.', '..']:
+                    if x in ['.', '..', 'movies', 'tvshows']:
                         continue
                     _path = os.path.join(path, x)
                     if os.path.isfile(_path):

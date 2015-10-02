@@ -350,7 +350,7 @@ class PopcornTime:
                 notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
             else:
                 notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
-            log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['720p']['size']), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
+            log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['%ssize' %quality]), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
 
         TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), self.getSelectedItem(), subtitle)
 

@@ -169,6 +169,9 @@ class TorrentEngine:
 
     def shutdown(self, timeout=1):
         if self.isAlive():
+            if self._logpipe:
+                log("(Torrent) Shutting down log pipe")
+                self._logpipe.close()
             log("(Torrent) Shutting down torrent2http")
             try:
                 request.Send().request(self._bind, "/shutdown", timeout=timeout)
@@ -185,8 +188,6 @@ class TorrentEngine:
             if self.isAlive():
                 log("(Torrent) Killing torrent2http", LOGLEVEL.WARNING)
                 self._process.kill()
-            if self._logpipe:
-                self._logpipe.close()
             self._logpipe = self._process = None
 
     def _debug(self, message):

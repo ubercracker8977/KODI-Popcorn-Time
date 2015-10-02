@@ -338,7 +338,7 @@ class PopcornTime:
         for _q in self.mediaSettings.qualities:
             if params.get(_q):
                 if params['%ssize' %_q] > free_space:
-                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011, headingStr=item['info']['title']):
+                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(line2=30011, lineStr1=' ', headingStr=item['info']['title']):
                         continue
                     quality = _q
                     break

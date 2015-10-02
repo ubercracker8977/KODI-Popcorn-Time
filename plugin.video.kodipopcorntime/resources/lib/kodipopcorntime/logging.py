@@ -57,6 +57,3 @@ class LogPipe(Thread):
                 if self.stop.is_set():
                     break
         self._logger("Logging finished")
-
-    def close(self):
-        super(LogPipe, self).close()

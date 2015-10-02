@@ -194,6 +194,7 @@
   <string id="30324">Max Upload Rate must be above 15 Kilobytes per second. Please go to the addon settings and set a minimum speed of 15 kilobytes per second</string>
   <string id="30325">You need more space to play %s and %s qualities or choose a lower quality</string>
   <string id="30326">You need more space to play %s quality or choose a lower quality</string>
+  <string id="30327">No search result</string>
 
   <!-- 
    * Genres

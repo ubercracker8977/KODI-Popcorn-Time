@@ -104,63 +104,13 @@ class PopcornTime:
             log("(Main) Showing keyboard")
             keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
             keyboard.doModal()
-            if not keyboard.isConfirmed() and not keyboard.getText():
+            if not keyboard.isConfirmed() or not keyboard.getText():
                 raise Abort()
             string = keyboard.getText()
         log("(Main) Returning search string '%s'" %string)
         return string
 
     def getMediaItems(self, call, *args, **params):
-        log("(Main) Creating progress dialog")
-        with closing(SafeDialogProgress()) as dialog:
-            dialog.create(settings.addon.name)
-            dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
-
-            items = {}
-            pages = 0
-
-            _time = time.time()
-            # Getting item list
-            log("(Main) Getting item list")
-            with closing(media.List(self.mediaSettings, call, *args, **params)) as medialist:
-                while not medialist.is_done(0.100):
-                    if xbmc.abortRequested or dialog.iscanceled():
-                        raise Abort()
-                res = medialist.get_data()
-                if not res:
-                    raise Error("Did not receive any data", 30304)
-                items = res['items']
-                pages = res['pages']
-
-            # Update progress dialog
-            dialog.set_mentions(len(items)+2)
-            dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
-
-            def on_data(progressValue, oldItem, newItem):
-                    label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
-                    if newItem.get("label") and not oldItem["label"] == newItem["label"]:
-                        label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
-                    if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
-                        label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
-                    while len(label) < 3:
-                        label = label+[' ']
-                    dialog.update(progressValue, *label)
-
-            # Getting media cache
-            log("(Main) Getting media info")
-            with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
-                [mediadata.submit(item) for item in items]
-                mediadata.start()
-                while not mediadata.is_done(0.100):
-                    if xbmc.abortRequested or dialog.iscanceled():
-                        raise Abort()
-                items = mediadata.get_data()
-                if not items:
-                    raise Error("Did not receive any movies", 30305)
-            log("(Main) Work time: %s" %(time.time()-_time))
-
-            # Done
-            dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
 
             return (items, pages)
 
@@ -215,10 +165,59 @@ class PopcornTime:
 
             if not cache or curPageNum > cache['curNumOfPages']:
                 log("(Main) Reading item cache")
-                items, totalPages = self.getMediaItems('browse', *(action, curPageNum,), **params)
+                items = {}
+                pages = 0
+
+                with closing(SafeDialogProgress()) as dialog:
+                    dialog.create(settings.addon.name)
+                    dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
+
+                    _time = time.time()
+                    # Getting item list
+                    log("(Main) Getting item list")
+                    with closing(media.List(self.mediaSettings, 'browse', *(action, curPageNum,), **params)) as medialist:
+                        while not medialist.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        res = medialist.get_data()
+                        if not res:
+                            raise Error("Did not receive any movies", 30305)
+                        items = res['items']
+                        pages = res['pages']
+
+                    # Update progress dialog
+                    dialog.set_mentions(len(items)+2)
+                    dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
+
+                    def on_data(progressValue, oldItem, newItem):
+                            label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
+                            if newItem.get("label") and not oldItem["label"] == newItem["label"]:
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
+                            if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
+                            while len(label) < 3:
+                                label = label+[' ']
+                            dialog.update(progressValue, *label)
+
+                    # Getting media cache
+                    log("(Main) Getting media info")
+                    with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
+                        [mediadata.submit(item) for item in items]
+                        mediadata.start()
+                        while not mediadata.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        items = mediadata.get_data()
+                        if not items:
+                            raise Error("Did not receive any data", 30304)
+                    log("(Main) Work time: %s" %(time.time()-_time))
+
+                    # Done
+                    dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
+
                 log("(Main) Updating view cache")
                 cache.extendKey("items", items)
-                cache.update({"curNumOfPages": curPageNum, "totalPages": totalPages})
+                cache.update({"curNumOfPages": curPageNum, "totalPages": pages})
             pageCache = cache.copy()
 
         log("(Main) Adding items")
@@ -255,10 +254,59 @@ class PopcornTime:
 
             if not cache or curPageNum > cache['curNumOfPages']:
                 log("(Main) Reading item cache")
-                items, totalPages = self.getMediaItems('search', *(searchString, curPageNum,), **params)
+                items = {}
+                pages = 0
+
+                with closing(SafeDialogProgress()) as dialog:
+                    dialog.create(settings.addon.name)
+                    dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
+
+                    _time = time.time()
+                    # Getting item list
+                    log("(Main) Getting item list")
+                    with closing(media.List(self.mediaSettings, 'search', *(searchString, curPageNum,), **params)) as medialist:
+                        while not medialist.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        res = medialist.get_data()
+                        if not res:
+                            raise Notify("No search result", 30327, NOTIFYLEVEL.INFO)
+                        items = res['items']
+                        pages = res['pages']
+
+                    # Update progress dialog
+                    dialog.set_mentions(len(items)+2)
+                    dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
+
+                    def on_data(progressValue, oldItem, newItem):
+                            label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
+                            if newItem.get("label") and not oldItem["label"] == newItem["label"]:
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
+                            if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
+                            while len(label) < 3:
+                                label = label+[' ']
+                            dialog.update(progressValue, *label)
+
+                    # Getting media cache
+                    log("(Main) Getting media info")
+                    with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
+                        [mediadata.submit(item) for item in items]
+                        mediadata.start()
+                        while not mediadata.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        items = mediadata.get_data()
+                        if not items:
+                            raise Error("Did not receive any data", 30304)
+                    log("(Main) Work time: %s" %(time.time()-_time))
+
+                    # Done
+                    dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
+
                 log("(Main) Updating view cache")
                 cache.extendKey("items", items)
-                cache.update({"curNumOfPages": curPageNum, "totalPages": totalPages, "searchString": searchString})
+                cache.update({"curNumOfPages": curPageNum, "totalPages": pages, "searchString": searchString})
             pageCache = cache.copy()
 
         log("(Main) Adding items")

@@ -46,7 +46,7 @@ class List(_Base):
         return {}
 
     def _run(self):
-        log("(Media) (%s) Getting list" %self.getName(), LOGLEVEL.INFO)
+        log("(Media) Getting list", LOGLEVEL.INFO)
         _res = self._handle_param(**self._provider_fn(*self._args, **self._kwargs))
         if not self.stop.is_set():
             self._data = self._provider_build_fn(_res, *self._args, **self._kwargs) # 1. Get request parameter. 2. Perform request. 3. Build item.
@@ -153,7 +153,7 @@ class _Dispenser(_Base):
         super(_Dispenser, self).__init__()
 
     def _run(self):
-        log("(Media) (%s) Initialize queue" %self.getName())
+        log("(Media) Initialize queue")
         if self._preloader:
             # Waiting on the preloader to finish
             while not self._preloader.is_done(0.100):
@@ -162,7 +162,7 @@ class _Dispenser(_Base):
                 self.close()
 
         # Queue
-        log("(Media) (%s) Starting queue" %self.getName(), LOGLEVEL.INFO)
+        log("(Media) Starting queue", LOGLEVEL.INFO)
         while not self.stop.is_set():
             try:
                 jobId, item = self._queue.pop(0)
@@ -176,7 +176,7 @@ class _Dispenser(_Base):
                         self._getSubtitle(item, args, id)
                 else:
                     if self._callbackfn:
-                        log("(Media) (%s) Callback with '%s'" %(self.getName(), item['label']))
+                        log("(Media) Callback with '%s'" %item['label'])
                         self._callbackfn(self._progressValue, item, item)
                 self._data.insert(jobId, item)
 
@@ -188,7 +188,7 @@ class _Dispenser(_Base):
             metadata = Cache("%s.mediainfo.metadata" %self._mediaSettings.mediaType, ttl=_ttl, readOnly=True, last_changed=self._mediaSettings.metadata_lastchanged).get(id)
             if not metadata:
                 try:
-                    log("(Media) (%s) Getting metadata" %self.getName())
+                    log("(Media) Getting metadata")
                     _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[settings.addon.language]))
                     if not self.stop.is_set():
                         metadata = cleanDictList(self._mediaSettings.metadata_provider.build_item(_res, *args+[settings.addon.language])) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
@@ -197,12 +197,12 @@ class _Dispenser(_Base):
                     sys.exc_clear()
                 finally:
                     if self._callbackfn:
-                        log("(Media) (%s) Callback with '%s'" %(self.getName(), item['label']))
+                        log("(Media) Callback with '%s'" %item['label'])
                         self._callbackfn(self._progressValue, item, metadata or {})
 
                 if not self._mediaSettings.metadata_provider.FALLBACKLANG == settings.addon.language:
                     try:
-                        log("(Media) (%s) Getting fallback metadata" %self.getName())
+                        log("(Media) Getting fallback metadata")
                         _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[settings.addon.language]))
                         if not self.stop.is_set():
                             fallbackMeta = self._mediaSettings.metadata_provider.build_item(_res, *args+[settings.addon.language]) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
@@ -216,14 +216,14 @@ class _Dispenser(_Base):
                             metadata = cleanDictList(fallbackMeta)
                     finally:
                         if self._callbackfn:
-                            log("(Media) (%s) Callback with '%s'" %(self.getName(), item['label']))
+                            log("(Media) Callback with '%s'" %item['label'])
                             self._callbackfn(self._progressValue, item, metadata or {})
 
                 if metadata:
                     Cache("%s.mediainfo.metadata" %self._mediaSettings.mediaType, ttl=_ttl, last_changed=self._mediaSettings.metadata_lastchanged)[id] = metadata
             else:
                 if self._callbackfn:
-                    log("(Media) (%s) Callback with '%s'" %(self.getName(), item['label']))
+                    log("(Media) Callback with '%s'" %item['label'])
                     self._callbackfn(self._progressValue*(1+(not self._mediaSettings.metadata_provider.FALLBACKLANG == settings.addon.language)), item, metadata)
 
             if metadata:
@@ -233,11 +233,11 @@ class _Dispenser(_Base):
                 item.update(dict((key, value) for key, value in metadata.items() if value))
 
     def _getSubtitle(self, item, args, id):
-        log("(Media) (%s) Subtitle" %self.getName())
+        log("(Media) Subtitle")
         subtitle = Cache("%s.mediainfo.subtitles" %self._mediaSettings.mediaType, ttl=_ttl, readOnly=True, last_changed=self._mediaSettings.subtitle_lastchanged).get(id)
         if not subtitle:
             try:
-                log("(Media) (%s) Getting subtitle" %self.getName())
+                log("(Media) Getting subtitle")
                 _res = self._handle_param(**self._mediaSettings.subtitles_provider.item(*args))
                 if not self.stop.is_set():
                     subtitle = cleanDictList(self._mediaSettings.subtitles_provider.build_item(_res, *args)) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
@@ -249,7 +249,7 @@ class _Dispenser(_Base):
                     Cache("%s.mediainfo.subtitles" %self._mediaSettings.mediaType, ttl=_ttl, last_changed=self._mediaSettings.subtitle_lastchanged)[id] = subtitle
 
         if self._callbackfn:
-            log("(Media) (%s) Callback with '%s'" %(self.getName(), item['label']))
+            log("(Media) Callback with '%s'" %item['label'])
             self._callbackfn(self._progressValue, item, subtitle or {})
 
         if subtitle:

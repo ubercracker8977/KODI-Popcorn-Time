@@ -445,22 +445,21 @@ def run():
                         _empty_dir(_path)
                         os.rmdir(_path)
 
-        # Clear cache after update
-        if not settings.addon.version+"~1" == settings.addon.last_update_id:
-            _empty_dir(settings.addon.cache_path)
-            __addon__.setSetting("last_update_id", settings.addon.version+"~1")
-        else:
-            # Clean debris from the cache dir
-            try:
-                for mediaType in ['movies', 'tvshows']:
-                    if getattr(settings, mediaType).delete_files:
-                        _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
-            except:
-                log_error()
-                sys.exc_clear()
-
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):
+            if not settings.addon.version+"~1" == settings.addon.last_update_id:
+                # Clear cache after update
+                _empty_dir(settings.addon.cache_path)
+                __addon__.setSetting("last_update_id", settings.addon.version+"~1")
+            else:
+                # Clean debris from the cache dir
+                try:
+                    for mediaType in ['movies', 'tvshows']:
+                        if getattr(settings, mediaType).delete_files:
+                            _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
+                except:
+                    log_error()
+                    sys.exc_clear()
             PopcornTime(**params)
         else:
             Cmd(**params)

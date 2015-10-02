@@ -4,17 +4,20 @@ class Notify(Exception):
         This class are use for no fatal error.
         Normally, this means that the user must take action or similar to continue. Eg. Change a setting
     """
-    def __init__(self, message, messageID, level=0):
+    def __init__(self, logMessage, messageID=0, message=None, level=0):
         # An English explanation which is used for logging
-        self.message = message
+        self.logMessage = logMessage
 
         # Message identifier which can be translated into a local language message to the user
         self.messageID = messageID
 
+        # Message identifier which are translated into a local language to the user
+        self.message = message
+
         self.level = level
 
     def __str__(self):
-        return self.message
+        return self.logMessage
 
 class Error(Exception):
     def __init__(self, tracebackStr, messageID):

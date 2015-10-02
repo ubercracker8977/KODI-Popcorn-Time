@@ -1,5 +1,6 @@
 ﻿#!/usr/bin/python
-from kodipopcorntime.utils import Cache, time
+import time
+from kodipopcorntime.utils import Cache
 
 _api_key = "308a68c313ff66d165c1eb029b0716bc"
 _base_url = "http://api.themoviedb.org"

@@ -11,14 +11,14 @@
   <string id="30005">Mieux Classés</string>
   <string id="30006">Ajouts récents</string>
   <string id="30007">Récupération du contenu</string>
-  <string id="30008">Réception: {download_rate:.1f} kB/s, Envoi: {upload_rate:.1f} kB/s</string>
+  <string id="30008">Réception: %s/s, Envoi: %s/s</string>
   <string id="30009">Page suivante</string>
   <string id="30010">Film 3D</string>
   <string id="30011">Voulez-vous jouer ce film en 3D?</string>
   <string id="30012">Confirmer</string>
   <string id="30013">Êtes vous sûr de vouloir réinitialiser les paramètres Torrent!</string>
   <string id="30014">Ni le chemin ni les taux d'envoi et de réception ne seront réinitialisés.</string>
-  <string id="30015">Sources: {num_seeds}, Progrès: {progress:.2%}</string>
+  <string id="30015">Sources: %d</string>
   <string id="30016">Démarrage du téléchargement</string>
   <string id="30017">Effectué</string>
   <string id="30018">Récupération des informations</string>

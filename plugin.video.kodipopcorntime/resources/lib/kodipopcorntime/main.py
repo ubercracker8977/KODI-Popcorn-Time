@@ -1,11 +1,11 @@
 ﻿#!/usr/bin/python
-import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, xbmcgui
+import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, ctypes
 from contextlib import closing
 from kodipopcorntime import settings, media
 from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, TorrentError, Abort
 from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.platform import Platform
-from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta
+from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta, shortenBytes
 from kodipopcorntime.torrent import TorrentPlayer
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -30,6 +30,14 @@ class PopcornTime:
         log("(Main) Adding item '%s'" %item["label"])
         path = "%s?%s" %(settings.addon.base_url, urllib.urlencode(dict([('mediaType', mediaType), ('endpoint', endpoint)], **params)))
 
+        if not isFolder:
+            item["replace_context_menu"] = True
+            item["context_menu"] = []
+            for _q in settings.QUALITIES:
+                if params.get(_q):
+                    item["context_menu"] = item["context_menu"]+[('%s %s' %(__addon__.getLocalizedString(30009), _q), 'RunPlugin(%s&quality=%s)' %(path, _q))]
+            item["context_menu"] = item["context_menu"]+[(__addon__.getLocalizedString(30010), 'RunPlugin(%s?cmd=True&endpoint=openSettings)' %settings.addon.base_url)]
+
         # Ensure fanart
         if not item.setdefault("properties", {}).get("fanart_image"):
             item["properties"]["fanart_image"] = settings.addon.fanart
@@ -37,10 +45,8 @@ class PopcornTime:
         xbmcplugin.addDirectoryItem(settings.addon.handle, path, ListItem.from_dict(**item).as_xbmc_listitem(), isFolder)
 
     def addItems(self, mediaType, items, endpoint=None, isFolder=True):
-        xbmcgui.lock() # http://mirrors.xbmc.org/docs/python-docs/13.0-gotham/xbmcgui.html#-lock
         for item in items:
             self.addItem(mediaType, endpoint=endpoint, isFolder=isFolder, **item)
-        xbmcgui.unlock()
 
     def finish(self, contentType='files', updateListing=False, cacheToDisc=True):
         log("(Main) Finish", LOGLEVEL.INFO)
@@ -106,63 +112,13 @@ class PopcornTime:
             log("(Main) Showing keyboard")
             keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
             keyboard.doModal()
-            if not keyboard.isConfirmed() and not keyboard.getText():
+            if not keyboard.isConfirmed() or not keyboard.getText():
                 raise Abort()
             string = keyboard.getText()
         log("(Main) Returning search string '%s'" %string)
         return string
 
     def getMediaItems(self, call, *args, **params):
-        log("(Main) Creating progress dialog")
-        with closing(SafeDialogProgress()) as dialog:
-            dialog.create(settings.addon.name)
-            dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
-
-            items = {}
-            pages = 0
-
-            _time = time.time()
-            # Getting item list
-            log("(Main) Getting item list")
-            with closing(media.List(self.mediaSettings, call, *args, **params)) as medialist:
-                while not medialist.is_done(0.100):
-                    if xbmc.abortRequested or dialog.iscanceled():
-                        raise Abort()
-                res = medialist.get_data()
-                if not res:
-                    raise Error("Did not receive any data", 30304)
-                items = res['items']
-                pages = res['pages']
-
-            # Update progress dialog
-            dialog.set_mentions(len(items)+2)
-            dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
-
-            def on_data(progressValue, oldItem, newItem):
-                    label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
-                    if newItem.get("label") and not oldItem["label"] == newItem["label"]:
-                        label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
-                    if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
-                        label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
-                    while len(label) < 3:
-                        label = label+[' ']
-                    dialog.update(progressValue, *label)
-
-            # Getting media cache
-            log("(Main) Getting media info")
-            with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
-                [mediadata.submit(item) for item in items]
-                mediadata.start()
-                while not mediadata.is_done(0.100):
-                    if xbmc.abortRequested or dialog.iscanceled():
-                        raise Abort()
-                items = mediadata.get_data()
-                if not items:
-                    raise Error("Did not receive any movies", 30305)
-            log("(Main) Work time: %s" %(time.time()-_time))
-
-            # Done
-            dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
 
             return (items, pages)
 
@@ -179,6 +135,14 @@ class PopcornTime:
         }
         item.setdefault('properties',  {}).update(dict((key, str(value)) for key, value in kwargs.items() if value))
         xbmcplugin.addDirectoryItem(settings.addon.handle, "%s?%s" %(settings.addon.base_url, settings.addon.cur_uri), ListItem.from_dict(**item).as_xbmc_listitem(), True)
+
+    def _calculate_free_space(self):
+        if Platform.system == 'windows':
+            free_bytes = ctypes.c_ulonglong(0)
+            ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(self.mediaSettings.download_path), None, None, ctypes.pointer(free_bytes))
+            return free_bytes.value
+        st = os.statvfs(self.mediaSettings.download_path)
+        return st.f_bavail * st.f_frsize
 
     """ Views """
     def index(self, **params):
@@ -209,10 +173,59 @@ class PopcornTime:
 
             if not cache or curPageNum > cache['curNumOfPages']:
                 log("(Main) Reading item cache")
-                items, totalPages = self.getMediaItems('browse', *(action, curPageNum,), **params)
+                items = {}
+                pages = 0
+
+                with closing(SafeDialogProgress()) as dialog:
+                    dialog.create(settings.addon.name)
+                    dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
+
+                    _time = time.time()
+                    # Getting item list
+                    log("(Main) Getting item list")
+                    with closing(media.List(self.mediaSettings, 'browse', *(action, curPageNum,), **params)) as medialist:
+                        while not medialist.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        res = medialist.get_data()
+                        if not res:
+                            raise Error("Did not receive any movies", 30305)
+                        items = res['items']
+                        pages = res['pages']
+
+                    # Update progress dialog
+                    dialog.set_mentions(len(items)+2)
+                    dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
+
+                    def on_data(progressValue, oldItem, newItem):
+                            label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
+                            if newItem.get("label") and not oldItem["label"] == newItem["label"]:
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
+                            if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
+                            while len(label) < 3:
+                                label = label+[' ']
+                            dialog.update(progressValue, *label)
+
+                    # Getting media cache
+                    log("(Main) Getting media info")
+                    with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
+                        [mediadata.submit(item) for item in items]
+                        mediadata.start()
+                        while not mediadata.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        items = mediadata.get_data()
+                        if not items:
+                            raise Error("Did not receive any data", 30304)
+                    log("(Main) Reading time: %s" %(time.time()-_time))
+
+                    # Done
+                    dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
+
                 log("(Main) Updating view cache")
                 cache.extendKey("items", items)
-                cache.update({"curNumOfPages": curPageNum, "totalPages": totalPages})
+                cache.update({"curNumOfPages": curPageNum, "totalPages": pages})
             pageCache = cache.copy()
 
         log("(Main) Adding items")
@@ -249,10 +262,59 @@ class PopcornTime:
 
             if not cache or curPageNum > cache['curNumOfPages']:
                 log("(Main) Reading item cache")
-                items, totalPages = self.getMediaItems('search', *(searchString, curPageNum,), **params)
+                items = {}
+                pages = 0
+
+                with closing(SafeDialogProgress()) as dialog:
+                    dialog.create(__addon__.getLocalizedString(30028))
+                    dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
+
+                    _time = time.time()
+                    # Getting item list
+                    log("(Main) Getting item list")
+                    with closing(media.List(self.mediaSettings, 'search', *(searchString, curPageNum,), **params)) as medialist:
+                        while not medialist.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        res = medialist.get_data()
+                        if not res:
+                            raise Notify("No search result", 30327, NOTIFYLEVEL.INFO)
+                        items = res['items']
+                        pages = res['pages']
+
+                    # Update progress dialog
+                    dialog.set_mentions(len(items)+2)
+                    dialog.update(1, __addon__.getLocalizedString(30018), ' ', ' ')
+
+                    def on_data(progressValue, oldItem, newItem):
+                            label = ["%s %s" %(__addon__.getLocalizedString(30034), oldItem["label"])]
+                            if newItem.get("label") and not oldItem["label"] == newItem["label"]:
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30035), newItem["label"])]
+                            if newItem.get("stream_info", {}).get("subtitle", {}).get("language"):
+                                label = label+["%s %s" %(__addon__.getLocalizedString(30012), isoToLang(newItem["stream_info"]["subtitle"]["language"]))]
+                            while len(label) < 3:
+                                label = label+[' ']
+                            dialog.update(progressValue, *label)
+
+                    # Getting media cache
+                    log("(Main) Getting media info")
+                    with closing(media.MediaCache(self.mediaSettings, on_data)) as mediadata:
+                        [mediadata.submit(item) for item in items]
+                        mediadata.start()
+                        while not mediadata.is_done(0.100):
+                            if xbmc.abortRequested or dialog.iscanceled():
+                                raise Abort()
+                        items = mediadata.get_data()
+                        if not items:
+                            raise Error("Did not receive any data", 30304)
+                    log("(Main) Reading time: %s" %(time.time()-_time))
+
+                    # Done
+                    dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
+
                 log("(Main) Updating view cache")
                 cache.extendKey("items", items)
-                cache.update({"curNumOfPages": curPageNum, "totalPages": totalPages, "searchString": searchString})
+                cache.update({"curNumOfPages": curPageNum, "totalPages": pages, "searchString": searchString})
             pageCache = cache.copy()
 
         log("(Main) Adding items")
@@ -271,26 +333,41 @@ class PopcornTime:
 
         self.finish(self.mediaSettings.mediaType, update_listing)
 
-    def player(self, subtitle=None, **params):
+    def player(self, subtitle=None, quality=None, **params):
         log("(Main) Creating player options")
-
         if settings.addon.handle > -1:
             xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
 
-        play3d = False
-        if params.get('3D') and '3D' in self.mediaSettings.qualities:
-            play3d = True
-            if self.mediaSettings.play3d == 1:
-                play3d = Dialog().yesno(30010, 30011)
+        item = self.getSelectedItem()
 
-        if play3d:
-            magnet = build_magnetFromMeta(params['3D'], "quality 3D")
-        elif params.get('1080p') and '1080p' in self.mediaSettings.qualities:
-            magnet = build_magnetFromMeta(params['1080p'], "quality 1080p")
-        else:
-            magnet = build_magnetFromMeta(params['720p'], "quality 720p")
+        free_space = self._calculate_free_space()
+        if not quality:
+            waring = []
+            for _q in self.mediaSettings.qualities:
+                if params.get(_q):
+                    if params['%ssize' %_q] > free_space:
+                        if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(line2=30011, lineStr1=' ', headingStr=item['info']['title']):
+                            continue
+                        quality = _q
+                        break
+                    waring = waring+[_q]
 
-        TorrentPlayer().playTorrentFile(self.mediaSettings, magnet, self.getSelectedItem(), subtitle)
+            if waring:
+                if not quality:
+                    raise Notify('There is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
+
+                if len(waring) > 1:
+                    notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
+                else:
+                    notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
+                log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['%ssize' %quality]), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
+
+        elif not params.get(quality):
+                raise Error('%s quality was not found' %quality, 30023)
+        elif params['%ssize' %quality] < free_space:
+                raise Notify('There is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
+
+        TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), item, subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):
@@ -298,6 +375,9 @@ class Cmd:
         if not hasattr(self, endpoint):
             raise Error("'Cmd' class has no method '%s'" %endpoint)
         getattr(self, endpoint)(**params)
+
+    def openSettings(self):
+        __addon__.openSettings()
 
     def clear_cache(self, **params):
         def _run(path):
@@ -353,43 +433,47 @@ def run():
         if not Platform.system:
             raise Error("Unsupported OS", 30302)
 
-        # Clean debris from the cache dir
-        try:
-            def _empty_dir(path):
-                if os.path.isdir(path):
-                    for x in os.listdir(path):
-                        if x in ['.', '..']:
-                            continue
-                        _path = os.path.join(path, x)
-                        if os.path.isfile(_path):
-                            os.remove(_path)
-                        elif os.path.isdir(_path):
-                            _empty_dir(_path)
-                            os.rmdir(_path)
-
-            for mediaType in ['movies', 'tvshows']:
-                if getattr(settings, mediaType).delete_files:
-                    _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
-        except:
-            log_error()
-            sys.exc_clear()
+        def _empty_dir(path):
+            if os.path.isdir(path):
+                for x in os.listdir(path):
+                    if x in ['.', '..', 'movies', 'tvshows']:
+                        continue
+                    _path = os.path.join(path, x)
+                    if os.path.isfile(_path):
+                        os.remove(_path)
+                    elif os.path.isdir(_path):
+                        _empty_dir(_path)
+                        os.rmdir(_path)
 
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):
+            if not settings.addon.version+"~1" == settings.addon.last_update_id:
+                # Clear cache after update
+                _empty_dir(settings.addon.cache_path)
+                __addon__.setSetting("last_update_id", settings.addon.version+"~1")
+            else:
+                # Clean debris from the cache dir
+                try:
+                    for mediaType in ['movies', 'tvshows']:
+                        if getattr(settings, mediaType).delete_files:
+                            _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
+                except:
+                    log_error()
+                    sys.exc_clear()
             PopcornTime(**params)
         else:
             Cmd(**params)
 
     except (Error, HTTPError, ProxyError, TorrentError) as e:
-        notify(e.messageID, NOTIFYLEVEL.ERROR)
+        notify(e.messageID, level=NOTIFYLEVEL.ERROR)
         log_error()
     except Notify as e:
-        notify(e.messageID, level)
-        log("(Main) Notify: %s" %str(e))
+        notify(e.messageID, e.message, level=e.level)
+        log("(Main) Notify: %s" %str(e), LOGLEVEL.NOTICE)
         sys.exc_clear()
     except Abort:
         log("(Main) Abort", LOGLEVEL.INFO)
         sys.exc_clear()
     except:
-        notify(30308, NOTIFYLEVEL.ERROR)
+        notify(30308, level=NOTIFYLEVEL.ERROR)
         log_error()

@@ -2,6 +2,8 @@
 import sys, threading, time
 
 class Thread(threading.Thread):
+    LOCAL = threading.local()
+
     def __init__(self, target=None):
         self._target   = target or self.run
         self._exc_info = []
@@ -16,6 +18,7 @@ class Thread(threading.Thread):
 
     def ___run(self):
         try:
+            Thread.LOCAL.tName = self.getName()
             self._target()
         except:
             self._exc_info = sys.exc_info()

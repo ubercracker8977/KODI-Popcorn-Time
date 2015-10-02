@@ -26,13 +26,18 @@ class LOGLEVEL:
     ERROR    = 4
     FATAL    = 5
 
+def prefix():
+    if hasattr(Thread.LOCAL, 'tName'):
+        return "(%s) " %Thread.LOCAL.tName
+    return ''
+
 def log(message, level=LOGLEVEL.DEBUG):
     if isinstance(message, str):
         message = unicode(message, errors='ignore')
-    xbmc.log(msg=u'%s[%s] %s' %(_lognames[level], _id, message), level=_loglevel[level])
+    xbmc.log(msg=u'%s[%s] %s%s' %(_lognames[level], _id, prefix(), message), level=_loglevel[level])
 
 def log_error():
-    xbmc.log(msg=u'%s[%s] %s' %(_lognames[LOGLEVEL.FATAL], _id, unicode(traceback.format_exc(), errors='ignore')), level=_loglevel[LOGLEVEL.FATAL])
+    xbmc.log(msg=u'%s[%s] %s%s' %(_lognames[LOGLEVEL.FATAL], _id, prefix(), unicode(traceback.format_exc(), errors='ignore')), level=_loglevel[LOGLEVEL.FATAL])
 
 class LogPipe(Thread):
     def __init__(self, logger):
@@ -52,6 +57,3 @@ class LogPipe(Thread):
                 if self.stop.is_set():
                     break
         self._logger("Logging finished")
-
-    def close(self):
-        super(LogPipe, self).close()

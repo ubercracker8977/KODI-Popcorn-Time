@@ -1,10 +1,8 @@
 ﻿#!/usr/bin/python
-import xbmcgui, zlib, xbmc, simplejson, sys, time, os, UserDict, httplib, errno, socket
-from urlparse import urlparse
+import xbmcgui, xbmc, simplejson, sys, time, os, UserDict, socket
 from urllib import urlencode
-from contextlib import closing
-from kodipopcorntime.exceptions import Error, HTTPError
-from kodipopcorntime.logging import log, LOGLEVEL
+from kodipopcorntime.exceptions import Error
+from kodipopcorntime.logging import log
 from kodipopcorntime.settings import ISOTRANSLATEINDEX, addon as _settings
 from kodipopcorntime.threads import FLock
 
@@ -15,17 +13,18 @@ class NOTIFYLEVEL:
     WARNING = 1
     ERROR = 2
 
-def notify(messageID, level=NOTIFYLEVEL.INFO):
-    delay = 3500
+def notify(messageID=0, message=None, level=NOTIFYLEVEL.INFO):
     if level == NOTIFYLEVEL.WARNING:
         image = _settings.warning_image
     elif level == NOTIFYLEVEL.ERROR:
-        delay = 6000
         image = _settings.error_image
     else:
         image = _settings.info_image
 
-    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(__addon__.getLocalizedString(messageID), _settings.name, delay, image))
+    if not message:
+        message = __addon__.getLocalizedString(messageID)
+
+    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(_settings.name, message, len(message)*210, image))
 
 class ListItem:
     '''
@@ -361,21 +360,23 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
             super(SafeDialogProgress, self).close()
 
 class Dialog(xbmcgui.Dialog):
-    def yesno(self, line1, line2='', line3='', heading='', nolabel='', yeslabel='', autoclose=0):
+    def yesno(self, line1='', line2='', line3='', heading='', nolabel='', yeslabel='', lineStr1='', lineStr2='', lineStr3='', headingStr='', nolabelStr='', yeslabelStr='', autoclose=0):
         if heading:
-            heading  = __addon__.getLocalizedString(heading)
-        else:
-            heading  = _settings.name
+            headingStr  = __addon__.getLocalizedString(heading)
+        elif not headingStr:
+            headingStr  = _settings.name
+        if line1:
+            lineStr1 = __addon__.getLocalizedString(line1)
         if line2:
-            line2    = __addon__.getLocalizedString(line2)
+            lineStr2 = __addon__.getLocalizedString(line2)
         if line3:
-            line3    = __addon__.getLocalizedString(line3)
+            lineStr3 = __addon__.getLocalizedString(line3)
         if nolabel:
-            nolabel  = __addon__.getLocalizedString(nolabel)
+            nolabelStr = __addon__.getLocalizedString(nolabel)
         if yeslabel:
-            yeslabel = __addon__.getLocalizedString(yeslabel)
+            yeslabelStr = __addon__.getLocalizedString(yeslabel)
 
-        return super(Dialog, self).yesno(heading, __addon__.getLocalizedString(line1), line2, line3, nolabel, yeslabel, autoclose)
+        return super(Dialog, self).yesno(headingStr, lineStr1, lineStr2, lineStr3, nolabelStr, yeslabelStr, autoclose)
 
 def cleanDictList(DictList):
     if isinstance(DictList, dict):
@@ -411,3 +412,23 @@ def get_free_port(port=5001):
         except socket.error:
             raise Error("Can not find a TCP port to bind torrent2http", 30300)
     return port
+
+BYTEABBR = [
+    'B',
+    'kB',
+    'MB',
+    'GB',
+    'TB',
+    'PB',
+    'EB',
+    'ZB',
+    'YB'
+]
+
+def shortenBytes(byts):
+    for i in xrange(9):
+        _B = byts/1024.0
+        if _B < 1:
+            return "%.1f %s" %(byts, BYTEABBR[i])
+        byts = _B
+    return ""

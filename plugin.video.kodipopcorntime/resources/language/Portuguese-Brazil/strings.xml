@@ -11,14 +11,14 @@
   <string id="30005">Classificados como Melhores</string>
   <string id="30006">Adicionados Recentemente</string>
   <string id="30007">Obtendo conteúdo ...</string>
-  <string id="30008">Velocidade: {download_rate:.1f} kB/s</string>
+  <string id="30008">Velocidade: %s/s, Up %s/s</string>
   <string id="30009">Próxima página</string>
   <string id="30010">Filme 3D</string>
   <string id="30011">Você deseja assistir este filme em 3D?</string>
   <string id="30012">Confirmar</string>
   <string id="30013">Tem certeza de que deseja redefinir as configurações do torrent!</string>
   <string id="30014">Caminho, taxa de download e upload não serão reiniciadas.</string>
-  <string id="30015">Seeds: {num_seeds}</string>
+  <string id="30015">Seeds: %d</string>
   <string id="30016">Iniciando download ...</string>
   <string id="30017">Concluído</string>
   <string id="30018">Obtendo informações ...</string>

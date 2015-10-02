@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import xbmc, sys, os, socket, time, stat
+import xbmc, sys, os, time, stat
 from urlparse import urlparse
 from kodipopcorntime.platform import Platform
 from kodipopcorntime.exceptions import Error, ClassError, Notify
@@ -105,6 +105,12 @@ PUBLIC_TRACKERS = [
     "http://exodus.desync.com:6969/announce"
 ]
 
+QUALITIES = [
+    '3D',
+    '1080p',
+    '720p'
+]
+
 class _MetaClass(type):
     def __getattr__(cls, name):
         # Do we have a setting method
@@ -148,12 +154,6 @@ class addon(_Base):
         def _resources_path(cls):
             cls.resources_path = os.path.join(__addon__.getAddonInfo('path'), 'resources')
 
-        def _translate_term(cls):
-            if __addon__.getSetting("search_translate") == 'true':
-                cls.translate_term = True
-            else:
-                cls.translate_term = False
-
         def _debug(cls):
             if __addon__.getSetting("debug") == 'true':
                 cls.debug = True
@@ -184,9 +184,11 @@ class addon(_Base):
         def _limit(cls):
             cls.limit = 20
 
+        def _last_update_id(cls):
+            cls.last_update_id = __addon__.getSetting("last_update_id")
+
         def _fsencoding(cls):
             cls.fsencoding = sys.getfilesystemencoding() or 'utf-8'
-
 
 class _MetaClass2(_MetaClass):
     def _mediaType(cls):
@@ -260,14 +262,13 @@ class _MetaClass2(_MetaClass):
         cls.proxies = p
 
     def _qualities(cls):
-        _quality = __addon__.getSetting("%s_quality" %cls.__name__)
-        if _quality == '0':
-            _qualities = ['720p']
+        __qualities = []
+        if cls.play3d > 0:
+            __qualities = QUALITIES[0]
+        if __addon__.getSetting("%s_quality" %cls.__name__) == '0':
+            cls.qualities = __qualities+QUALITIES[-1:]
         else:
-            _qualities = ['720p','1080p']
-        if not cls.play3d == 0:
-            _qualities.append('3D')
-        cls.qualities = _qualities
+            cls.qualities = __qualities+QUALITIES[1:]
 
     def _play3d(cls):
         if not __addon__.getSetting("%s_quality" %cls.__name__) == '0':

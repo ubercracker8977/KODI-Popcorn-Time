@@ -360,21 +360,23 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
             super(SafeDialogProgress, self).close()
 
 class Dialog(xbmcgui.Dialog):
-    def yesno(self, line1, line2='', line3='', heading='', nolabel='', yeslabel='', autoclose=0):
+    def yesno(self, line1='', line2='', line3='', heading='', nolabel='', yeslabel='', lineStr1='', lineStr2='', lineStr3='', headingStr='', nolabelStr='', yeslabelStr='', autoclose=0):
         if heading:
-            heading  = __addon__.getLocalizedString(heading)
-        else:
-            heading  = _settings.name
+            headingStr  = __addon__.getLocalizedString(heading)
+        elif not headingStr:
+            headingStr  = _settings.name
+        if line1:
+            lineStr1 = __addon__.getLocalizedString(line1)
         if line2:
-            line2    = __addon__.getLocalizedString(line2)
+            lineStr2 = __addon__.getLocalizedString(line2)
         if line3:
-            line3    = __addon__.getLocalizedString(line3)
+            lineStr3 = __addon__.getLocalizedString(line3)
         if nolabel:
-            nolabel  = __addon__.getLocalizedString(nolabel)
+            nolabelStr = __addon__.getLocalizedString(nolabel)
         if yeslabel:
-            yeslabel = __addon__.getLocalizedString(yeslabel)
+            yeslabelStr = __addon__.getLocalizedString(yeslabel)
 
-        return super(Dialog, self).yesno(heading, __addon__.getLocalizedString(line1), line2, line3, nolabel, yeslabel, autoclose)
+        return super(Dialog, self).yesno(headingStr, lineStr1, lineStr2, lineStr3, nolabelStr, yeslabelStr, autoclose)
 
 def cleanDictList(DictList):
     if isinstance(DictList, dict):

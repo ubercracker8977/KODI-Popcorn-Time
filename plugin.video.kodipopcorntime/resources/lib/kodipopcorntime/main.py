@@ -338,7 +338,7 @@ class PopcornTime:
         for _q in self.mediaSettings.qualities:
             if params.get(_q):
                 if params['%ssize' %_q] > free_space:
-                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011, heading=item['info']['title']):
+                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011, headingStr=item['info']['title']):
                         continue
                     quality = _q
                     break
@@ -346,7 +346,7 @@ class PopcornTime:
 
         if waring:
             if not quality:
-                raise Notify('TThere is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
+                raise Notify('There is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
 
             if len(waring) > 1:
                 notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)

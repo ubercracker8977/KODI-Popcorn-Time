@@ -36,7 +36,7 @@ class URL(object):
                     sys.exc_clear()
                 log("(URL) Proxy domain '%s' is not working and will therefore have low priority in the future" %proxy, LOGLEVEL.NOTICE)
                 proxies_cache.extendKey('proxies', [proxies_cache['proxies'].pop(0)])
-            raise ProxyError("There was not any domains that worked", 123456789)
+            raise ProxyError("There was not any domains that worked", 30328)
 
     def request(self, domain, path, params={}, headers={}, timeout=10):
         scheme, netloc, _path, _, _, _ = urlparse(domain)
@@ -45,9 +45,11 @@ class URL(object):
                 path = _path[:-1]+path
             else:
                 path = _path+path
-        uri = "?".join([path, urlencode(params)])
+        uri = path
+        if params:
+            uri = "%s?%s" %(path, urlencode(params))
         headers.update(self.headers)
-        self.url = "%s://%s%s" %(scheme, netloc, path)
+        self.url = "%s://%s%s" %(scheme, netloc, uri)
 
         log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.INFO)
         log("(URL) Headers: %s" %str(headers))
@@ -62,7 +64,7 @@ class URL(object):
             response = self.conn.getresponse()
             if response.status == httplib.OK:
                 return self._read(response)
-            raise HTTPError("Received wrong status '%s %s' (%s://%s%s)" %(response.status, httplib.responses.get(response.status, ''), scheme, netloc, path), 123456789)
+            raise HTTPError("Received wrong status code (%s %s) from %s://%s%s" %(response.status, httplib.responses.get(response.status, ''), self.url), 30329)
         except socket.error as e:
             if e.errno in [errno.ESHUTDOWN, errno.ECONNABORTED]:
                 log("(URL) socket.error: %s. (Connection has most likely been canceled by user choices)" %str(e), LOGLEVEL.NOTICE)

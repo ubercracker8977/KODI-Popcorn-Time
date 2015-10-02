@@ -210,7 +210,7 @@ class PopcornTime:
                         items = mediadata.get_data()
                         if not items:
                             raise Error("Did not receive any data", 30304)
-                    log("(Main) Work time: %s" %(time.time()-_time))
+                    log("(Main) Reading time: %s" %(time.time()-_time))
 
                     # Done
                     dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')
@@ -299,7 +299,7 @@ class PopcornTime:
                         items = mediadata.get_data()
                         if not items:
                             raise Error("Did not receive any data", 30304)
-                    log("(Main) Work time: %s" %(time.time()-_time))
+                    log("(Main) Reading time: %s" %(time.time()-_time))
 
                     # Done
                     dialog.update(1, __addon__.getLocalizedString(30017), ' ', ' ')

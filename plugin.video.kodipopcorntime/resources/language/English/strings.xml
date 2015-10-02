@@ -195,6 +195,8 @@
   <string id="30325">You need more space to play %s and %s qualities or choose a lower quality</string>
   <string id="30326">You need more space to play %s quality or choose a lower quality</string>
   <string id="30327">No search result</string>
+  <string id="30328">Could not receive a media list as there was no domains that worked</string>
+  <string id="30329">There was an error with the response from the provider</string>
 
   <!-- 
    * Genres

@@ -14,7 +14,7 @@
 
         <setting label="30117" type="lsep" />
         <setting id="movies_quality" type="enum" label="30107" lvalues="30106|30118" default="1" />
-        <setting id="movies_play3d" type="enum" label="30109" lvalues="30126|30127|30128" default="1" enable="gt(-1,0)" />
+        <setting id="movies_play3d" type="enum" label="30109" lvalues="30126|30127|30128" default="0" enable="gt(-1,0)" />
 
         <setting label="30102" type="lsep" />
         <setting id="movies_download_path" type="folder" label="30103" source="auto" option="writeable" />
@@ -44,7 +44,7 @@
 
         <setting label="30117" type="lsep" />
         <setting id="tvshows_quality" type="enum" label="30107" lvalues="30106|30118" default="1" />
-        <setting id="tvshows_play3d" type="enum" label="30109" lvalues="30126|30127|30128" default="1" enable="gt(-1,0)" />
+        <setting id="tvshows_play3d" type="enum" label="30109" lvalues="30126|30127|30128" default="0" enable="gt(-1,0)" />
 
         <setting label="30102" type="lsep" />
         <setting id="tvshows_download_path" type="folder" label="30103" source="auto" option="writeable" />

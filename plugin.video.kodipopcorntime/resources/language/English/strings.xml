@@ -12,8 +12,8 @@
   <string id="30006">Recently added</string>
   <string id="30007">Fetching content</string>
   <string id="30008">Down: %s/s, Up: %s/s</string>
-
-
+  <string id="30009">Play</string>
+  <string id="30010">Add-on settings</string>
   <string id="30011">Do you want to play this movie in 3D?</string>
   <string id="30012">Subtitle:</string>
   <string id="30013">Are you sure you want to reset Torrent settings?</string>
@@ -26,7 +26,7 @@
   <string id="30020">Starting playback</string>
   <string id="30021">Downloading</string>
   <string id="30022">Download is complete</string>
-
+  <string id="30023">The quality was not found</string>
 
 
 

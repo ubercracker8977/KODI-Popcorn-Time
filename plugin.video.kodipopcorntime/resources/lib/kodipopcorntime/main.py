@@ -30,6 +30,14 @@ class PopcornTime:
         log("(Main) Adding item '%s'" %item["label"])
         path = "%s?%s" %(settings.addon.base_url, urllib.urlencode(dict([('mediaType', mediaType), ('endpoint', endpoint)], **params)))
 
+        if not isFolder:
+            item["replace_context_menu"] = True
+            item["context_menu"] = []
+            for _q in settings.QUALITIES:
+                if params.get(_q):
+                    item["context_menu"] = item["context_menu"]+[('%s %s' %(__addon__.getLocalizedString(30009), _q), 'RunPlugin(%s&quality=%s)' %(path, _q))]
+            item["context_menu"] = item["context_menu"]+[(__addon__.getLocalizedString(30010), 'RunPlugin(%s?cmd=True&endpoint=openSettings)' %settings.addon.base_url)]
+
         # Ensure fanart
         if not item.setdefault("properties", {}).get("fanart_image"):
             item["properties"]["fanart_image"] = settings.addon.fanart
@@ -325,34 +333,39 @@ class PopcornTime:
 
         self.finish(self.mediaSettings.mediaType, update_listing)
 
-    def player(self, subtitle=None, **params):
+    def player(self, subtitle=None, quality=None, **params):
         log("(Main) Creating player options")
         if settings.addon.handle > -1:
             xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
 
         item = self.getSelectedItem()
 
-        quality    = None
         free_space = self._calculate_free_space()
-        waring     = []
-        for _q in self.mediaSettings.qualities:
-            if params.get(_q):
-                if params['%ssize' %_q] > free_space:
-                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(line2=30011, lineStr1=' ', headingStr=item['info']['title']):
-                        continue
-                    quality = _q
-                    break
-                waring = waring+[_q.upper()]
+        if not quality:
+            waring = []
+            for _q in self.mediaSettings.qualities:
+                if params.get(_q):
+                    if params['%ssize' %_q] > free_space:
+                        if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(line2=30011, lineStr1=' ', headingStr=item['info']['title']):
+                            continue
+                        quality = _q
+                        break
+                    waring = waring+[_q]
 
-        if waring:
-            if not quality:
+            if waring:
+                if not quality:
+                    raise Notify('There is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
+
+                if len(waring) > 1:
+                    notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
+                else:
+                    notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
+                log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['%ssize' %quality]), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
+
+        elif not params.get(quality):
+                raise Error('%s quality was not found' %quality, 30023)
+        elif params['%ssize' %quality] < free_space:
                 raise Notify('There is not enough free space in %s' %self.mediaSettings.download_path, 30323, level=NOTIFYLEVEL.ERROR)
-
-            if len(waring) > 1:
-                notify(message=__addon__.getLocalizedString(30325) %(", ".join(waring), waring.pop()), level=NOTIFYLEVEL.WARNING)
-            else:
-                notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
-            log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['%ssize' %quality]), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
 
         TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), item, subtitle)
 
@@ -362,6 +375,9 @@ class Cmd:
         if not hasattr(self, endpoint):
             raise Error("'Cmd' class has no method '%s'" %endpoint)
         getattr(self, endpoint)(**params)
+
+    def openSettings(self):
+        __addon__.openSettings()
 
     def clear_cache(self, **params):
         def _run(path):

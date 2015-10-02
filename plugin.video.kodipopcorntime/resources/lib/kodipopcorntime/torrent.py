@@ -368,8 +368,9 @@ class Loader(Thread):
         log('(Loader) Move')
         self._tmppath = os.path.join(dirname, filename+os.path.splitext(self._path)[1])
         if not os.path.isfile(self._tmppath):
-            with open(self._path, 'r') as src, open(self._tmppath, 'w') as dst:
-                dst.write(src.read())
+            with open(self._tmppath, 'w') as dst:
+                with open(self._path, 'r') as src:
+                    dst.write(src.read())
         if not os.path.isfile(self._tmppath) or self.stop.is_set():
             return False
         os.unlink(self._path)

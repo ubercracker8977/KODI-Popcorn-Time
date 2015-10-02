@@ -12,7 +12,7 @@
   <string id="30006">Recently added</string>
   <string id="30007">Fetching content</string>
   <string id="30008">Down: %s/s, Up: %s/s</string>
-  <string id="30009">Next page</string>
+
   <string id="30010">3D Movie</string>
   <string id="30011">Do you want to play this movie in 3D?</string>
   <string id="30012">Subtitle:</string>
@@ -26,15 +26,15 @@
   <string id="30020">Starting playback</string>
   <string id="30021">Downloading</string>
   <string id="30022">Download is complete</string>
-  <string id="30023">Title</string>
-  <string id="30024">Year</string>
-  <string id="30025">Search Again</string>
-  <string id="30026">No results found.</string>
-  <string id="30027">Cancel</string>
+
+
+
+
+
   <string id="30028">Searching</string>
   <string id="30030">Movies</string>
   <string id="30031">Starting</string>
-  <string id="30032">Checking media file</string>
+
   <string id="30033">Are you sure you want to delete the cache?</string>
   <string id="30034">Title:</string>
   <string id="30035">New title:</string>
@@ -45,8 +45,8 @@
    * Settings
    * The range 30100-30199 - 99
    -->
-  <string id="30100">Features</string>
-  <string id="30101">General</string>
+
+
   <string id="30102">Files</string>
   <string id="30103">Download Path</string>
   <string id="30104">Keep files after playback/download stops</string>
@@ -93,7 +93,7 @@
   <string id="30145">The number of peers who try to connect after the initial response</string>
   <string id="30146">The total number of connection attempts per second</string>
   <string id="30147">Number of seconds before the connection attempt failed</string>
-  <string id="30148">Port</string>
+
   <string id="30149">Number of seconds to wait between connection failures</string>
   <string id="30150">Number of failure attempts before peer will be discarded</string>
   <string id="30151">Enable DHT (Distributed Hash Table)</string>
@@ -106,13 +106,13 @@
   <string id="30158">Enable debugging</string>
   <string id="30159">Network (Torrent)</string>
   <string id="30160">Search</string>
-  <string id="30161">Support local language when searching for titles (Experimental)</string>
+
   <string id="30162">Movie</string>
   <string id="30163">TV Shows</string>
   <string id="30164">Prioritize Hearing Impaired Subtitles</string>
   <string id="30165">Gather movie information from</string>
-  <string id="30166">Movies Download Path</string>
-  <string id="30167">TV Shows Download Path</string>
+
+
   <string id="30168">Get subtitles from</string>
   <string id="30169">Gather TV information from</string>
   <string id="30170">None</string>
@@ -170,16 +170,16 @@
   <string id="30300">Cannot find port to bind torrent2http</string>
   <string id="30301">Cache cleared</string>
   <string id="30302">Your OS is not supported</string>
-  <string id="30303">Cannot start torrent2http, see log for details</string>
+
   <string id="30304">Did not receive any data</string>
   <string id="30305">Did not receive any movies</string>
-  <string id="30306">An error has occurred</string>
-  <string id="30307">No items were found</string>
+
+
   <string id="30308">An unknown error has occurred</string>
-  <string id="30309">Suppose we are running XBMC, but environment variable XBMC_HOME or KODI_HOME is not found</string>
+
   <string id="30310">Download path does not exist. Please check your addon settings</string>
-  <string id="30311">torrent2http has crashed</string>
-  <string id="30312">An error has occurred with torrent2http</string>
+
+
   <string id="30313">A torrent error has occurred</string>
   <string id="30314">Torrent settings were reset</string>
   <string id="30315">No movie or tv-show providers were found</string>
@@ -194,7 +194,7 @@
   <string id="30324">Max Upload Rate must be above 15 Kilobytes per second. Please go to the addon settings and set a minimum speed of 15 kilobytes per second</string>
   <string id="30325">You need more space to play %s and %s qualities or choose a lower quality</string>
   <string id="30326">You need more space to play %s quality or choose a lower quality</string>
-  <string id="30327">No search result</string>
+  <string id="30327">No results found</string>
   <string id="30328">Could not receive a media list as there was no domains that worked</string>
   <string id="30329">There was an error with the response from the provider</string>
 

@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import os, sys, xbmc, xbmcgui, xbmcplugin, urllib2, mimetypes, time, subprocess, socket, urlparse
+import os, sys, xbmc, xbmcgui, mimetypes, time, subprocess, socket, urlparse
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing

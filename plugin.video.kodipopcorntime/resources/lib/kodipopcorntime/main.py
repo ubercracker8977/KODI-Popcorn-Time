@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, xbmcgui, ctypes
+import sys, os, urlparse, urllib, xbmc, xbmcplugin, hashlib, time, ctypes
 from contextlib import closing
 from kodipopcorntime import settings, media
 from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, TorrentError, Abort

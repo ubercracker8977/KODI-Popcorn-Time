@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import xbmc, sys, os, socket, time, stat
+import xbmc, sys, os, time, stat
 from urlparse import urlparse
 from kodipopcorntime.platform import Platform
 from kodipopcorntime.exceptions import Error, ClassError, Notify
@@ -147,12 +147,6 @@ class addon(_Base):
 
         def _resources_path(cls):
             cls.resources_path = os.path.join(__addon__.getAddonInfo('path'), 'resources')
-
-        def _translate_term(cls):
-            if __addon__.getSetting("search_translate") == 'true':
-                cls.translate_term = True
-            else:
-                cls.translate_term = False
 
         def _debug(cls):
             if __addon__.getSetting("debug") == 'true':

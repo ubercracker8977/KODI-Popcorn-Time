@@ -1,10 +1,8 @@
 ﻿#!/usr/bin/python
-import xbmcgui, zlib, xbmc, simplejson, sys, time, os, UserDict, httplib, errno, socket
-from urlparse import urlparse
+import xbmcgui, xbmc, simplejson, sys, time, os, UserDict, socket
 from urllib import urlencode
-from contextlib import closing
-from kodipopcorntime.exceptions import Error, HTTPError
-from kodipopcorntime.logging import log, LOGLEVEL
+from kodipopcorntime.exceptions import Error
+from kodipopcorntime.logging import log
 from kodipopcorntime.settings import ISOTRANSLATEINDEX, addon as _settings
 from kodipopcorntime.threads import FLock
 

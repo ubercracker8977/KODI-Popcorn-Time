@@ -258,7 +258,7 @@ class PopcornTime:
                 pages = 0
 
                 with closing(SafeDialogProgress()) as dialog:
-                    dialog.create(settings.addon.name)
+                    dialog.create(__addon__.getLocalizedString(30028))
                     dialog.update(0, __addon__.getLocalizedString(30007), ' ', ' ')
 
                     _time = time.time()
@@ -330,13 +330,15 @@ class PopcornTime:
         if settings.addon.handle > -1:
             xbmcplugin.endOfDirectory(settings.addon.handle, True, False, False)
 
+        item = self.getSelectedItem()
+
         quality    = None
         free_space = self._calculate_free_space()
         waring     = []
         for _q in self.mediaSettings.qualities:
             if params.get(_q):
                 if params['%ssize' %_q] > free_space:
-                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011):
+                    if _q == '3D' and self.mediaSettings.play3d == 1 and not Dialog().yesno(30010, 30011, heading=item['info']['title']):
                         continue
                     quality = _q
                     break
@@ -352,7 +354,7 @@ class PopcornTime:
                 notify(message=__addon__.getLocalizedString(30326) %waring[0], level=NOTIFYLEVEL.WARNING)
             log('(Main) There must be a minimum of %s to play. %s available in %s' %(shortenBytes(params['%ssize' %quality]), shortenBytes(free_space), self.mediaSettings.download_path), LOGLEVEL.NOTICE)
 
-        TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), self.getSelectedItem(), subtitle)
+        TorrentPlayer().playTorrentFile(self.mediaSettings, build_magnetFromMeta(params[quality], "quality %s" %quality), item, subtitle)
 
 class Cmd:
     def __init__(self, endpoint, **params):

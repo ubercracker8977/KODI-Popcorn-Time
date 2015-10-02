@@ -44,7 +44,7 @@ def _create_item(data):
     # Do not return movies without hash, quality and size (require)
     torrents = {}
     for torrent in data.get("torrents", []):
-        if torrent.get("quality") and torrent.get("hash") and torrent.get("size_bytes"):
+        if torrent.get("quality") and torrent.get("hash") and torrent.get("size_bytes") and torrent["quality"] in settings.QUALITIES:
             torrents[torrent["quality"]] = torrent["hash"]
             torrents['%ssize' %torrent["quality"]] = torrent["size_bytes"]
 

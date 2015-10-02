@@ -105,6 +105,12 @@ PUBLIC_TRACKERS = [
     "http://exodus.desync.com:6969/announce"
 ]
 
+QUALITIES = [
+    '3D',
+    '1080p',
+    '720p'
+]
+
 class _MetaClass(type):
     def __getattr__(cls, name):
         # Do we have a setting method
@@ -258,11 +264,11 @@ class _MetaClass2(_MetaClass):
     def _qualities(cls):
         __qualities = []
         if cls.play3d > 0:
-            __qualities = ['3D']
+            __qualities = QUALITIES[0]
         if __addon__.getSetting("%s_quality" %cls.__name__) == '0':
-            cls.qualities = __qualities+['720p']
+            cls.qualities = __qualities+QUALITIES[-1:]
         else:
-            cls.qualities = __qualities+['1080p', '720p']
+            cls.qualities = __qualities+QUALITIES[1:]
 
     def _play3d(cls):
         if not __addon__.getSetting("%s_quality" %cls.__name__) == '0':

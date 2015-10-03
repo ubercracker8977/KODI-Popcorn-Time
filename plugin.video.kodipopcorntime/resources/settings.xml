@@ -26,10 +26,10 @@
         <setting id="movies_metadata_provider" type="enum" label="30165" default="1" lvalues="30170|30171" />
         <setting id="movies_subtitle_provider" type="enum" label="30168" default="1" lvalues="30170|30172" />
 
-        <setting id="movies_preferred_subtitles"    type="text" value="" visible="false" />
-        <setting id="movies_hearing_impaired_old"   type="text" value="" visible="false" />
-        <setting id="movies_subtitle_provider_old"  type="text" value="" visible="false" />
-        <setting id="movies_subtitle_lastchanged"   type="text" value="" visible="false" />
+        <setting id="movies_preferred_subtitles_old" type="text" value="" visible="false" />
+        <setting id="movies_prioritere_impaired_old" type="text" value="" visible="false" />
+        <setting id="movies_subtitles_provider_old"  type="text" value="" visible="false" />
+        <setting id="movies_subtitle_lastchanged"    type="text" value="" visible="false" />
 
         <setting id="movies_metadata_provider_old"  type="text" value=""   visible="false" />
         <setting id="movies_syslang"                type="text" value="en" visible="false" />
@@ -56,10 +56,10 @@
         <setting id="tvshows_metadata_provider" type="enum" label="30165" default="0" lvalues="30170" />
         <setting id="tvshows_subtitle_provider" type="enum" label="30169" default="0" lvalues="30170" />
 
-        <setting id="tvshows_preferred_subtitles"   type="text" value="" visible="false" />
-        <setting id="tvshows_hearing_impaired_old"  type="text" value="" visible="false" />
-        <setting id="tvshows_subtitle_provider_old" type="text" value="" visible="false" />
-        <setting id="tvshows_subtitle_lastchanged"  type="text" value="" visible="false" />
+        <setting id="tvshows_preferred_subtitles_old" type="text" value="" visible="false" />
+        <setting id="tvshows_prioritere_impaired_old" type="text" value="" visible="false" />
+        <setting id="tvshows_subtitles_provider_old"  type="text" value="" visible="false" />
+        <setting id="tvshows_subtitle_lastchanged"    type="text" value="" visible="false" />
 
         <setting id="tvshows_metadata_provider_old" type="text" value=""   visible="false" />
         <setting id="tvshows_syslang"               type="text" value="en" visible="false" />

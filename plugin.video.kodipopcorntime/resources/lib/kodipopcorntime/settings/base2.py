@@ -20,21 +20,11 @@ class _MetaClass2(_MetaClass):
     def _subtitle_lastchanged(cls):
         _name =  cls.mediaType
         _time = str(time.time())
-
-        _tmp = str(cls.preferred_subtitles)
-        if not _tmp == __addon__.getSetting('%s_preferred_subtitles' %_name):
-            __addon__.setSetting("%s_preferred_subtitles" %_name, _tmp)
-            __addon__.setSetting("%s_subtitle_lastchanged" %_name, _time)
-
-        _tmp = str(cls.prioritere_impaired)
-        if not _tmp == __addon__.getSetting('%s_hearing_impaired_old' %_name):
-            __addon__.setSetting("%s_hearing_impaired_old" %_name, _tmp)
-            __addon__.setSetting("%s_subtitle_lastchanged" %_name, _time)
-
-        _tmp = str(cls.subtitles_provider)
-        if not _tmp == __addon__.getSetting('%s_subtitle_provider_old' %_name):
-            __addon__.setSetting("%s_subtitle_provider_old" %_name, _tmp)
-            __addon__.setSetting("%s_subtitle_lastchanged" %_name, _time)
+        for _s in ['preferred_subtitles', 'prioritere_impaired', 'subtitles_provider']:
+            _tmp = str(getattr(cls, _s))
+            if not _tmp == __addon__.getSetting('%s_%s_old' %(_name, _s)):
+                __addon__.setSetting('%s_%s_old' %(_name, _s), _tmp)
+                __addon__.setSetting('%s_subtitle_lastchanged' %_name, _time)
 
         cls.subtitle_lastchanged = float(__addon__.getSetting("%s_subtitle_lastchanged" %_name) or 0.0)
 

@@ -74,8 +74,8 @@
         <setting id="tvshows_proxies" type="text" label="30129" />
 
         <setting label="30113" type="lsep" />
-        <setting type="action" label="30114" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=clear_cache)" />
-        <setting type="action" label="30101" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=clearMediaCache)" />
+        <setting type="action" label="30114" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=clearCache)" />
+        <setting type="action" label="30101" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=clearMediaCache)" />
 
         <setting label="30159" type="lsep" />
         <setting id="listen_port" type="number" label="30139" default="6881" enable="eq(11,true) + eq(1,false)" />
@@ -104,7 +104,7 @@
         <setting id="dht_routers" type="text" label="30157" default="" />
 
         <setting label="30131" type="lsep" />
-        <setting type="action" label="30144" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=reset_torrent_settings)" />
+        <setting type="action" label="30144" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=resetTorrentSettings)" />
 
         <setting id="last_update_id"  type="text" value="" visible="false" />
     </category>

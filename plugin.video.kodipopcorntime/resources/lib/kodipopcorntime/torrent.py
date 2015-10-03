@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing
 from simplejson import JSONDecodeError
-from kodipopcorntime.utils import SafeDialogProgress, ListItem, get_free_port, shortenBytes
+from kodipopcorntime.utils import SafeDialogProgress, xbmcItem, get_free_port, shortenBytes, clear_media_cache
 from kodipopcorntime.logging import log, LOGLEVEL, LogPipe, log_error
 from kodipopcorntime.exceptions import Error, TorrentError, Abort
 from kodipopcorntime.settings import addon as _settings
@@ -208,21 +208,10 @@ class TorrentEngine:
                 self.shutdown()
             finally:
                 self._json = None
-                def _empty_dir(path):
-                    if os.path.isdir(path):
-                        for x in os.listdir(path):
-                            if x in ['.', '..']:
-                                continue
-                            _path = os.path.join(path, x)
-                            if os.path.isfile(_path):
-                                os.remove(_path)
-                            elif os.path.isdir(_path):
-                                _empty_dir(_path)
-                                os.rmdir(_path)
                 # Clean debris from the cache dir
                 if self._mediaSettings.delete_files:
                     try:
-                        _empty_dir(os.path.join(_settings.cache_path, self._mediaSettings.mediaType))
+                        clear_media_cache(os.path.join(_settings.cache_path, self._mediaSettings.mediaType))
                     except:
                         pass
 
@@ -439,7 +428,7 @@ class TorrentPlayer(xbmc.Player):
 
             # Starts the playback
             log('(Torrent Player) Start the playback', LOGLEVEL.INFO)
-            self.play(Loader.url, ListItem.from_dict(**item).as_xbmc_listitem()) # https://github.com/Diblo/KODI-Popcorn-Time/issues/57
+            self.play(Loader.url, xbmcItem(**item))
 
             # Waiting for playback to start
             log('(Torrent Player) Waiting for playback to start')

@@ -1,5 +1,12 @@
 ﻿#!/usr/bin/python
 
+BUILDVERSION = 2
+
+MEDIATYPES = [
+    'movies',
+    'tvshows'
+]
+
 SUBTITLE_ISO = [
     "sq",
     "ar",

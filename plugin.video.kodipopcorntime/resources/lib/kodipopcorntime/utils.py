@@ -1,9 +1,9 @@
 ﻿#!/usr/bin/python
-import xbmcgui, xbmc, simplejson, sys, time, os, UserDict, socket
+import xbmcgui, xbmc, simplejson, sys, time, os, UserDict, socket, glob
 from urllib import urlencode
 from kodipopcorntime.exceptions import Error
-from kodipopcorntime.logging import log
-from kodipopcorntime.settings import ISOTRANSLATEINDEX, addon as _settings
+from kodipopcorntime.logging import log, log_error
+from kodipopcorntime import settings
 from kodipopcorntime.threads import FLock
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -15,209 +15,37 @@ class NOTIFYLEVEL:
 
 def notify(messageID=0, message=None, level=NOTIFYLEVEL.INFO):
     if level == NOTIFYLEVEL.WARNING:
-        image = _settings.warning_image
+        image = settings.addon.warning_image
     elif level == NOTIFYLEVEL.ERROR:
-        image = _settings.error_image
+        image = settings.addon.error_image
     else:
-        image = _settings.info_image
+        image = settings.addon.info_image
 
     if not message:
         message = __addon__.getLocalizedString(messageID)
 
-    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(_settings.name, message, len(message)*210, image))
+    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(settings.addon.name, message, len(message)*210, image))
 
-class ListItem:
-    '''
-    xbmcswift2.listitem
-    ------------------
-    A wrapper for the xbmcgui.ListItem class. The class keeps track
-    of any set properties that xbmcgui doesn't expose getters for.
+def xbmcItem(label='', label2='', icon=None, thumbnail=None, path=None, info=None,
+             info_type='video', properties=None, stream_info=None,
+             context_menu=None, replace_context_menu=False):
 
-    :modified: Diblo at 2015-08-15
-
-    :copyright: (c) 2012 by Jonathan Beluch
-    :license: GPLv3, see LICENSE for more details.
-    '''
-    def __init__(self, label='', label2='', icon=None, thumbnail=None, path=None):
-        self._listitem = xbmcgui.ListItem(label=label, label2=label2, iconImage=icon, thumbnailImage=thumbnail, path=path)
-        # xbmc doesn't make getters available for these properties so we'll
-        # keep track on our own
-        self._icon = icon
-        self._path = path
-        self._thumbnail = thumbnail
-        self._context_menu_items = []
-        self.is_folder = True
-
-    def __repr__(self):
-        return ("<ListItem '%s'>" % self.label).encode('utf-8')
-
-    def __str__(self):
-        return ('%s (%s)' % (self.label, self.path)).encode('utf-8')
-
-    def get_context_menu_items(self):
-        '''Returns the list of currently set context_menu items.'''
-        return self._context_menu_items
-
-    def add_context_menu_items(self, items, replace_items=False):
-        '''Adds context menu items. If replace_items is True all
-        previous context menu items will be removed.
-        '''
-        for label, action in items:
-            assert isinstance(label, basestring)
-            assert isinstance(action, basestring)
-        if replace_items:
-            self._context_menu_items = []
-        self._context_menu_items+items
-        self._listitem.addContextMenuItems(items, replace_items)
-
-    def get_label(self):
-        '''Sets the listitem's label'''
-        return self._listitem.getLabel()
-
-    def set_label(self, label):
-        '''Returns the listitem's label'''
-        return self._listitem.setLabel(label)
-
-    label = property(get_label, set_label)
-
-    def get_label2(self):
-        '''Returns the listitem's label2'''
-        return self._listitem.getLabel2()
-
-    def set_label2(self, label):
-        '''Sets the listitem's label2'''
-        return self._listitem.setLabel2(label)
-
-    label2 = property(get_label2, set_label2)
-
-    def is_selected(self):
-        '''Returns True if the listitem is selected.'''
-        return self._listitem.isSelected()
-
-    def select(self, selected_status=True):
-        '''Sets the listitems selected status to the provided value.
-        Defaults to True.
-        '''
-        return self._listitem.select(selected_status)
-
-    selected = property(is_selected, select)
-
-    def set_info(self, type, info_labels):
-        '''Sets the listitems info'''
-        return self._listitem.setInfo(type, info_labels)
-
-    def get_property(self, key):
-        '''Returns the property associated with the given key'''
-        return self._listitem.getProperty(key)
-
-    def set_property(self, key, value):
-        '''Sets a property for the given key and value'''
-        return self._listitem.setProperty(key, value)
-
-    def add_stream_info(self, stream_type, stream_values):
-        '''Adds stream details'''
-        return self._listitem.addStreamInfo(stream_type, stream_values)
-
-    def get_icon(self):
-        '''Returns the listitem's icon image'''
-        return self._icon
-
-    def set_icon(self, icon):
-        '''Sets the listitem's icon image'''
-        self._icon = icon
-        return self._listitem.setIconImage(icon)
-
-    icon = property(get_icon, set_icon)
-
-    def get_thumbnail(self):
-        '''Returns the listitem's thumbnail image'''
-        return self._thumbnail
-
-    def set_thumbnail(self, thumbnail):
-        '''Sets the listitem's thumbnail image'''
-        self._thumbnail = thumbnail
-        return self._listitem.setThumbnailImage(thumbnail)
-
-    thumbnail = property(get_thumbnail, set_thumbnail)
-
-    def get_path(self):
-        '''Returns the listitem's path'''
-        return self._path
-
-    def set_path(self, path):
-        '''Sets the listitem's path'''
-        self._path = path
-        return self._listitem.setPath(path)
-
-    path = property(get_path, set_path)
-
-    def get_is_playable(self):
-        '''Returns True if the listitem is playable, False if it is a
-        directory
-        '''
-        return not self.is_folder
-
-    def set_is_playable(self, is_playable):
-        '''Sets the listitem's playable flag'''
-        value = 'false'
-        if is_playable:
-            value = 'true'
-        self.set_property('isPlayable', value)
-        self.is_folder = not is_playable
-
-    playable = property(get_is_playable, set_is_playable)
-
-    def as_tuple(self):
-        '''Returns a tuple of list item properties:
-            (path, the wrapped xbmcgui.ListItem, is_folder)
-        '''
-        return self.path, self._listitem, self.is_folder
-
-    def as_xbmc_listitem(self):
-        '''Returns the wrapped xbmcgui.ListItem'''
-        return self._listitem
-
-    @classmethod
-    def from_dict(cls, label=None, label2=None, icon=None, thumbnail=None,
-                  path=None, selected=None, info=None, properties=None,
-                  context_menu=None, replace_context_menu=False,
-                  is_playable=None, info_type='video', stream_info=None):
-        '''A ListItem constructor for setting a lot of properties not
-        available in the regular __init__ method. Useful to collect all
-        the properties in a dict and then use the **dct to call this
-        method.
-        '''
-        listitem = cls(label, label2, icon, thumbnail, path)
-
-        if selected is not None:
-            listitem.select(selected)
-
-        if info:
-            listitem.set_info(info_type, info)
-
-        if is_playable:
-            listitem.set_is_playable(True)
-
-        if properties:
-            # Need to support existing tuples, but prefer to have a dict for
-            # properties.
-            if hasattr(properties, 'items'):
-                properties = properties.items()
-            for key, val in properties:
-                listitem.set_property(key, val)
-
-        if stream_info:
-            for stream_type, stream_values in stream_info.items():
-                listitem.add_stream_info(stream_type, stream_values)
-
-        if context_menu:
-            listitem.add_context_menu_items(context_menu, replace_context_menu)
-
-        return listitem
+    _listitem = xbmcgui.ListItem(label, label2, icon, thumbnail, path)
+    if info:
+        _listitem.setInfo(info_type, info)
+    if stream_info:
+        for stream_type, stream_values in stream_info.items():
+            _listitem.addStreamInfo(stream_type, stream_values)
+    if properties:
+        for key, val in properties.items():
+            _listitem.setProperty(key, val)
+    if context_menu:
+        _listitem.addContextMenuItems(context_menu, replace_context_menu)
+    return _listitem
 
 class Cache(UserDict.DictMixin):
     def __init__(self, filename, ttl=0, readOnly=False, last_changed=0):
-        self._path      = os.path.join(_settings.cache_path, filename)
+        self._path      = os.path.join(settings.addon.cache_path, filename)
         self._readOnly  = readOnly
         self._db        = {}
         self._lock      = FLock(self._path)
@@ -346,25 +174,27 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
         """ set jobs for progress """
         self._mentions = number
 
-    def update(self, count=0, line1='', line2='', line3='', fixValue=0):
+    def update(self, count=0, *args, **kwargs):
         percent = 0
         self._counter = self._counter+count
         if self._mentions:
             percent = int(self._counter*100/self._mentions)
             if percent > 100:
                 percent = 100
-        super(SafeDialogProgress, self).update(percent, line1=line1, line2=line2, line3=line3)
+        super(SafeDialogProgress, self).update(percent, *args, **kwargs)
 
     def __del__(self):
         if hasattr(self, '_counter'):
             super(SafeDialogProgress, self).close()
 
 class Dialog(xbmcgui.Dialog):
-    def yesno(self, line1='', line2='', line3='', heading='', nolabel='', yeslabel='', lineStr1='', lineStr2='', lineStr3='', headingStr='', nolabelStr='', yeslabelStr='', autoclose=0):
+    def yesno(self, line1='',    line2='',    line3='',    heading='',    nolabel='',    yeslabel='',
+                    lineStr1='', lineStr2='', lineStr3='', headingStr='', nolabelStr='', yeslabelStr='',
+              autoclose=0):
         if heading:
             headingStr  = __addon__.getLocalizedString(heading)
         elif not headingStr:
-            headingStr  = _settings.name
+            headingStr  = settings.addon.name
         if line1:
             lineStr1 = __addon__.getLocalizedString(line1)
         if line2:
@@ -386,7 +216,7 @@ def cleanDictList(DictList):
     return DictList
 
 def isoToLang(iso):
-    translateID = ISOTRANSLATEINDEX.get(iso)
+    translateID = settings.ISOTRANSLATEINDEX.get(iso)
     if translateID:
         return __addon__.getLocalizedString(translateID)
     return None
@@ -448,3 +278,15 @@ def clear_media_cache(path):
         elif os.path.isdir(_path):
             clear_media_cache(_path)
             os.rmdir(_path)
+
+def cleanDebris():
+    try:
+        for _mediaType in settings.MEDIATYPES:
+            _m = getattr(settings, _mediaType)
+            if _m and _m.delete_files:
+                _p = os.path.join(settings.addon.cache_path, _mediaType)
+                if os.path.isdir(_p):
+                    clear_media_cache(_p)
+    except:
+        log_error()
+        sys.exc_clear()

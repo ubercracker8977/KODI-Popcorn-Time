@@ -432,3 +432,15 @@ def shortenBytes(byts):
             return "%.1f %s" %(byts, BYTEABBR[i])
         byts = _B
     return ""
+
+def clear_cache(path):
+    for x in os.listdir(path):
+        if x in ['.', '..']:
+            continue
+        _path = os.path.join(path, x)
+        if os.path.isfile(_path):
+            os.remove(_path)
+        elif os.path.isdir(_path):
+            _run(_path)
+            if not x in ['movies', 'tvshows']:
+                os.rmdir(_path)

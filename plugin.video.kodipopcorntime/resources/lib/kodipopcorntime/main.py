@@ -5,7 +5,7 @@ from kodipopcorntime import settings, media
 from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, TorrentError, Abort
 from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.platform import Platform
-from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta, shortenBytes
+from kodipopcorntime.utils import SafeDialogProgress, Dialog, Cache, notify, NOTIFYLEVEL, ListItem, isoToLang, build_magnetFromMeta, shortenBytes, clear_cache
 from kodipopcorntime.torrent import TorrentPlayer
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -380,19 +380,8 @@ class Cmd:
         __addon__.openSettings()
 
     def clear_cache(self, **params):
-        def _run(path):
-            for x in os.listdir(path):
-                if x in ['.', '..']:
-                    continue
-                _path = os.path.join(path, x)
-                if os.path.isfile(_path):
-                    os.remove(_path)
-                elif os.path.isdir(_path):
-                    _run(_path)
-                    os.rmdir(_path)
-
         if Dialog().yesno(30033):
-            _run(settings.addon.cache_path)
+            clear_cache(settings.addon.cache_path)
             notify(30301)
 
     def reset_torrent_settings(self, **params):
@@ -433,33 +422,22 @@ def run():
         if not Platform.system:
             raise Error("Unsupported OS", 30302)
 
-        def _empty_dir(path):
-            if os.path.isdir(path):
-                for x in os.listdir(path):
-                    if x in ['.', '..', 'movies', 'tvshows']:
-                        continue
-                    _path = os.path.join(path, x)
-                    if os.path.isfile(_path):
-                        os.remove(_path)
-                    elif os.path.isdir(_path):
-                        _empty_dir(_path)
-                        os.rmdir(_path)
-
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):
-            if not settings.addon.version+"~1" == settings.addon.last_update_id:
-                # Clear cache after update
-                _empty_dir(settings.addon.cache_path)
-                __addon__.setSetting("last_update_id", settings.addon.version+"~1")
-            else:
-                # Clean debris from the cache dir
-                try:
+            try:
+                if not settings.addon.version+"~1" == settings.addon.last_update_id:
+                    # Clear cache after update
+                    clear_cache(settings.addon.cache_path)
+                    __addon__.setSetting("last_update_id", settings.addon.version+"~1")
+                else:
+                    # Clean debris from the cache dir
                     for mediaType in ['movies', 'tvshows']:
-                        if getattr(settings, mediaType).delete_files:
-                            _empty_dir(os.path.join(settings.addon.cache_path, mediaType))
-                except:
-                    log_error()
-                    sys.exc_clear()
+                        _m = getattr(settings, mediaType)
+                        if _m and _m.delete_files:
+                            clear_cache(os.path.join(settings.addon.cache_path, mediaType))
+            except:
+                log_error()
+                sys.exc_clear()
             PopcornTime(**params)
         else:
             Cmd(**params)

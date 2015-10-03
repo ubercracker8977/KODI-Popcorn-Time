@@ -39,18 +39,9 @@ class URL(object):
             raise ProxyError("There was not any domains that worked", 30328)
 
     def request(self, domain, path, params={}, headers={}, timeout=10):
-        scheme, netloc, _path, _, _, _ = urlparse(domain)
-        if _path and not _path == '/': # Support path in domain
-            if _path[-1:] == '/':
-                path = _path[:-1]+path
-            else:
-                path = _path+path
-        uri = path
-        if params:
-            uri = "%s?%s" %(path, urlencode(params))
         headers.update(self.headers)
-        self.url = "%s://%s%s" %(scheme, netloc, uri)
 
+        scheme, netloc, uri, self.url = self.urlParse(domain, path, params)
         log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.INFO)
         log("(URL) Headers: %s" %str(headers))
         try:
@@ -64,7 +55,7 @@ class URL(object):
             response = self.conn.getresponse()
             if response.status == httplib.OK:
                 return self._read(response)
-            raise HTTPError("Received wrong status code (%s %s) from %s://%s%s" %(response.status, httplib.responses.get(response.status, ''), self.url), 30329)
+            raise HTTPError("Received wrong status code (%s %s) from %s" %(response.status, httplib.responses.get(response.status, ''), self.url), 30329)
         except socket.error as e:
             if e.errno in [errno.ESHUTDOWN, errno.ECONNABORTED]:
                 log("(URL) socket.error: %s. (Connection has most likely been canceled by user choices)" %str(e), LOGLEVEL.NOTICE)
@@ -75,6 +66,18 @@ class URL(object):
     def decompress(self, data):
         log("(Request) Decompress content")
         return zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
+
+    def urlParse(self, domain, path, params={}):
+        scheme, netloc, _path, _, _, _ = urlparse(domain)
+        if _path and not _path == '/': # Support path in domain
+            if _path[-1:] == '/':
+                path = _path[:-1]+path
+            else:
+                path = _path+path
+        uri = path
+        if params:
+            uri = "%s?%s" %(path, urlencode(params))
+        return scheme, netloc, uri, "%s://%s%s" %(scheme, netloc, uri)
 
     def _read(self, response):
         log("(URL) Reading response")

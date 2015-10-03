@@ -433,7 +433,12 @@ def shortenBytes(byts):
         byts = _B
     return ""
 
-def clear_cache(path):
+def clear_cache():
+    for file in glob.glob('%s/*' %settings.addon.cache_path):
+        if os.path.isfile(file):
+            os.remove(file)
+
+def clear_media_cache(path):
     for x in os.listdir(path):
         if x in ['.', '..']:
             continue
@@ -441,6 +446,5 @@ def clear_cache(path):
         if os.path.isfile(_path):
             os.remove(_path)
         elif os.path.isdir(_path):
-            clear_cache(_path)
-            if not x in ['movies', 'tvshows']:
-                os.rmdir(_path)
+            clear_media_cache(_path)
+            os.rmdir(_path)

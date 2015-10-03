@@ -75,6 +75,7 @@
 
         <setting label="30113" type="lsep" />
         <setting type="action" label="30114" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=clear_cache)" />
+        <setting type="action" label="30101" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=True&endpoint=clearMediaCache)" />
 
         <setting label="30159" type="lsep" />
         <setting id="listen_port" type="number" label="30139" default="6881" enable="eq(11,true) + eq(1,false)" />

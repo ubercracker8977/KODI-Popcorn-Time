@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/python
 import xbmc, sys, os, time, stat
-from . import SUBTITLE_ISO
+from . import SUBTITLE_ISO, QUALITIES, PUBLIC_TRACKERS
 from .addon import Addon
 from .base import _Base, _MetaClass
 from urlparse import urlparse
@@ -54,14 +54,14 @@ class _MetaClass2(_MetaClass):
         cls.metadata_lastchanged = float(__addon__.getSetting("%s_metadata_lastchanged" %_name) or 0.0)
 
     def _preferred_subtitles(cls):
+        subtitles = []
         if cls.subtitles_provider:
-            cls.preferred_subtitles = [SUBTITLE_ISO[int(__addon__.getSetting('%s_subtitle_language1' %cls.mediaType))-1]]
-            if not __addon__.getSetting('%s_subtitle_language2' %cls.mediaType) == '0':
-                cls.preferred_subtitles.append(SUBTITLE_ISO[int(__addon__.getSetting('%s_subtitle_language2' %cls.mediaType))-1])
-                if not __addon__.getSetting('%s_subtitle_language3' %cls.mediaType) == '0':
-                    cls.preferred_subtitles.append(SUBTITLE_ISO[int(__addon__.getSetting('%s_subtitle_language3' %cls.mediaType))-1])
-        else:
-            cls.preferred_subtitles = []
+            for i in xrange(3):
+                _n = int(__addon__.getSetting('%s_subtitle_language%d' %(cls.mediaType, i)))
+                if not _n > 0:
+                    break
+                subtitles = subtitles+[SUBTITLE_ISO[_n-1]]
+        cls.preferred_subtitles = subtitles
 
     def _prioritere_impaired(cls):
         if not __addon__.getSetting('%s_subtitle_language1' %cls.mediaType) == '0' and __addon__.getSetting("hearing_impaired") == 'true':
@@ -151,21 +151,13 @@ class _MetaClass2(_MetaClass):
             raise Error("torrent2http binary (%s) was not found at path %s" % (os.path.dirname(binary_path), binary), 30320)
 
         if Platform.system == "android":
-            log("Trying to copy torrent2http to ext4, since the sdcard is noexec", LOGLEVEL.INFO)
-            android_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(xbmc.translatePath('special://xbmc')))), "files", __addon__.getAddonInfo('id'), binary).encode(Addon.fsencoding)
-            if not os.path.exists(os.path.dirname(android_path)):
-                os.makedirs(os.path.dirname(android_path))
-            if not os.path.exists(android_path) or int(os.path.getmtime(android_path)) < int(os.path.getmtime(binary_path)):
-                shutil.copy2(binary_path, android_path)
-            binary_path = android_path
+            android_binary_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(xbmc.translatePath('special://xbmc')))), "files", __addon__.getAddonInfo('id'), binary).encode(Addon.fsencoding)
+            copy_android_binfile(binary_path, android_binary_path)
+            if not os.path.isfile(android_binary_path):
+                raise Error("torrent2http binary was not found at path %s" % os.path.dirname(binary_path), 30320)
+            binary_path = android_binary_path
 
-        if not os.path.isfile(binary_path):
-            raise Error("torrent2http binary was not found at path %s" % os.path.dirname(binary_path), 30320)
-
-        st = os.stat(binary_path)
-        os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
-        if not st.st_mode & stat.S_IEXEC:
-            raise Error("Cannot make %s executable, ensure partition is in exec mode\n%s" % (binary, os.path.dirname(binary_path)), 30321)
+        ensure_exec(binary_path)
 
         cls.binary_path = binary_path
 
@@ -264,3 +256,17 @@ def load_provider(module):
     for comp in provider.split('.')[1:]:
         mod = getattr(mod, comp)
     return mod
+
+def copy_android_binfile(binary_path, android_binary_path):
+    log("Trying to copy torrent2http to ext4, since the sdcard is noexec", LOGLEVEL.INFO)
+    if not os.path.exists(os.path.dirname(android_binary_path)):
+        os.makedirs(os.path.dirname(android_binary_path))
+    if not os.path.exists(android_binary_path) or int(os.path.getmtime(android_binary_path)) < int(os.path.getmtime(binary_path)):
+        shutil.copy2(binary_path, android_binary_path)
+
+def ensure_exec(binary_path):
+    st = os.stat(binary_path)
+    os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
+    if not st.st_mode & stat.S_IEXEC:
+        raise Error("Cannot make %s executable, ensure partition is in exec mode\n%s" % (binary, os.path.dirname(binary_path)), 30321)
+

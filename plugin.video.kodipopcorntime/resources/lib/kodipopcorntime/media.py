@@ -3,7 +3,7 @@ import hashlib, time, sys
 from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.utils import cleanDictList, Cache
 from kodipopcorntime.request import Json
-from kodipopcorntime import settings
+from kodipopcorntime.settings import addon as _settings
 from kodipopcorntime.threads import Thread
 
 _ttl = 5 * 24 * 3600
@@ -11,7 +11,7 @@ _ttl = 5 * 24 * 3600
 class _Base(Thread):
     def __init__(self):
         log("(Media) Staring thread")
-        self._request  = Json()
+        self._request = Json()
         super(_Base, self).__init__(target=self._run)
 
     def is_done(self, wait=0):
@@ -69,7 +69,7 @@ class MediaCache:
 
         if self._mediaSettings.metadata_provider or self._mediaSettings.subtitles_provider:
             self._preloader = _Preloader(self._mediaSettings)
-            self._progressValue = self._progressValue/(bool(self._mediaSettings.metadata_provider)+(not self._mediaSettings.metadata_provider.FALLBACKLANG == settings.addon.language)+bool(self._mediaSettings.subtitles_provider)+0.0)
+            self._progressValue = self._progressValue/(bool(self._mediaSettings.metadata_provider)+(not self._mediaSettings.metadata_provider.FALLBACKLANG == _settings.language)+bool(self._mediaSettings.subtitles_provider)+0.0)
 
     def __enter__(self):
         return self
@@ -189,9 +189,9 @@ class _Dispenser(_Base):
             if not metadata:
                 try:
                     log("(Media) Getting metadata")
-                    _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[settings.addon.language]))
+                    _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[_settings.language]))
                     if not self.stop.is_set():
-                        metadata = cleanDictList(self._mediaSettings.metadata_provider.build_item(_res, *args+[settings.addon.language])) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
+                        metadata = cleanDictList(self._mediaSettings.metadata_provider.build_item(_res, *args+[_settings.language])) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
                 except:
                     log_error()
                     sys.exc_clear()
@@ -200,12 +200,12 @@ class _Dispenser(_Base):
                         log("(Media) Callback with '%s'" %item['label'])
                         self._callbackfn(self._progressValue, item, metadata or {})
 
-                if not self._mediaSettings.metadata_provider.FALLBACKLANG == settings.addon.language:
+                if not self._mediaSettings.metadata_provider.FALLBACKLANG == _settings.language:
                     try:
                         log("(Media) Getting fallback metadata")
-                        _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[settings.addon.language]))
+                        _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[_settings.language]))
                         if not self.stop.is_set():
-                            fallbackMeta = self._mediaSettings.metadata_provider.build_item(_res, *args+[settings.addon.language]) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
+                            fallbackMeta = self._mediaSettings.metadata_provider.build_item(_res, *args+[_settings.language]) # 1. Get request parameter. 2. Perform request(s). 3. Build info.
                     except:
                         log_error()
                         sys.exc_clear()
@@ -224,7 +224,7 @@ class _Dispenser(_Base):
             else:
                 if self._callbackfn:
                     log("(Media) Callback with '%s'" %item['label'])
-                    self._callbackfn(self._progressValue*(1+(not self._mediaSettings.metadata_provider.FALLBACKLANG == settings.addon.language)), item, metadata)
+                    self._callbackfn(self._progressValue*(1+(not self._mediaSettings.metadata_provider.FALLBACKLANG == _settings.language)), item, metadata)
 
             if metadata:
                 item.setdefault('info',        {}).update(dict((key, value) for key, value in metadata.pop('info',        {}).items() if value))

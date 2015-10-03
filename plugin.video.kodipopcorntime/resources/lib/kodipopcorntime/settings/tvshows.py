@@ -20,7 +20,7 @@ class Tvshows(_Base2):
 
         def _subtitles_provider(cls):
             provider = __addon__.getSetting('tvshows_subtitle_provider')
-            if not provider == '0' and not __addon__.getSetting('tvshows_subtitle_language1') == '0':
+            if not provider == '0' and not __addon__.getSetting('tvshows_subtitle_language0') == '0':
                 _list = []
                 cls.subtitles_provider = cls.load_provider('tvshows.%s' % _list[int(provider)-1])
             else:

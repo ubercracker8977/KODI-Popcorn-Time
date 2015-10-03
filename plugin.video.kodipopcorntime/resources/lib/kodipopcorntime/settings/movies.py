@@ -19,7 +19,7 @@ class Movies(_Base2):
 
         def _subtitles_provider(cls):
             provider = __addon__.getSetting('movies_subtitle_provider')
-            if not provider == '0' and not __addon__.getSetting('movies_subtitle_language1') == '0':
+            if not provider == '0' and not __addon__.getSetting('movies_subtitle_language0') == '0':
                 _list = ['subtitle_yify']
                 cls.subtitles_provider = load_provider('movies.%s' % _list[int(provider)-1])
             else:

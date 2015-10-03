@@ -1,7 +1,6 @@
 ﻿#!/usr/bin/python
 import time
 from kodipopcorntime.utils import Cache
-from kodipopcorntime.logging import log, LOGLEVEL, log_error
 
 FALLBACKLANG = 'en' # Or None
 
@@ -127,7 +126,6 @@ def item(id, label, year, lang):
     }
 
 def build_item(meta, id, label, year, lang):
-    log(str(meta))
     if not meta or meta.get('status_code'):
         return {}
 

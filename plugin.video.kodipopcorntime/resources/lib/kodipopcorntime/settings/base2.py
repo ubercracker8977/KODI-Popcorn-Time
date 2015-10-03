@@ -48,6 +48,7 @@ class _MetaClass2(_MetaClass):
         if cls.subtitles_provider:
             for i in xrange(3):
                 _n = int(__addon__.getSetting('%s_subtitle_language%d' %(cls.mediaType, i)))
+                log(str(_n))
                 if not _n > 0:
                     break
                 subtitles = subtitles+[SUBTITLE_ISO[_n-1]]
@@ -74,7 +75,7 @@ class _MetaClass2(_MetaClass):
     def _qualities(cls):
         __qualities = []
         if cls.play3d > 0:
-            __qualities = QUALITIES[0]
+            __qualities = [QUALITIES[0]]
         if __addon__.getSetting("%s_quality" %cls.mediaType) == '0':
             cls.qualities = __qualities+QUALITIES[-1:]
         else:

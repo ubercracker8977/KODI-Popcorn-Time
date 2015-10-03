@@ -321,7 +321,7 @@ class _MetaClass2(_MetaClass):
         else:
             cls.keep_incomplete = False
 
-    def _torrent_options(cls):
+    def _binary_path(cls):
         binary = "torrent2http"
         if Platform.system == 'windows':
             binary = "torrent2http.exe"
@@ -347,32 +347,39 @@ class _MetaClass2(_MetaClass):
         if not st.st_mode & stat.S_IEXEC:
             raise Error("Cannot make %s executable, ensure partition is in exec mode\n%s" % (binary, os.path.dirname(binary_path)), 30321)
 
+        cls.binary_path = binary_path
+
+    def _download_kbps(cls):
         download_kbps = int(__addon__.getSetting("download_kbps"))
         if download_kbps <= 0:
             download_kbps = -1
+        cls.download_kbps = download_kbps
 
+    def _upload_kbps(cls):
         upload_kbps = int(__addon__.getSetting("upload_kbps"))
         if upload_kbps <= 0:
             upload_kbps = -1
         elif upload_kbps < 15:
             raise Notify('Max Upload Rate must be above 15 Kilobytes per second.', 30324, 1)
-            __addon__.setSetting('upload_kbps', '15')
             upload_kbps = 15
+        cls.upload_kbps = upload_kbps
 
+    def _trackers(cls):
         trackers = __addon__.getSetting('trackers')
         if trackers:
             trackers = ",".join(trackers.split(',')+PUBLIC_TRACKERS)
         else:
             trackers = ",".join(PUBLIC_TRACKERS)
+        cls.trackers = trackers
 
+    def _torrent_options(cls):
         debug = __addon__.getSetting("debug")
-        
         kwargs = {
             '--file-index':             0,
             '--dl-path':                cls.download_path,
             '--connections-limit':      int(__addon__.getSetting('connections_limit')),
-            '--dl-rate':                download_kbps,
-            '--ul-rate':                upload_kbps,
+            '--dl-rate':                cls.download_kbps,
+            '--ul-rate':                cls.upload_kbps,
             '--enable-dht':             __addon__.getSetting('enable_dht'),
             '--enable-lsd':             __addon__.getSetting('enable_lsd'),
             '--enable-natpmp':          __addon__.getSetting('enable_natpmp'),
@@ -403,10 +410,10 @@ class _MetaClass2(_MetaClass):
             '--min-reconnect-time':     int(__addon__.getSetting('min_reconnect_time')),
             '--max-failcount':          int(__addon__.getSetting('max_failcount')),
             '--dht-routers':            __addon__.getSetting('dht_routers') or None,
-            '--trackers':               trackers
+            '--trackers':               cls.trackers
         }
 
-        args = [binary_path]
+        args = [cls.binary_path]
         for k, v in kwargs.iteritems():
             if v == 'true':
                 args.append(k)

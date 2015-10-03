@@ -458,7 +458,7 @@ class TorrentPlayer(xbmc.Player):
                     return [
                         __addon__.getLocalizedString(30021),
                         __addon__.getLocalizedString(30008) %(shortenBytes(status['download_rate']*1024), shortenBytes(status['upload_rate']*1024)),
-                        __addon__.getLocalizedString(30015) %status['num_seeds']
+                        __addon__.getLocalizedString(30015)+str(status['num_seeds'])
                     ]
                 if status['state'] in [TorrentEngine.FINISHED, TorrentEngine.SEEDING]:
                     return [
@@ -468,6 +468,6 @@ class TorrentPlayer(xbmc.Player):
                     ]
             return [
                 __addon__.getLocalizedString(30036),
-                __addon__.getLocalizedString(30015) %status['num_seeds'],
+                __addon__.getLocalizedString(30015)+str(status['num_seeds']),
                 ' '
             ]

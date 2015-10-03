@@ -18,7 +18,7 @@
   <string id="30012">Subtitle:</string>
   <string id="30013">Are you sure you want to reset Torrent settings?</string>
   <string id="30014">It is only the settings with "(Torrent)" in the headline, there are affected.</string>
-  <string id="30015">Seeds: %d</string>
+  <string id="30015">Seeds: </string>
   <string id="30016">Fetching information</string>
   <string id="30017">Done</string>
   <string id="30018">Fetching information</string>
@@ -27,7 +27,7 @@
   <string id="30021">Downloading</string>
   <string id="30022">Download is complete</string>
   <string id="30023">The quality was not found</string>
-
+  <string id="30024">Attempt </string>
 
 
 
@@ -46,7 +46,7 @@
    * The range 30100-30199 - 99
    -->
 
-
+  <string id="30101">Clear media files</string>
   <string id="30102">Files</string>
   <string id="30103">Download Path</string>
   <string id="30104">Keep files after playback/download stops</string>
@@ -59,7 +59,7 @@
   <string id="30111">Encryption</string>
   <string id="30112">Global</string>
   <string id="30113">Maintenance</string>
-  <string id="30114">Clear cache</string>
+  <string id="30114">Clear media information</string>
   <string id="30115">Proxy domains</string>
   <string id="30116">Movies (comma-separated hosts)</string>
   <string id="30117">Video Quality</string>

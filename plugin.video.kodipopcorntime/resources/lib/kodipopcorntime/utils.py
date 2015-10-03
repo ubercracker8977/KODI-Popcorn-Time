@@ -441,6 +441,6 @@ def clear_cache(path):
         if os.path.isfile(_path):
             os.remove(_path)
         elif os.path.isdir(_path):
-            _run(_path)
+            clear_cache(_path)
             if not x in ['movies', 'tvshows']:
                 os.rmdir(_path)

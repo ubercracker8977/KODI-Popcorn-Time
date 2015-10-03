@@ -434,10 +434,13 @@ def run():
                     for mediaType in ['movies', 'tvshows']:
                         _m = getattr(settings, mediaType)
                         if _m and _m.delete_files:
-                            clear_cache(os.path.join(settings.addon.cache_path, mediaType))
+                            _p = os.path.join(settings.addon.cache_path, mediaType)
+                            if os.path.isdir(_p):
+                                clear_cache(_p)
             except:
                 log_error()
                 sys.exc_clear()
+
             PopcornTime(**params)
         else:
             Cmd(**params)

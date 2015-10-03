@@ -9,8 +9,7 @@ from kodipopcorntime.settings import addon as _settings
 
 class URL(object):
     def __init__(self):
-        self.conn    = None
-        self.url     = None
+        self.conn = self.scheme = self.netloc = self.uri = self.url = None
         # Default headers
         self.headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "gzip"}
 
@@ -40,18 +39,18 @@ class URL(object):
 
     def request(self, domain, path, params={}, headers={}, timeout=10):
         headers.update(self.headers)
-
-        scheme, netloc, uri, self.url = self.urlParse(domain, path, params)
-        log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.INFO)
         log("(URL) Headers: %s" %str(headers))
+
+        self.scheme, self.netloc, self.uri, self.url = self.urlParse(domain, path, params)
+        log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.INFO)
         try:
-            if scheme == 'https':
-                self.conn = httplib.HTTPSConnection(netloc, timeout=timeout)
+            if self.scheme == 'https':
+                self.conn = httplib.HTTPSConnection(self.netloc, timeout=timeout)
             else:
-                self.conn = httplib.HTTPConnection(netloc, timeout=timeout)
+                self.conn = httplib.HTTPConnection(self.netloc, timeout=timeout)
             if _settings.debug:
                 self.conn.set_debuglevel(1)
-            self.conn.request("GET", uri, headers=headers)
+            self.conn.request("GET", self.uri, headers=headers)
             response = self.conn.getresponse()
             if response.status == httplib.OK:
                 return self._read(response)

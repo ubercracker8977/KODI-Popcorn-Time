@@ -37,8 +37,16 @@ class List(_Base):
         self._args              = args
         self._kwargs            = kwargs
         self._data              = {}
+        self._proxy_attempt     = 0
+        self._domaine           = None
 
         super(List, self).__init__()
+
+    def attempts(self):
+        if self._domaine and not self._domaine == self._request.netloc:
+            self._proxy_attempt = self._proxy_attempt+1
+        self._domaine = self._request.netloc
+        return self._proxy_attempt
 
     def get_data(self, wait=0):
         if self.is_done(wait):

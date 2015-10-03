@@ -425,10 +425,11 @@ def run():
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
         if not params.pop('cmd', None):
             try:
-                if not settings.addon.version+"~2" == settings.addon.last_update_id:
+                separation = '.2'
+                if not settings.addon.version+separation == settings.addon.last_update_id:
                     # Clear cache after update
                     clear_cache(settings.addon.cache_path)
-                    __addon__.setSetting("last_update_id", settings.addon.version+"~1")
+                    __addon__.setSetting("last_update_id", settings.addon.version+separation)
                 else:
                     # Clean debris from the cache dir
                     for mediaType in ['movies', 'tvshows']:

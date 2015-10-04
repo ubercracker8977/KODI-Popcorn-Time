@@ -90,19 +90,23 @@ ISOTRANSLATEINDEX = {
 }
 
 PUBLIC_TRACKERS = [
-    "udp://tracker.publicbt.com:80/announce",
     "udp://tracker.openbittorrent.com:80/announce",
     "udp://open.demonii.com:1337/announce",
-    "udp://tracker.istole.it:6969",
-    "udp://tracker.coppersurfer.tk:80",
-    "udp://open.demonii.com:1337",
-    "udp://tracker.istole.it:80",
-    "http://tracker.yify-torrents.com/announce",
-    "udp://tracker.publicbt.com:80",
-    "udp://tracker.openbittorrent.com:80",
-    "udp://tracker.coppersurfer.tk:6969",
-    "udp://exodus.desync.com:6969",
-    "http://exodus.desync.com:6969/announce"
+    'udp://tracker.leechers-paradise.org:6969/announce',
+    "udp://tracker.istole.it:80/announce",
+    "udp://tracker.coppersurfer.tk:6969/announce",
+    "udp://tracker.publicbt.com:80/announce",
+    "udp://exodus.desync.com:6969/announce",
+    "udp://exodus.desync.com:80/announce",
+    "udp://tracker.yify-torrents.com:80/announce",
+    'http://tracker.openbittorrent.kg:2710/announce',
+    'http://tracker.leechers-paradise.org:6969/announce',
+    "http://tracker.istole.it:80/announce",
+    "http://tracker.coppersurfer.tk:6969/announce",
+    "http://tracker.publicbt.com:80/announce",
+    "http://exodus.desync.com:6969/announce",
+    "http://exodus.desync.com:80/announce",
+    "http://tracker.yify-torrents.com:80/announce"
 ]
 
 QUALITIES = [

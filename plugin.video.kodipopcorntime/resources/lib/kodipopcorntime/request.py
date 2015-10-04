@@ -17,7 +17,7 @@ class URL(object):
         return self
 
     def request_proxy(self, proxies, path, proxyid, params={}, headers={}, timeout=10):
-        log("(URL) Proxy domain is activated")
+        log("(URL) Proxy domain is activated", LOGLEVEL.NONE)
         with Cache(proxyid) as proxies_cache:
             if not proxies_cache or not all(p in proxies_cache['proxies'] for p in proxies):
                 proxies_cache['proxies'] = proxies
@@ -39,10 +39,10 @@ class URL(object):
 
     def request(self, domain, path, params={}, headers={}, timeout=10):
         headers.update(self.headers)
-        log("(URL) Headers: %s" %str(headers))
+        log("(URL) Headers: %s" %str(headers), LOGLEVEL.NONE)
 
         self.scheme, self.netloc, self.uri, self.url = self.urlParse(domain, path, params)
-        log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.INFO)
+        log("(URL) Trying to obtaining data from %s" %self.url, LOGLEVEL.NONE)
         try:
             if self.scheme == 'https':
                 self.conn = httplib.HTTPSConnection(self.netloc, timeout=timeout)
@@ -63,7 +63,7 @@ class URL(object):
             raise
 
     def decompress(self, data):
-        log("(Request) Decompress content")
+        log("(Request) Decompress content", LOGLEVEL.NONE)
         return zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(data)
 
     def urlParse(self, domain, path, params={}):
@@ -79,14 +79,14 @@ class URL(object):
         return scheme, netloc, uri, "%s://%s%s" %(scheme, netloc, uri)
 
     def _read(self, response):
-        log("(URL) Reading response")
+        log("(URL) Reading response", LOGLEVEL.NONE)
         data = response.read()
         if data and response.getheader("Content-Encoding", "") == "gzip":
             data = self.decompress(data)
         if not data:
             log("(URL) Did not receive any data %s" %self.url, LOGLEVEL.NOTICE)
         else:
-            log("(URL) Successful receive data from %s" %self.url)
+            log("(URL) Successful receive data from %s" %self.url, LOGLEVEL.NONE)
         return data
 
     def __exit__(self, *exc_info):
@@ -117,17 +117,17 @@ class Send(URL):
 
 class Json(URL):
     def _read(self, response):
-        log("(URL) Reading response")
+        log("(URL) Reading response", LOGLEVEL.NONE)
         data = response.read()
         if data and response.getheader("Content-Encoding", "") == "gzip":
             data = self.decompress(data)
         if not data:
             log("(URL) Did not receive any data %s" %self.url, LOGLEVEL.NOTICE)
         else:
-            log("(Json) Reading JSON data")
+            log("(Json) Reading JSON data", LOGLEVEL.NONE)
             data = simplejson.loads(data, 'UTF-8')
             if data:
-                log("(Json) Successful receive data from %s" %self.url)
+                log("(Json) Successful receive data from %s" %self.url, LOGLEVEL.NONE)
                 return data
 
 class Download(URL):
@@ -145,9 +145,9 @@ class Download(URL):
         return super(Download, self).request(*agrs, **kwagrs)
 
     def _read(self, response):
-        log("(Download) Store data on location %s" %self.downloadPath)
+        log("(Download) Store data on location %s" %self.downloadPath, LOGLEVEL.NONE)
         with open(self.downloadPath, "wb") as f:
             f.write(response.read())
-        log("(Download) Successful stored data at %s" %self.url)
+        log("(Download) Successful stored data at %s" %self.url, LOGLEVEL.NONE)
         return self.downloadPath
 

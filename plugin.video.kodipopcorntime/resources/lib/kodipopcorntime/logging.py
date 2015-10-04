@@ -4,21 +4,12 @@ from kodipopcorntime.threads import Thread
 __addon__ = sys.modules['__main__'].__addon__
 
 _id = __addon__.getAddonInfo('id')
+_loglevel = [xbmc.LOGDEBUG, xbmc.LOGINFO, xbmc.LOGNOTICE, xbmc.LOGWARNING, xbmc.LOGERROR, xbmc.LOGFATAL, -1]
 if __addon__.getSetting("debug") == 'true':
-    _lognames = [
-        u'  DEBUG: ',
-        u'   INFO: ',
-        u' NOTICE: ',
-        u'WARNING: ',
-        u'  ERROR: ',
-        u'  FATAL: '
-    ]
-    _loglevel = [xbmc.LOGNONE, xbmc.LOGNONE, xbmc.LOGNONE, xbmc.LOGNONE, xbmc.LOGNONE, xbmc.LOGNONE]
-else:
-    _lognames = ['', '', '', '', '', '']
-    _loglevel = [xbmc.LOGDEBUG, xbmc.LOGINFO, xbmc.LOGNOTICE, xbmc.LOGWARNING, xbmc.LOGERROR, xbmc.LOGFATAL]
+    _loglevel[6] = xbmc.LOGDEBUG
 
 class LOGLEVEL:
+    NONE     = -1
     DEBUG    = 0
     INFO     = 1
     NOTICE   = 2
@@ -32,12 +23,14 @@ def prefix():
     return ''
 
 def log(message, level=LOGLEVEL.DEBUG):
-    if isinstance(message, str):
-        message = unicode(message, errors='ignore')
-    xbmc.log(msg=u'%s[%s] %s%s' %(_lognames[level], _id, prefix(), message), level=_loglevel[level])
+    level = _loglevel[level]
+    if level > -1:
+        if isinstance(message, str):
+            message = unicode(message, errors='ignore')
+        xbmc.log(msg=u'[%s] %s%s' %(_id, prefix(), message), level=level)
 
 def log_error():
-    xbmc.log(msg=u'%s[%s] %s%s' %(_lognames[LOGLEVEL.FATAL], _id, prefix(), unicode(traceback.format_exc(), errors='ignore')), level=_loglevel[LOGLEVEL.FATAL])
+    xbmc.log(msg=u'[%s] %s%s' %(_id, prefix(), unicode(traceback.format_exc(), errors='ignore')), level=_loglevel[LOGLEVEL.FATAL])
 
 class LogPipe(Thread):
     def __init__(self, logger):

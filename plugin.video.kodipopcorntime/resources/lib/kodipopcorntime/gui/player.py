@@ -12,6 +12,10 @@ __addon__ = sys.modules['__main__'].__addon__
 
 class Player(_Base):
     def calculate_free_space(self):
+        if Platform.system == 'android': 
+            # http://stackoverflow.com/questions/1749928/replacement-for-python-statvfs#comment42443537_1749950
+            # https://github.com/Diblo/KODI-Popcorn-Time/issues/68
+            return 16,10611911 # 15 GB
         if Platform.system == 'windows':
             free_bytes = ctypes.c_ulonglong(0)
             ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(self.mediaSettings.download_path), None, None, ctypes.pointer(free_bytes))

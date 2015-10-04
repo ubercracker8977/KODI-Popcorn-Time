@@ -283,10 +283,8 @@ def cleanDebris():
     try:
         for _mediaType in settings.MEDIATYPES:
             _m = getattr(settings, _mediaType)
-            if _m and _m.delete_files:
-                _p = os.path.join(settings.addon.cache_path, _mediaType)
-                if os.path.isdir(_p):
-                    clear_media_cache(_p)
+            if _m and _m.delete_files and os.path.isdir(_m.media_cache_path):
+                clear_media_cache(_m.media_cache_path)
     except:
         log_error()
         sys.exc_clear()

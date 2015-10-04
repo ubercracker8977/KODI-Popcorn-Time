@@ -209,9 +209,9 @@ class TorrentEngine:
             finally:
                 self._json = None
                 # Clean debris from the cache dir
-                if self._mediaSettings.delete_files:
+                if not self._mediaSettings.user_download_path and self._mediaSettings.delete_files:
                     try:
-                        clear_media_cache(os.path.join(_settings.cache_path, self._mediaSettings.mediaType))
+                        clear_media_cache(self._mediaSettings.media_cache_path)
                     except:
                         pass
 

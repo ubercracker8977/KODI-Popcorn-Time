@@ -87,9 +87,16 @@ class _MetaClass2(_MetaClass):
         else:
             cls.play3d = 0
 
-    def _download_path(cls):
-        _path = xbmc.translatePath(__addon__.getSetting("%s_download_path"  %cls.mediaType))
+    def _media_cache_path(cls):
+        _path = os.path.join(Addon.cache_path, cls.mediaType)
+        if not os.path.exists(_path):
+            os.makedirs(_path)
+            if not os.path.exists(_path):
+                raise Error("Unable to create cache directory %s" % _path, 30322)
+        cls.media_cache_path = _path
 
+    def _user_download_path(cls):
+        _path = xbmc.translatePath(__addon__.getSetting("%s_download_path"  %cls.mediaType))
         if _path:
             if _path.lower().startswith("smb://"):
                 if not platform.system == "windows":
@@ -99,14 +106,12 @@ class _MetaClass2(_MetaClass):
             if not os.path.isdir(_path):
                 raise Notify('Download path does not exist (%s)' % _path, 30310, 1)
 
-            cls.download_path = _path.encode(Addon.fsencoding)
+            cls.user_download_path = _path.encode(Addon.fsencoding)
         else:
-            _path = os.path.join(Addon.cache_path, cls.mediaType)
-            if not os.path.exists(_path):
-                os.makedirs(_path)
-                if not os.path.exists(_path):
-                    raise Error("Unable to create cache directory %s" % _path, 30322)
-            cls.download_path = _path
+            cls.user_download_path = None
+
+    def _download_path(cls):
+        cls.download_path = cls.user_download_path or cls.media_cache_path
 
     def _delete_files(cls):
         if cls.keep_files or cls.keep_complete or cls.keep_incomplete:

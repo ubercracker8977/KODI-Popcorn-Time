@@ -81,7 +81,7 @@ class TorrentEngine:
         log('(Torrent) Initialize torrent engine', LOGLEVEL.INFO)
         self._mediaSettings      = mediaSettings
         self._magnet             = magnet
-        self._bind               = None
+        self._url                = None
         self._shutdown           = False
         self._process            = None
         self._logpipe            = None
@@ -98,7 +98,6 @@ class TorrentEngine:
         if not self._shutdown:
             log('(Torrent) Find free port', LOGLEVEL.INFO)
             port = get_free_port()
-            self._bind = "http://127.0.0.1:%s/" %port
 
             log('(Torrent) Starting torrent2http', LOGLEVEL.INFO)
             startupinfo = None
@@ -114,6 +113,7 @@ class TorrentEngine:
                 self._process = subprocess.Popen(self._mediaSettings.get_torrent_options(self._magnet, port), stderr=self._logpipe, stdout=self._logpipe, startupinfo=startupinfo)
             except:
                 raise TorrentError("Can't start torrent2http: %s" % str(sys.exc_info()[1]))
+            self._url = "http://127.0.0.1:%s/" %port
 
             start = time.time()
             while not self._shutdown:
@@ -132,7 +132,7 @@ class TorrentEngine:
             try:
                 if not self.isAlive():
                     raise TorrentError("torrent2http are not running")
-                self._last_status = self._json.request(self._bind, "/status", timeout=timeout) or self._last_status
+                self._last_status = self._json.request(self._url, "/status", timeout=timeout) or self._last_status
                 if self._last_status.get('error'):
                     raise TorrentError("torrent2http error: %s" %self._last_status['error'])
             except (JSONDecodeError, socket.timeout, IOError) as e:
@@ -145,7 +145,7 @@ class TorrentEngine:
             try:
                 if not self.isAlive():
                     raise TorrentError("torrent2http are not running")
-                self._last_files = self._json.request(self._bind, "/ls", timeout=timeout)['files'] or self._last_files
+                self._last_files = self._json.request(self._url, "/ls", timeout=timeout)['files'] or self._last_files
             except (JSONDecodeError, socket.timeout, IOError) as e:
                 log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
                 sys.exc_clear()
@@ -174,7 +174,7 @@ class TorrentEngine:
                 self._logpipe.close()
             log("(Torrent) Shutting down torrent2http")
             try:
-                request.Send().request(self._bind, "/shutdown", timeout=timeout)
+                request.Send().request(self._url, "/shutdown", timeout=timeout)
                 start = time.time()
                 while (time.time() - start) < 10:
                     time.sleep(0.100)

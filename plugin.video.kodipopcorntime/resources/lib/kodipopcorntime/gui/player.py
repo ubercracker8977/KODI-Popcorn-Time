@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import sys, xbmc, xbmcplugin, ctypes
+import os, sys, xbmc, xbmcplugin, ctypes
 from .base import _Base
 from kodipopcorntime.platform import Platform
 from kodipopcorntime.settings import addon as _settings

@@ -160,7 +160,7 @@ class TorrentEngine:
             for i, f in enumerate(files):
                 mimeType = mimetypes.guess_type(f['name'])
                 log('(Torrent) File name: %s, MIME info: %s' %(f['name'], str(mimeType)))
-                if mimeType[0][:5] == 'video' and f['size'] > size:
+                if mimeType[0] and mimeType[0][:5] == 'video' and f['size'] > size:
                     self._file_id = i
         try:
             return files[self._file_id]

@@ -22,7 +22,7 @@ class Thread(threading.Thread):
             self._target()
         except:
             self._exc_info = sys.exc_info()
-            self.close()
+            self.stop.set()
 
     def checkError(self):
         return len(self._exc_info) > 0
@@ -33,7 +33,7 @@ class Thread(threading.Thread):
 
     def __exit__(self, *exc_info):
         self.close()
-        return not exc_info[0]
+        return not exc_info[0] and not len(self._exc_info) > 0
 
     def __del__(self):
         self.close()

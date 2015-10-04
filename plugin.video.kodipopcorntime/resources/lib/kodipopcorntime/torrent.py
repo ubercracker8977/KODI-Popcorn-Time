@@ -112,8 +112,8 @@ class TorrentEngine:
 
             try:
                 self._process = subprocess.Popen(self._mediaSettings.get_torrent_options(self._magnet, port), stderr=self._logpipe, stdout=self._logpipe, startupinfo=startupinfo)
-            except OSError as e:
-                raise TorrentError("Can't start torrent2http: %r" % str(e))
+            except:
+                raise TorrentError("Can't start torrent2http: %s" % str(sys.exc_info()[1]))
 
             start = time.time()
             while not self._shutdown:

@@ -5,7 +5,7 @@ from .addon import Addon
 from .base import _Base, _MetaClass
 from urlparse import urlparse
 from kodipopcorntime.platform import Platform
-from kodipopcorntime.exceptions import Error, Notify
+from kodipopcorntime.exceptions import Error, Notify, LOGLEVEL
 from kodipopcorntime.logging import log
 
 __addon__ = sys.modules['__main__'].__addon__

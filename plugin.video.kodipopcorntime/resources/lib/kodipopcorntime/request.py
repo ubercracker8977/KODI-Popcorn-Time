@@ -31,7 +31,7 @@ class URL(object):
                     if e.__class__.__name__ == 'error':
                         if not e.errno in [errno.EUSERS, errno.ECONNRESET, errno.ETIMEDOUT, errno.ECONNREFUSED, errno.EHOSTDOWN]:
                             raise
-                    log("(URL) %s: %s" %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
+                    log("(URL) %s: %s - %s" %(e.__class__.__name__, str(e), self.url), LOGLEVEL.ERROR)
                     sys.exc_clear()
                 log("(URL) Proxy domain '%s' is not working and will therefore have low priority in the future" %proxy, LOGLEVEL.NOTICE)
                 proxies_cache.extendKey('proxies', [proxies_cache['proxies'].pop(0)])

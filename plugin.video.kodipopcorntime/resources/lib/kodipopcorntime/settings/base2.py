@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import xbmc, sys, os, time, stat
+import xbmc, sys, os, time, stat, shutil
 from . import SUBTITLE_ISO, QUALITIES, PUBLIC_TRACKERS
 from .addon import Addon
 from .base import _Base, _MetaClass

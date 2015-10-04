@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/python
 
-BUILDVERSION = 2
+BUILD = 2
 
 MEDIATYPES = [
     'movies',

@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/python
 import sys, os, xbmc, xbmcplugin
 from .base2 import _Base2
-from kodipopcorntime.settings import BUILDVERSION, QUALITIES, addon as _settings
+from kodipopcorntime.settings import BUILD, QUALITIES, addon as _settings
 from kodipopcorntime.logging import log, log_error
 from kodipopcorntime.utils import xbmcItem, clear_cache
 
@@ -11,7 +11,7 @@ class _Base3(_Base2):
     def __init__(self, *args):
         super(_Base3, self).__init__(*args)
         try:
-            update_id = "%s.%s" %(_settings.version, BUILDVERSION)
+            update_id = "%s.%s" %(_settings.version, BUILD)
             if not update_id == _settings.last_update_id:
                 # Clear cache after update
                 clear_cache()

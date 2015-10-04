@@ -21,7 +21,7 @@ if __name__ == '__main__':
         reload(sys)
         sys.setdefaultencoding("utf-8")
 
-        log("(Main) Starting - Platform: %s %s" %(Platform.system, Platform.arch), LOGLEVEL.INFO)
+        log("(Main) Starting KODI Popcorn Time version %s buildversion %s - Platform: %s %s" %(settings.addon.version, settings.BUILDVERSION, Platform.system, Platform.arch), LOGLEVEL.INFO)
 
         log("(Main) Platform: %s" %sys.platform)
         if hasattr(os, 'uname'):

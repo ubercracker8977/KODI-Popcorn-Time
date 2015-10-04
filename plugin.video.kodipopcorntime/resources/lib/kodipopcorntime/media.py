@@ -43,7 +43,7 @@ class List(_Base):
         super(List, self).__init__()
 
     def attempts(self):
-        if self._domaine and not self._domaine == self._request.netloc:
+        if self._domaine == self._request.netloc:
             self._proxy_attempt = self._proxy_attempt+1
         self._domaine = self._request.netloc
         return self._proxy_attempt

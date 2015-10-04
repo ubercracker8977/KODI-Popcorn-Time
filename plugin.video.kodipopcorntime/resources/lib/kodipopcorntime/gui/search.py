@@ -56,7 +56,7 @@ class Search(_Base3):
                             if xbmc.abortRequested or dialog.iscanceled():
                                 raise Abort()
                             attempts = medialist.attempts()
-                            if attempts > 0:
+                            if attempts > 1:
                                 dialog.update(0, __addon__.getLocalizedString(30007), __addon__.getLocalizedString(30024)+str(attempts), ' ')
                         res = medialist.get_data()
                         if not res:

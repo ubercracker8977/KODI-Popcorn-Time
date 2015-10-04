@@ -242,7 +242,7 @@ class Loader(Thread):
 
     def is_done(self, wait=0):
         time.sleep(wait)
-        return Loader.url is not None
+        return Loader.url is not None or self.stop.is_set()
 
     def _run(self):
         if self.callbackfn:
@@ -376,7 +376,6 @@ class Loader(Thread):
                 os.unlink(self._tmppath)
             if self._path and os.path.isfile(self._path) and not (Loader.subtitle or Loader.subtitle == self._path):
                 os.unlink(self._path)
-            self.raiseAnyError()
 
 class TorrentPlayer(xbmc.Player):
     def onPlayBackStarted(self):

@@ -27,7 +27,6 @@ class _Base(Thread):
     def close(self):
         super(_Base, self).close()
         self._request.close()
-        self.raiseAnyError()
 
 class List(_Base):
     def __init__(self, mediaSettings, call, *args, **kwargs):
@@ -112,14 +111,12 @@ class MediaCache:
             self.close()
 
     def close(self):
+        if self._preloader:
+            self._preloader.close()
+        self._preloader = None
         for thread in self._threads:
             thread.close()
-        if self._preloader:
-            self._preloader.raiseAnyError()
-        for thread in self._threads:
-            thread.raiseAnyError()
         self._threads = []
-        self._preloader = None
 
 class _Preloader(_Base):
     def __init__(self, mediaSettings):

@@ -22,6 +22,7 @@ class Thread(threading.Thread):
             self._target()
         except:
             self._exc_info = sys.exc_info()
+            sys.exc_clear()
             self.stop.set()
 
     def checkError(self):
@@ -30,6 +31,12 @@ class Thread(threading.Thread):
     def raiseAnyError(self):
         if self._exc_info: 
             raise self._exc_info[0], self._exc_info[1], self._exc_info[2]
+
+    def cleanError(self):
+        self._exc_info = []
+
+    def getError(self):
+        return self._exc_info
 
     def __exit__(self, *exc_info):
         self.close()
@@ -41,6 +48,7 @@ class Thread(threading.Thread):
     def close(self):
         if hasattr(self, 'stop') and not self.stop.is_set():
             self.stop.set()
+        self.raiseAnyError()
 
 class FLock:
     _locks = {}

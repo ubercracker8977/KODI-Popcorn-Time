@@ -109,8 +109,9 @@ class TorrentEngine:
             if _settings.debug:
                 self._logpipe = LogPipe(self._debug)
 
+            torrent_options = self._mediaSettings.get_torrent_options(self._magnet, port)
             try:
-                self._process = subprocess.Popen(self._mediaSettings.get_torrent_options(self._magnet, port), stderr=self._logpipe, stdout=self._logpipe, startupinfo=startupinfo)
+                self._process = subprocess.Popen(torrent_options, stderr=self._logpipe, stdout=self._logpipe, startupinfo=startupinfo)
             except:
                 raise TorrentError("Can't start torrent2http: %s" % str(sys.exc_info()[1]))
             self._url = "http://127.0.0.1:%s/" %port

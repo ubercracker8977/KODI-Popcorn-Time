@@ -1,5 +1,11 @@
 #I'm looking for someone who can take over the project, otherwise the project will be closed in two months. :(#
 
+I'm sorry, but I do not have time to project.
+
+<hr><hr><hr>
+
+
+
 [![Code Climate](https://codeclimate.com/github/Diblo/KODI-Popcorn-Time/badges/gpa.svg)](https://codeclimate.com/github/Diblo/KODI-Popcorn-Time)
 # KODI Popcorn Time #
 

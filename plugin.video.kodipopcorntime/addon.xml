@@ -8,9 +8,8 @@
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-        <website><![CDATA[https://github.com/Diblo/KODI-Popcorn-Time]]></website>
-        <forum><![CDATA[http://forums.tvaddons.ag/threads/32586-KODI-Popcorn-Time]]></forum>
-        <source><![CDATA[https://github.com/Diblo/KODI-Popcorn-Time]]></source>
+        <website><![CDATA[https://github.com/markop159/KODI-Popcorn-Time]]></website>
+        <source><![CDATA[https://github.com/markop159/KODI-Popcorn-Time]]></source>
         <license><![CDATA[GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007]]></license>
         <summary lang="de"><![CDATA[Immediately stream movies and tv shows.]]></summary>
         <summary lang="en"><![CDATA[Immediately stream movies and tv shows.]]></summary>

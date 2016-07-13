@@ -1,8 +1,4 @@
-This is the continuation of Diblo's work on bringing Popcorn Time to KODI.
-
-#I'm looking for someone who can take over the project, otherwise the project will be closed in two months. :(#
-
-I'm sorry, but I do not have time to project.
+#This is the continuation of Diblo's work on bringing Popcorn Time to KODI.#
 
 <hr><hr><hr>
 

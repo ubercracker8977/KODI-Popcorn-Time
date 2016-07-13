@@ -178,7 +178,7 @@ class _MetaClass2(_MetaClass):
     def _torrent_options(cls):
         debug = __addon__.getSetting("debug")
         kwargs = {
-            '--file-index':             0,
+            # '--file-index':             0,
             '--dl-path':                cls.download_path,
             '--connections-limit':      int(__addon__.getSetting('connections_limit')),
             '--dl-rate':                cls.download_kbps,

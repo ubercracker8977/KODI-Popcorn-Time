@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import os, sys, xbmc, xbmcgui, mimetypes, time, subprocess, socket, urlparse
+import os, sys, xbmc, xbmcgui, mimetypes, time, subprocess, socket, urlparse, urllib2
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing
@@ -151,6 +151,7 @@ class TorrentEngine:
                 log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
                 sys.exc_clear()
         return self._last_files
+		
 
     def playFile(self, timeout=10):
         files = self.files(timeout)
@@ -161,8 +162,10 @@ class TorrentEngine:
             for i, f in enumerate(files):
                 mimeType = mimetypes.guess_type(f['name'])
                 log('(Torrent) File name: %s, MIME info: %s' %(f['name'], str(mimeType)))
-                if mimeType[0] and mimeType[0][:5] == 'video' and f['size'] > size:
+                # if mimeType[0] and mimeType[0][:5] == 'video' and f['size'] > size:
+                if 'video' in str(mimeType) and f['size'] > size:
                     self._file_id = i
+                    urllib2.urlopen(f['url'])
         try:
             return files[self._file_id]
         except (KeyError, TypeError):
@@ -249,7 +252,8 @@ class Loader(Thread):
         if self.callbackfn:
             self.callbackfn(self.STARTING, 0)
 
-        if self._TEngine.start() and self._getPlayFile() and self._checkData() and (self._isDownloadDone() or self._preloading(self._item.get('stream_info', {}).get('video', {}).get('duration', 0))):
+        # if self._TEngine.start() and self._getPlayFile() and self._checkData() and (self._isDownloadDone() or self._preloading(self._item.get('stream_info', {}).get('video', {}).get('duration', 0))):
+        if self._TEngine.start() and self._getPlayFile() and self._checkData() and self._preloading(self._item.get('stream_info', {}).get('video', {}).get('duration', 0)):
             playFileInfo = self._TEngine.playFile()
 
             if self._subtitleURL:
@@ -289,8 +293,8 @@ class Loader(Thread):
     def _isDownloadDone(self):
         if self._TEngine.status()['state'] in [self._TEngine.FINISHED, self._TEngine.SEEDING]:
             log('(Loader) Media is downloaded')
-            if self.callbackfn:
-                self.callbackfn(Loader.PRELOADING, 100)
+            #if self.callbackfn:
+             #   self.callbackfn(Loader.PRELOADING, 100)
             return not self.stop.is_set()
         return False
 
@@ -454,7 +458,7 @@ class TorrentPlayer(xbmc.Player):
 
     def _get_status_lines(self, status):
             if status:
-                if status['state'] == TorrentEngine.DOWNLOADING:
+                if status['state'] in [TorrentEngine.DOWNLOADING, TorrentEngine.FINISHED, TorrentEngine.SEEDING]:
                     return [
                         __addon__.getLocalizedString(30021),
                         __addon__.getLocalizedString(30008) %(shortenBytes(status['download_rate']*1024), shortenBytes(status['upload_rate']*1024)),

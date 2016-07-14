@@ -40,9 +40,7 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
   - Fixed Download is complete
 
 ## Need more information ##
-* Current WIKI page is a copy of Diblo's Wiki and needs to be updated *
+### Current WIKI page is a copy of Diblo's Wiki and needs to be updated ###
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)
-
-Many thanks in advance.
 
 [![Analytics](https://ga-beacon.appspot.com/UA-63872919-1/KODI-Popcorn-Time/readme.md)](https://github.com/igrigorik/ga-beacon)

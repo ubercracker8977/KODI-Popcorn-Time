@@ -11,7 +11,7 @@
 With KODI Popcorn Time you can search for movies that you can see immediately in KODI.
 
 ## Download ##
-Check out the [releases](http://github.com/Diblo/KODI-Popcorn-Time/releases) tab to download the ZIP file.
+Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/master/Releases) folder to download repository for installing and autoupdate add-on or you can download add-on separately.
 
 ## Supported Platforms ##
 * XBMC/KODI 13.x and later
@@ -21,28 +21,27 @@ Check out the [releases](http://github.com/Diblo/KODI-Popcorn-Time/releases) tab
 * Raspberry Pi
 * Android ARM 4.0+
 
-## Discussions/Proposals ##
-There is one active threads on [tvaddons.ag](http://forums.tvaddons.ag/threads/32586-KODI-Popcorn-Time?p=271031). However, proposals may also be posted under [Issues](http://github.com/Diblo/KODI-Popcorn-Time/issues).
-
 ## Issues ##
-Please, file an issue :) - [Issues](http://github.com/Diblo/KODI-Popcorn-Time/issues)
+Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Time/issues)
+
+* Known issues:
+  - error on some devices due to timeout
 
 ## Credits ##
+* Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
 * KODI Popcorn Time is a rewrite of [xbmctorrent](http://github.com/steeve/xbmctorrent).
 * http://github.com/steeve/libtorrent-go
 * http://github.com/steeve/torrent2http
 
 ## Changelog ##
-Check out [releases](http://github.com/Diblo/KODI-Popcorn-Time/releases).
+* Ver 1.0.0.b
+  - Beta release
+  - Fixed provider
+  - Fixed Download is complete
 
 ## Need more information ##
-Check out our [WIKI page](http://github.com/Diblo/KODI-Popcorn-Time/wiki/Welcome-to-the-KODI-Popcorn-Time-wiki!)
-
-## Test releases ##
-http://github.com/Diblo/KODI-Popcorn-Time/wiki/Test-releases
-
-## HELP WANTED ##
-Please, see our WIKI page [Help wanted](http://github.com/Diblo/KODI-Popcorn-Time/wiki/Help-wanted)
+* Current WIKI page is a copy of Diblo's Wiki and needs to be updated *
+Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)
 
 Many thanks in advance.
 

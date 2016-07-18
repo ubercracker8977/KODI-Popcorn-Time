@@ -1,8 +1,6 @@
 #This is the continuation of Diblo's work on bringing Popcorn Time to KODI.#
 
-<hr><hr><hr>
-
-
+<hr>
 
 # KODI Popcorn Time #
 

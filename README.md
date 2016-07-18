@@ -23,6 +23,7 @@ Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/mas
 
 ## Issues ##
 Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Time/issues)
+Or go to TVADDONS [forum](https://forums.tvaddons.ag/addon-releases/47568-kodi-popcorn-time.html) and post there.
 
 * Known issues:
   - error on some devices due to timeout

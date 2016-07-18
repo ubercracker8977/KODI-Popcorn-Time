@@ -34,10 +34,17 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 * http://github.com/steeve/torrent2http
 
 ## Changelog ##
+
+### KODI Popcorn Time Addon ###
 * Ver 1.0.0.b
   - Beta release
   - Fixed provider
   - Fixed Download is complete
+
+### Markop159 Popcorn Time Repository ###
+* Ver 1.0.0
+  - First release
+  - KODI Popcorn Time Ver 1.0.0.b
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)

@@ -26,7 +26,6 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 * Known issues:
   - error on some devices due to timeout
-  - Repo is stuck on auto-update
 
 ## TODO ##
   - Resolve timeout Issue

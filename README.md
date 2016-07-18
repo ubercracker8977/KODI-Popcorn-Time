@@ -4,7 +4,6 @@
 
 
 
-[![Code Climate](https://codeclimate.com/github/Diblo/KODI-Popcorn-Time/badges/gpa.svg)](https://codeclimate.com/github/Diblo/KODI-Popcorn-Time)
 # KODI Popcorn Time #
 
 ## What it is ##

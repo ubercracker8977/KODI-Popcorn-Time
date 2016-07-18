@@ -13,12 +13,10 @@
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<website><![CDATA[https://github.com/markop159/KODI-Popcorn-Time]]></website>
-		<forum><![CDATA[https://forums.tvaddons.ag/addon-releases/47568-kodi-popcorn-time.html]]></forum>
 		<source><![CDATA[https://github.com/markop159/KODI-Popcorn-Time]]></source>
 		<language>English</language>
 		<licence><![CDATA[GNU GENERAL PUBLIC LICENCE. Version 3, 29 June 2007]]></licence>
 		<summary lang="en"><![CDATA[KODI Popcorn Time: Stream movies in KODI.]]></summary>
-		<description lang="en"><![CDATA[With KODI Popcorn Time you can search for movies that you can see immediately in KODI.]]></description>
 		<noicon>false</noicon>
 		<nofanart>false</nofanart>
 	</extension>

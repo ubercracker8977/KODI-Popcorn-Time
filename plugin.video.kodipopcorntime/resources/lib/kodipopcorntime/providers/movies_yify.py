@@ -31,7 +31,8 @@ _proxy_identifier = 'movies.yify.proxies'
 def _getDomains():
     domains = [
         "https://yts.ag",
-        # "https://yts.popcorntimece.ch", TODO potrebno stestirat 
+        "https://yts.popcorntimece.ch",
+        "https://movies.api-fetch.website",
         "http://eqwww.image.yt"
     ]
 

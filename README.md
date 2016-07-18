@@ -27,6 +27,10 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 * Known issues:
   - error on some devices due to timeout
 
+## TODO ##
+  - Resolve timeout Issue
+  - TV shows section
+
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
 * KODI Popcorn Time is a rewrite of [xbmctorrent](http://github.com/steeve/xbmctorrent).

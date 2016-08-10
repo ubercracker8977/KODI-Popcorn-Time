@@ -24,7 +24,7 @@ def notify(messageID=0, message=None, level=NOTIFYLEVEL.INFO):
     if not message:
         message = __addon__.getLocalizedString(messageID)
 
-    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(settings.addon.name, message, len(message)*210, image))
+    #xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %(settings.addon.name, message, len(message)*210, image))
 
 def xbmcItem(label='', label2='', icon=None, thumbnail=None, path=None, info=None,
              info_type='video', properties=None, stream_info=None,

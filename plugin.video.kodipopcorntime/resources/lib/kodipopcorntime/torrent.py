@@ -151,7 +151,7 @@ class TorrentEngine:
                 log('(Torrent) %s: %s' %(e.__class__.__name__, str(e)), LOGLEVEL.NOTICE)
                 sys.exc_clear()
         return self._last_files
-		
+
 
     def playFile(self, timeout=10):
         files = self.files(timeout)
@@ -165,7 +165,7 @@ class TorrentEngine:
                 # if mimeType[0] and mimeType[0][:5] == 'video' and f['size'] > size:
                 if 'video' in str(mimeType) and f['size'] > size:
                     self._file_id = i
-                    urllib2.urlopen(f['url'])
+                    urllib2.urlopen(f['url'], timeout=50)
         try:
             return files[self._file_id]
         except (KeyError, TypeError):
@@ -265,7 +265,7 @@ class Loader(Thread):
                     filename = ".".join([filename, self._item['stream_info']['subtitle']['language']])
                 if self._getSubtitle(os.path.dirname(playFileInfo['save_path']), filename) and os.path.isfile(self._path):
                     Loader.subtitle = self._path
-            
+
             if self.callbackfn:
                 self.callbackfn(self.FINISHED, 1)
             Loader.url = playFileInfo['url']
@@ -412,7 +412,7 @@ class TorrentPlayer(xbmc.Player):
 
                 # Update progress dialog
                 dialog.set_mentions((101+bool(subtitleURL)))
-             
+
                 def on_update(state, progressValue):
                     if state == Loader.PRELOADING:
                         dialog.update(progressValue, *self._get_status_lines(_TorrentEngine.status()))

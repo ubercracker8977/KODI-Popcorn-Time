@@ -25,8 +25,8 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
   - error on some devices due to timeout
 
 ## TODO ##
-  - Resolve timeout Issue
-  - TV shows section
+  - [x] Resolve timeout Issue
+  - [ ] TV shows section
 
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
@@ -36,6 +36,11 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 ## Changelog ##
 #### KODI Popcorn Time Addon ####
+* Ver 1.0.1.b
+  - Minor beta update
+  - Changed to another provider due to Issue #3 with "action:seed" tested by @freestylemaster
+  - Fixed timeout on Raspberry PI (tested on RPI2 with OSMC)
+
 * Ver 1.0.0.b
   - Beta release
   - Fixed provider

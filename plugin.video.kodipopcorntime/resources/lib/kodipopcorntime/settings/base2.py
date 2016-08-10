@@ -148,7 +148,7 @@ class _MetaClass2(_MetaClass):
             binary_path = ensure_android_binary_location(binary_path, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(xbmc.translatePath('special://xbmc')))), "files", __addon__.getAddonInfo('id'), binary).encode(Addon.fsencoding))
 
         existBinary(binary_path)
-        ensure_exec(binary_path)
+        ensure_exec(binary, binary_path)
 
         cls.binary_path = binary_path
 
@@ -260,9 +260,8 @@ def ensure_android_binary_location(binary_path, android_binary_path):
         shutil.copy2(binary_path, android_binary_path)
     return android_binary_path
 
-def ensure_exec(binary_path):
+def ensure_exec(binary, binary_path):
     st = os.stat(binary_path)
     os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
     if not st.st_mode & stat.S_IEXEC:
         raise Error("Cannot make %s executable (%s)" % (binary, binary_path), 30321)
-

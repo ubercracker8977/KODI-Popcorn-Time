@@ -30,9 +30,9 @@ _genres = {
 _proxy_identifier = 'movies.yify.proxies'
 def _getDomains():
     domains = [
+        "https://movies.api-fetch.website",
         "https://yts.ag",
         "https://yts.popcorntimece.ch",
-        "https://movies.api-fetch.website",
         "http://eqwww.image.yt"
     ]
 
@@ -163,7 +163,7 @@ def folders(action, **kwargs):
             }
         ]
 
-    # There was no action, therefore has index be called  
+    # There was no action, therefore has index be called
     return [{
         "label": __addon__.getLocalizedString(30030),                               # "label" is require
         "icon": os.path.join(settings.addon.resources_path, 'media', 'movies.png'),

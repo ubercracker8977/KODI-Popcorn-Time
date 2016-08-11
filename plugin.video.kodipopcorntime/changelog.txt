@@ -1,3 +1,11 @@
+v1.0.1.b
+- Changed to another provider due to Issue #3 with "action:seed" tested by @freestylemaster
+- Fixed timeout on Raspberry PI (tested on RPI2 with OSMC)
+
+v1.0.0.b
+- fixed provider
+- fixed download is complete issue
+
 v0.7.0 alpha 2
 - Checks whether there is room for movie
 - Improved view and navigation

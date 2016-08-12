@@ -51,7 +51,7 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 #### Markop159 Popcorn Time Repository ####
 * Ver 1.0.0
   - First release
-  - KODI Popcorn Time Ver 1.0.0.b
+  - KODI Popcorn Time Addon Auto-update
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)

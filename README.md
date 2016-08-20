@@ -31,11 +31,13 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
 * KODI Popcorn Time is a rewrite of [xbmctorrent](http://github.com/steeve/xbmctorrent).
-* http://github.com/steeve/libtorrent-go
-* http://github.com/steeve/torrent2http
+* [libtorrent-go](http://github.com/steeve/libtorrent-go)
+* [torrent2http](http://github.com/steeve/torrent2http)
 
 ## Changelog ##
+
 #### KODI Popcorn Time Addon ####
+
 * Ver 1.0.1.b
   - Minor beta update
   - Changed to another provider due to Issue #3 with "action:seed" tested by @freestylemaster
@@ -49,7 +51,7 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 #### Markop159 Popcorn Time Repository ####
 * Ver 1.0.0
   - First release
-  - KODI Popcorn Time Ver 1.0.0.b
+  - KODI Popcorn Time Addon Auto-update
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)

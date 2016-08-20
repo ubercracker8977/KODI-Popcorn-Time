@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/python
 import os, sys
 from kodipopcorntime import settings
+from kodipopcorntime.logging import log, LOGLEVEL
 __addon__ = sys.modules['__main__'].__addon__
 
 _genres = {
@@ -46,9 +47,11 @@ def _create_item(data):
     # Do not return movies without hash, quality and size (require)
     torrents = {}
     for torrent in data.get("torrents", []):
+        log("(yify) %s" %torrent, LOGLEVEL.INFO)
         if torrent.get("quality") and torrent.get("hash") and torrent.get("size_bytes") and torrent["quality"] in settings.QUALITIES:
             torrents[torrent["quality"]] = torrent["hash"]
             torrents['%ssize' %torrent["quality"]] = torrent["size_bytes"]
+            log("(yify-after) %s" %torrents, LOGLEVEL.INFO)
 
     if not torrents:
         return {}
@@ -213,15 +216,15 @@ def browse_build(data, action, page, **kwargs):
         item = _create_item(movie)
         if item:
             items.append(item)
-
+    log("(yify-items) %s" %items, LOGLEVEL.INFO)
     if not items:
         return {}
 
     movie_count = int(data.get("data", {}).get("movie_count", 20))
-    return {
-        'pages': int(movie_count/settings.addon.limit) + (movie_count%settings.addon.limit > 0), # Specify the total number of pages (require)
-        'items': items
-    }
+    #return {
+        #'pages': int(movie_count/settings.addon.limit) + (movie_count%settings.addon.limit > 0), # Specify the total number of pages (require)
+        #'items': items
+    #}
 
 def search(query, page, **kwargs):
     '''search are used to returning parameters used for 'Request' when a search result is displayed.
@@ -252,8 +255,8 @@ def search_build(data, query, page, **kwargs):
        :param kwargs: (dict) Contain user parameters that were given to search function
        :return: Return a dict
     '''
-    if not data or int(data.get("data", {}).get("movie_count", 0)) <= 0:
-        return {}
+    #if not data or int(data.get("data", {}).get("movie_count", 0)) <= 0:
+        #return {}
 
     items = []
     for movie in data["data"]["movies"]:
@@ -264,8 +267,8 @@ def search_build(data, query, page, **kwargs):
     if not items:
         return {}
 
-    movie_count = int(data.get("data", {}).get("movie_count", 20))
-    return {
-        'pages': int(movie_count/settings.addon.limit) + (movie_count%settings.addon.limit > 0), # Specify the total number of pages (require)
-        'items': items
-    }
+    #movie_count = int(data.get("data", {}).get("movie_count", 20))
+    #return {
+    #    'pages': int(movie_count/settings.addon.limit) + (movie_count%settings.addon.limit > 0), # Specify the total number of pages (require)
+    #    'items': items
+    #}

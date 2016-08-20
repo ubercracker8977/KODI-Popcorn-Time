@@ -29,7 +29,7 @@
   <string id="30023">Título</string>
   <string id="30024">Ano</string>
 
-  <!-- 
+  <!--
    * Settings
    * The range 30100-30199 - 99
    -->
@@ -94,7 +94,7 @@
   <string id="30158">Debug:</string>
   <string id="30159">Mostrar notificações de debug:</string>
 
-  <!-- 
+  <!--
    * Languages
    * The range 30200-30299 - 99
    -->
@@ -138,7 +138,7 @@
   <string id="30237">Urdu</string>
   <string id="30238">Vietnamita</string>
 
-  <!-- 
+  <!--
    * Notify
    * The range 30300-30399 - 99
    -->
@@ -165,32 +165,39 @@
   <string id="30320">xxxx</string>
   <string id="30321">xxxx</string>
 
-  <!-- 
+  <!--
    * Genres
    * The range 30400-30499 - 99
    * See http://www.imdb.com/genre/
    -->
-  <string id="30400">Ação</string>
-  <string id="30401">Aventura</string>
-  <string id="30402">Animação</string>
-  <string id="30403">Biografia</string>
-  <string id="30404">Comédia</string>
-  <string id="30405">Crime</string>
-  <string id="30406">Documentário</string>
-  <string id="30407">Drama</string>
-  <string id="30408">Família</string>
-  <string id="30409">Fantasia</string>
-  <string id="30410">Film-Noir</string>
-  <string id="30411">História</string>
-  <string id="30412">Terror</string>
-  <string id="30413">Música</string>
-  <string id="30414">Musical</string>
-  <string id="30415">Mistério</string>
-  <string id="30416">Romance</string>
-  <string id="30417">Ficção Científica</string>
-  <string id="30418">Esporte</string>
-  <string id="30419">Suspense</string>
-  <string id="30420">Guerra</string>
-  <string id="30421">Ocidental</string>
-  <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421</string> <!-- The order of the genres - You can not add new ids! --> 
-</strings>
+   <string id="30400">Action</string>
+   <string id="30401">Adventure</string>
+   <string id="30402">Animation</string>
+   <string id="30403">Comedy</string>
+   <string id="30404">Crime</string>
+   <string id="30405">Disaster</string>
+   <string id="30406">Documentary</string>
+   <string id="30407">Drama</string>
+   <string id="30408">Eastern</string>
+   <string id="30409">Family</string>
+   <string id="30410">Fan-Film</string>
+   <string id="30411">Fantasy</string>
+   <string id="30412">Film-Noir</string>
+   <string id="30413">History</string>
+   <string id="30414">Horror</string>
+   <string id="30415">Indie</string>
+   <string id="30416">Music</string>
+   <string id="30417">Mystery</string>
+   <string id="30418">Road</string>
+   <string id="30419">Romance</string>
+   <string id="30420">Sci-Fi</string>
+   <string id="30421">Short</string>
+   <string id="30422">Sport</string>
+   <string id="30423">Sporting-event</string>
+   <string id="30424">Suspence</string>
+   <string id="30425">Thriller</string>
+   <string id="30426">TV-Movie</string>
+   <string id="30427">War</string>
+   <string id="30428">Western</string>
+   <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,30424,30425,30426,30427,30428</string> <!-- The order of the genres - You Cannot add new ids! -->
+ </strings>

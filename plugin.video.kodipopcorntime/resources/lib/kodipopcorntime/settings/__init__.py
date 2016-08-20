@@ -3,8 +3,8 @@
 BUILD = 2
 
 MEDIATYPES = [
-    'movies',
-    'tvshows'
+    'movies'
+    #'tvshows'
 ]
 
 SUBTITLE_ISO = [
@@ -112,7 +112,8 @@ PUBLIC_TRACKERS = [
 QUALITIES = [
     '3D',
     '1080p',
-    '720p'
+    '720p',
+    '480p'
 ]
 
 from .addon import Addon as addon

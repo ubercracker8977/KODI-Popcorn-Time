@@ -222,7 +222,8 @@ def isoToLang(iso):
     return None
 
 def build_magnetFromMeta(torrent_hash, dn):
-    return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urlencode({'dn' : dn}, doseq=True))
+    return "%s&%s" % (torrent_hash, urlencode({'dn' : dn}, doseq=True))
+    #return "magnet:?xt=urn:btih:%s&%s" % (torrent_hash, urlencode({'dn' : dn}, doseq=True))
 
 def get_free_port(port=5001):
     """

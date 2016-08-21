@@ -5,7 +5,9 @@
 # KODI Popcorn Time #
 
 ## What it is ##
-With KODI Popcorn Time you can search for movies that you can see immediately in KODI.
+With KODI Popcorn Time you can search for Movies, TV Shows and Animes that you can see immediately in KODI.
+
+I do this as a hobby and release it for free. But if you like it and want to you can always buy me a beer using the donation button on my [Developer Github Page](https://markop159.github.io).
 
 ## Download ##
 Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/master/Releases) folder to download repository for installing and autoupdate add-on or you can download add-on separately.
@@ -21,12 +23,13 @@ Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/mas
 ## Issues ##
 Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Time/issues), or go to [TVADDONS forum](https://forums.tvaddons.ag/addon-releases/47568-kodi-popcorn-time.html) and post there.
 
-* Known issues:
-  - error on some devices due to timeout
-
 ## TODO ##
   - [x] Resolve timeout Issue
-  - [ ] TV shows section
+  - [x] TV shows section
+  - [ ] Next page for TV shows and Anime
+  - [ ] Add 480p selection
+  - [ ] Clean-up settings page
+  - [ ] Clean-up code
 
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
@@ -37,6 +40,11 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 ## Changelog ##
 
 #### KODI Popcorn Time Addon ####
+
+* Ver 1.5.0.b
+  - Added TV Shows section
+  - Added Anime Section
+  - Changed API calls
 
 * Ver 1.0.1.b
   - Minor beta update
@@ -55,5 +63,3 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)
-
-[![Analytics](https://ga-beacon.appspot.com/UA-63872919-1/KODI-Popcorn-Time/readme.md)](https://github.com/igrigorik/ga-beacon)

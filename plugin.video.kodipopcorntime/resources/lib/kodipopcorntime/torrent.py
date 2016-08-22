@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import os, sys, xbmc, xbmcgui, mimetypes, time, subprocess, socket, urlparse, urllib2
+import os, sys, xbmc, xbmcgui, mimetypes, time, subprocess, socket, urlparse, urllib2, re
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from contextlib import closing
@@ -163,7 +163,8 @@ class TorrentEngine:
                 mimeType = mimetypes.guess_type(f['name'])
                 log('(Torrent) File name: %s, MIME info: %s' %(f['name'], str(mimeType)))
                 # if mimeType[0] and mimeType[0][:5] == 'video' and f['size'] > size:
-                if 'video' in str(mimeType) and f['size'] > size:
+                # if 'video' in str(mimeType) and f['size'] > size:
+                if(re.match('.*\.avi|.*\.mp4|.*\.mkv',f['name'])):
                     self._file_id = i
                     urllib2.urlopen(f['url'], timeout=50)
         try:

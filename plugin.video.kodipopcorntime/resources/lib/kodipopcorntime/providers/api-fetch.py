@@ -338,7 +338,9 @@ def folders(action, **kwargs):
                     "act": "search",
                     'search': 'true',
                     'action': 'show-list',                                      # Require when calling browse or folders (Action is used to separate the content)
-                    "endpoint": "folders"                                       # "endpoint" is require
+                    "endpoint": "folders",                                       # "endpoint" is require
+                    'page': 1,
+                    'genre': 'all'
                 }
             },
             {
@@ -456,7 +458,9 @@ def folders(action, **kwargs):
                     "act": "search",
                     'search': 'true',
                     'action': 'anime-list',                                     # Require when calling browse or folders (Action is used to separate the content)
-                    "endpoint": "folders"                                       # "endpoint" is require
+                    "endpoint": "folders",                                       # "endpoint" is require
+                    'page': 1,
+                    'genre': 'all'
                 }
             },
             {
@@ -469,7 +473,8 @@ def folders(action, **kwargs):
                     'search': 'false',
                     'genre': 'all',
                     "endpoint": "folders",                                      # "endpoint" is require
-                    'act': "rating"
+                    'act': "rating",
+                    'page': 1
                 }
             },
             {
@@ -482,7 +487,8 @@ def folders(action, **kwargs):
                     'search': 'false',
                     'genre': 'all',
                     "endpoint": "folders",                                      # "endpoint" is require
-                    'act': "name"
+                    'act': "name",
+                    'page': 1
                 }
             },
             {
@@ -495,7 +501,8 @@ def folders(action, **kwargs):
                     'search': 'false',
                     'genre': 'all',
                     "endpoint": "folders",                                      # "endpoint" is require
-                    'act': "year"
+                    'act': "year",
+                    'page': 1
                 }
             },
             {
@@ -525,7 +532,8 @@ def folders(action, **kwargs):
                         'search': 'false',
                         "endpoint": "folders",                                  # "endpoint" is require
                         'act': "genre",
-                        'genre': _genres_anime[n]
+                        'genre': _genres_anime[n],
+                        'page': 1
                     }
                 })
         return items
@@ -576,8 +584,8 @@ def folders(action, **kwargs):
         # Next Page
         items.append({
             "label": 'Show more',                                               # "label" is require
-            "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'search.png'),
-            "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'search.png'),
+            "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more.png'),
+            "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more_thumbnail.png'),
             "params": {
                 "endpoint": "folders",                                          # "endpoint" is require
                 'action': "show-list",                                          # Require when calling browse or folders (Action is used to separate the content)
@@ -643,7 +651,7 @@ def folders(action, **kwargs):
             log("(Search-Animes) Returning search string '%s'" %search_string)
             search = '%s/tv/animes/1?keywords=%s' % (dom[0], search_string)
         else:
-            search = '%s/tv/animes/1?genre=%s&sort=%s' % (dom[0], kwargs['genre'], kwargs['act'])
+            search = '%s/tv/animes/%s?genre=%s&sort=%s' % (dom[0], kwargs['page'], kwargs['genre'], kwargs['act'])
 
         req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
         response = urllib2.urlopen(req)
@@ -664,6 +672,22 @@ def folders(action, **kwargs):
                     'fanart': anime.get('images').get('fanart')
                 }
             })
+
+        # Next Page
+        items.append({
+            "label": 'Show more',                                               # "label" is require
+            "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more.png'),
+            "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more_thumbnail.png'),
+            "params": {
+                "endpoint": "folders",                                          # "endpoint" is require
+                'action': "anime-list",                                          # Require when calling browse or folders (Action is used to separate the content)
+                'act': kwargs['act'],
+                'genre': kwargs['genre'],
+                'search': kwargs['search'],
+                'page': int(kwargs['page'])+1
+            }
+        })
+
         return items
 
     if action == 'anime-seasons':

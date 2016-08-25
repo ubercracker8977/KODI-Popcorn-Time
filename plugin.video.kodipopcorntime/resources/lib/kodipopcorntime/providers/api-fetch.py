@@ -351,6 +351,7 @@ def folders(action, **kwargs):
                     'act': "trending",
                     'search': 'false',
                     'genre': 'all',
+                    'page': 1,
                     'action': "show-list"                                       # Require when calling browse or folders (Action is used to separate the content)
                 }
             },
@@ -363,6 +364,7 @@ def folders(action, **kwargs):
                     "action": "show-list",                                      # Require when calling browse or folders (Action is used to separate the content)
                     'search': 'false',
                     'genre': 'all',
+                    'page': 1,
                     "endpoint": "folders",                                      # "endpoint" is require
                     'act': "updated"
                 }
@@ -376,6 +378,7 @@ def folders(action, **kwargs):
                     "action": "show-list",                                      # Require when calling browse or folders (Action is used to separate the content)
                     'search': 'false',
                     'genre': 'all',
+                    'page': 1,
                     "endpoint": "folders",                                      # "endpoint" is require
                     'act': "rating"
                 }
@@ -389,6 +392,7 @@ def folders(action, **kwargs):
                     "action": "show-list",                                      # Require when calling browse or folders (Action is used to separate the content)
                     'search': 'false',
                     'genre': 'all',
+                    'page': 1,
                     "endpoint": "folders",                                      # "endpoint" is require
                     'act': "name"
                 }
@@ -402,6 +406,7 @@ def folders(action, **kwargs):
                     "action": "show-list",                                      # Require when calling browse or folders (Action is used to separate the content)
                     'search': 'false',
                     'genre': 'all',
+                    'page': 1,
                     "endpoint": "folders",                                      # "endpoint" is require
                     'act': "year"
                 }
@@ -433,6 +438,7 @@ def folders(action, **kwargs):
                         'search': 'false',
                         "endpoint": "folders",                                  # "endpoint" is require
                         'act': "genre",
+                        'page': 1,
                         'genre': _genres_movies_shows[n]
                     }
                 })
@@ -528,6 +534,8 @@ def folders(action, **kwargs):
         '''Action show-list creates a list of TV Shows'''
         dom = _getDomains()
 
+        page = kwargs['page']
+
         # Search Dialog
         if kwargs['search'] == 'true':
             log("(Search-TV-Shows) Getting search string")
@@ -543,7 +551,7 @@ def folders(action, **kwargs):
             log("(Search-TV-Shows) Returning search string '%s'" %search_string)
             search = '%s/tv/shows/1?keywords=%s' % (dom[0], search_string)
         else:
-            search = '%s/tv/shows/1?genre=%s&sort=%s' % (dom[0], kwargs['genre'], kwargs['act'])
+            search = '%s/tv/shows/%s?genre=%s&sort=%s' % (dom[0], page, kwargs['genre'], kwargs['act'])
 
         req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
         response = urllib2.urlopen(req)
@@ -564,6 +572,22 @@ def folders(action, **kwargs):
                     'fanart': show.get('images').get('fanart')
                 }
             })
+
+        # Next Page
+        items.append({
+            "label": 'Show more',                                               # "label" is require
+            "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'search.png'),
+            "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'search.png'),
+            "params": {
+                "endpoint": "folders",                                          # "endpoint" is require
+                'action': "show-list",                                          # Require when calling browse or folders (Action is used to separate the content)
+                'act': kwargs['act'],
+                'genre': kwargs['genre'],
+                'search': kwargs['search'],
+                'page': int(page)+1
+            }
+        })
+
         return items
 
     if action == 'show-seasons':

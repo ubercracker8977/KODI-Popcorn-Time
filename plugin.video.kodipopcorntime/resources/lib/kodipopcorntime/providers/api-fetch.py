@@ -296,8 +296,20 @@ def folders(action, **kwargs):
                 }
             },
             {
+                # Sort By Year
+                "label": __addon__.getLocalizedString(30026),                   # "label" is require
+                "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "params": {
+                    "categ": "movies",                                          # "categ" is required when using browse as an endpoint
+                    "endpoint": "browse",                                       # "endpoint" is require
+                    'action': "year",                                           # Require when calling browse or folders (Action is used to separate the content)
+                    'order': '-1'
+                }
+            },
+            {
                 # Browse by Genre Option
-                "label": __addon__.getLocalizedString(30003),                       # "label" is require
+                "label": __addon__.getLocalizedString(30003),                   # "label" is require
                 "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'genres.png'),
                 "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'genres.png'),
                 "params": {
@@ -321,7 +333,8 @@ def folders(action, **kwargs):
                         "categ": "movies",                                      # "categ" is required when using browse as an endpoint
                         "endpoint": "browse",                                   # "endpoint" is require
                         'action': "genre",                                      # Require when calling browse or folders (Action is used to separate the content)
-                        'genre': _genres_movies_shows[n]
+                        'genre': _genres_movies_shows[n],
+                        'order': '-1'
                     }
                 })
         return items

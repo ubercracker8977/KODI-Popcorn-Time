@@ -35,43 +35,12 @@
         <setting id="movies_syslang"                type="text" value="en" visible="false" />
         <setting id="movies_metadata_lastchanged"   type="text" value=""   visible="false" />
     </category>
-    <category label="30163">
-        <setting label="30105" type="lsep" />
-        <setting id="tvshows_subtitle_language0" type="enum" label="30119" default="0" lvalues="30170|30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30214|30215|30216|30217|30218|30219|30220|30221|30222|30223|30224|30225|30226|30227|30228|30229|30230|30231|30232|30233|30234|30235|30236|30237|30238" enable="gt(14,0)" />
-        <setting id="tvshows_subtitle_language1" type="enum" label="30120" default="0" lvalues="30170|30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30214|30215|30216|30217|30218|30219|30220|30221|30222|30223|30224|30225|30226|30227|30228|30229|30230|30231|30232|30233|30234|30235|30236|30237|30238" enable="gt(13,0) + gt(-1,0)" />
-        <setting id="tvshows_subtitle_language2" type="enum" label="30121" default="0" lvalues="30170|30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30214|30215|30216|30217|30218|30219|30220|30221|30222|30223|30224|30225|30226|30227|30228|30229|30230|30231|30232|30233|30234|30235|30236|30237|30238" enable="gt(12,0) + gt(-2,0) + gt(-1,0)" />
-        <setting id="tvshows_hearing_impaired" type="bool" label="30164" default="false" enable="gt(11,0) + gt(-3,0)" />
-
-        <setting label="30117" type="lsep" />
-        <setting id="tvshows_quality" type="enum" label="30107" lvalues="30106|30118" default="1" />
-        <setting id="tvshows_play3d" type="enum" label="30109" lvalues="30126|30127|30128" default="0" enable="gt(-1,0)" />
-
-        <setting label="30102" type="lsep" />
-        <setting id="tvshows_download_path" type="folder" label="30103" source="auto" option="writeable" />
-        <setting id="tvshows_keep_complete" type="bool" label="30136" default="false" enable="eq(1,false) + eq(2,false)" />
-        <setting id="tvshows_keep_incomplete" type="bool" label="30137" default="false" enable="eq(-1,false) + eq(1,false)" />
-        <setting id="tvshows_keep_files" type="bool" label="30104" default="false" enable="eq(-1,false) + eq(-2,false)" />
-
-        <setting label="30132" type="lsep" />
-        <setting id="tvshows_metadata_provider" type="enum" label="30165" default="0" lvalues="30170" />
-        <setting id="tvshows_subtitle_provider" type="enum" label="30169" default="0" lvalues="30170" />
-
-        <setting id="tvshows_preferred_subtitles_old" type="text" value="" visible="false" />
-        <setting id="tvshows_prioritere_impaired_old" type="text" value="" visible="false" />
-        <setting id="tvshows_subtitles_provider_old"  type="text" value="" visible="false" />
-        <setting id="tvshows_subtitle_lastchanged"    type="text" value="" visible="false" />
-
-        <setting id="tvshows_metadata_provider_old" type="text" value=""   visible="false" />
-        <setting id="tvshows_syslang"               type="text" value="en" visible="false" />
-        <setting id="tvshows_metadata_lastchanged"  type="text" value=""   visible="false" />
-    </category>
     <category label="30130">
         <setting label="30135" type="lsep" />
         <setting id="debug" type="bool" label="30158" default="false" />
 
         <setting label="30115" type="lsep" />
         <setting id="movies_proxies" type="text" label="30116" />
-        <setting id="tvshows_proxies" type="text" label="30129" />
 
         <setting label="30113" type="lsep" />
         <setting type="action" label="30114" action="RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=clearCache)" />

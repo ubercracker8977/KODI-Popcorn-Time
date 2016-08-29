@@ -118,4 +118,3 @@ QUALITIES = [
 
 from .addon import Addon as addon
 from .movies import Movies as movies
-from .tvshows import Tvshows as tvshows

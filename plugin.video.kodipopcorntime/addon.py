@@ -10,7 +10,7 @@ from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.utils import notify, NOTIFYLEVEL
 
 def _fix(params):
-    if not params.get('endpoint') and not settings.tvshows.provider:
+    if not params.get('endpoint'):
         params = settings.movies.provider.folders(None)[0]["params"]
         params['mediaType'] = 'movies'
         settings.addon.cur_uri = "%s?%s" %(settings.addon.base_url, urllib.urlencode(params))

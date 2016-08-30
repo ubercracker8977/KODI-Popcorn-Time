@@ -1,3 +1,7 @@
+v1.5.2.b
+- Metadata for TV-Shows
+- Fixed torrents with url=None
+
 v1.5.1.b
 - Show more for TV-Shows and Anime section
 - Cleaned-up settings page (partialy)

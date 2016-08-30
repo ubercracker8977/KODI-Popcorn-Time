@@ -27,11 +27,12 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
   - [x] Resolve timeout Issue
   - [x] TV shows section
   - [x] Next page for TV shows and Anime
+  - [x] Metadata for TV-Shows
   - [ ] Add 480p selection
   - [ ] Clean-up settings page
   - [ ] Clean-up code
   - [ ] Clean-up media folder
-  - [ ] Metadata for TV-Shows and Anime
+  - [ ] Metadata for Anime
 
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
@@ -42,6 +43,10 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 ## Changelog ##
 
 #### KODI Popcorn Time Addon ####
+
+* Ver 1.5.2.b
+  - Metadata for TV-Shows
+  - fixed torrents with url=None
 
 * Ver 1.5.1.b
   - Show more for TV-Shows and Anime section

@@ -185,11 +185,11 @@ def _create_shows_item(data):
         "icon": data[-1]['image'],
         "thumbnail": data[-1]['image'],
         "info": {
-            "title": label,
+            "title": data[0]['title'],
             "year": int(data[0].get("year") or 0),
             "genre": u" / ".join(genre for genre in data[0].get("genres", [])) or None,
             "duration": int(0),
-            "code": data[0].get("imdb_id")
+            "code": data[0].get("tvdb_id")
         },
         "properties": {
             "fanart_image": data[-1]['image2']

@@ -164,7 +164,7 @@ def _create_shows_item(data):
     # Do not return Shows  without torrents
     torrents = {}
     for torrent in data[0].get('torrents'):
-        if torrent in settings.QUALITIES:
+        if torrent in settings.QUALITIES and data[0].get('torrents').get('%s' %torrent).get('url') != None:
             torrents['%s' %torrent] = data[0].get('torrents').get('%s' %torrent).get('url')
             torrents['%ssize' %torrent] = 1000000000*60
     if not torrents:

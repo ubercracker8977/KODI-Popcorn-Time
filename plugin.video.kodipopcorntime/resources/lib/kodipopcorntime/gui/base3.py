@@ -2,7 +2,7 @@
 import sys, os, xbmc, xbmcplugin
 from .base2 import _Base2
 from kodipopcorntime.settings import BUILD, QUALITIES, addon as _settings
-from kodipopcorntime.logging import log, log_error
+from kodipopcorntime.logging import log, log_error, LOGLEVEL
 from kodipopcorntime.utils import xbmcItem, clear_cache
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -28,6 +28,7 @@ class _Base3(_Base2):
             item["context_menu"] = []
             for _q in QUALITIES:
                 if "&%s=" %_q in path:
+                    log("(base3-context) %s" %_q, LOGLEVEL.INFO)
                     item["context_menu"] = item["context_menu"]+[('%s %s' %(__addon__.getLocalizedString(30009), _q), 'RunPlugin(%s&quality=%s)' %(path, _q))]
             item["context_menu"] = item["context_menu"]+[self.getOpenSettings()]
             item["replace_context_menu"] = True

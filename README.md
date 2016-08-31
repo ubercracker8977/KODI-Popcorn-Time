@@ -7,7 +7,7 @@
 ## What it is ##
 With KODI Popcorn Time you can search for Movies, TV Shows and Animes that you can see immediately in KODI.
 
-I do this as a hobby and release it for free. But if you like it and want to you can always buy me a beer using the donation button on my [Developer Github Page](https://markop159.github.io).
+I do this as a hobby and release it for free. But if you like it and want to you can always buy me a beer using the PayPal donation button on my [Developer Github Page](https://markop159.github.io), or donate via Bitcoin QR code on bottom of the page.
 
 ## Download ##
 Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/master/Releases) folder to download repository for installing and autoupdate add-on or you can download add-on separately.
@@ -78,3 +78,5 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)
+
+![1LF9LFXyr31ZWNyjBye53LHee6QhL8U1cW](http://i.imgur.com/501JXzC.png)

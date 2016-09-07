@@ -3,7 +3,6 @@
   <!--
    * The range 30000-30099 - 99
    -->
-
   <string id="30000">Pokaż więcej</string>
   <string id="30001">KODI Popcorn Time - Szukaj</string>
   <string id="30002">Szukaj</string>
@@ -13,12 +12,12 @@
   <string id="30006">Ostatnio dodane</string>
   <string id="30007">Pobieranie zawartości</string>
   <string id="30008">Pobieranie: %s/s, Wysyłanie: %s/s</string>
-  <string id="30009">Następna strona</string>
-  <string id="30010">Film 3D</string>
+  <string id="30009">Odtwarzaj</string>
+  <string id="30010">Ustawienia dodatku</string>
   <string id="30011">Chcesz obejrzeć ten film w 3D?</string>
-  <string id="30012">Napisy</string>
+  <string id="30012">Napisy:</string>
   <string id="30013">Na pewno chcesz zresetować ustawienia Torrenta?</string>
-  <string id="30014">Ścieżka, wskaźnik pobierania i wysyłania nie zostaną zresetowane.</string>
+  <string id="30014">Dotyczy tylko opcji z nagłówkiem "(Torrent)"</string>
   <string id="30015">Seed'ów: </string>
   <string id="30016">Pobieranie danych</string>
   <string id="30017">Zrobione</string>
@@ -27,33 +26,33 @@
   <string id="30020">Rozpoczynanie odtwarzania</string>
   <string id="30021">Pobieranie</string>
   <string id="30022">Pobieranie zakończone</string>
-  <string id="30023">Tytuł</string>
-  <string id="30024">Rok</string>
-  <string id="30025">Szukaj ponownie</string>
-  <string id="30026">Niczego nie znaleziono.</string>
-  <string id="30027">Anuluj</string>
+  <string id="30023">Wybrana jakość nie znaleziona</string>
+  <string id="30024">Próba </string>
+
+  
+  
   <string id="30028">Wyszukiwanie</string>
   <string id="30030">Filmy</string>
   <string id="30031">Rozpoczynanie</string>
-  <string id="30032">Sprawdzanie pliku</string>
+
   <string id="30033">Na pewno chcesz wyczyścić pamięć podręczną?</string>
   <string id="30034">Tytuł:</string>
   <string id="30035">Nowy tytuł:</string>
   <string id="30036">Oczekiwanie</string>
   <string id="30037">Sprawdzanie danych</string>
 
-  <!--
+  <!-- 
    * Settings
    * The range 30100-30199 - 99
    -->
-  <string id="30100">Cechy</string>
-  <string id="30101">Generalny</string>
+
+  <string id="30101">Wyczyść pliki mediów</string>
   <string id="30102">Pliki</string>
   <string id="30103">Ścieżka pobierania</string>
   <string id="30104">Zachowaj pliki po zatrzymaniu odtwarzania/pobierania</string>
   <string id="30105">Napisy</string>
   <string id="30106">Tylko 720p</string>
-  <string id="30107">Preferowana</string>
+  <string id="30107">Preferuj</string>
   <string id="30108">Sieć</string>
   <string id="30109">Odtwarzanie filmu w 3D</string>
   <string id="30110">Maksymalna prędkość pobierania (Kb - 0: Bez limitu)</string>
@@ -94,7 +93,7 @@
   <string id="30145">Ilość peer'ów, którzy starają się połączyć po wstępnej odpowiedzi</string>
   <string id="30146">Ilość wszystkich prób połączeń na sekundę</string>
   <string id="30147">Ilość sekund przed nieudaną próbą połączenia</string>
-  <string id="30148">Port</string>
+
   <string id="30149">Liczba sekund do odczekania między nieudanymi połączeniami</string>
   <string id="30150">Liczba nieudanych prób zanim peer zostanie odrzucony</string>
   <string id="30151">Włącz DHT (Distributed Hash Table)</string>
@@ -104,27 +103,27 @@
   <string id="30155">Włącz wysyłanie "śmieciowych" żądań do tracker'a (Tracker Scrape)</string>
   <string id="30156">Tracker'y (adresy URL oddzielone przecinkami)</string>
   <string id="30157">Routery DHT (pary host:port oddzielone przecinkami)</string>
-  <string id="30158">Debug</string>
-  <string id="30159">Pokaż powiadomienia z debug'ów</string>
-  <string id="30160">Skasuj pobrane pliki</string>
-  <string id="30161">Wyszukuj tytuły w lokalnym języku (eksperymentalne)</string>
+  <string id="30158">Włącz debugowanie</string>
+  <string id="30159">Sieć (Torrent)</string>
+  <string id="30160">Wyszukaj</string>
+
   <string id="30162">Film</string>
   <string id="30163">Programy TV</string>
   <string id="30164">Priorytet napisów dla niedosłyszących</string>
   <string id="30165">Pobieraj informacje o filmie z</string>
-  <string id="30166">Ścieżka pobierania filmów</string>
-  <string id="30167">Ścieżka pobierania programów TV</string>
+
+  
   <string id="30168">Pobieraj napisy z</string>
   <string id="30169">Pobieraj informacje o TV z</string>
   <string id="30170">Żaden</string>
   <string id="30171">Baza filmów</string>
   <string id="30172">Napisy YIFY</string>
 
-  <!--
+  <!-- 
    * Languages
    * The range 30200-30299 - 99
    -->
-  <string id="30200">Żaden</string>
+
   <string id="30201">Albański</string>
   <string id="30202">Arabski</string>
   <string id="30203">Bengali</string>
@@ -164,69 +163,68 @@
   <string id="30237">Urdu</string>
   <string id="30238">Wietnamski</string>
 
-  <!--
+  <!-- 
    * Notify
    * The range 30300-30399 - 99
    -->
   <string id="30300">Nie można znaleźć portu do powiązania torrent2http</string>
   <string id="30301">Pamięć podręczna wyczyszczona</string>
   <string id="30302">Niestety, twój system operacyjny nie jest wspierany</string>
-  <string id="30303">Nie można uruchomić torrent2http, szczegóły zawarte są w logach</string>
-  <string id="30304">Nie otrzymano żadnych danych</string>
+
+  <string id="30304">Nie odebrano żadnych danych</string>
   <string id="30305">Nie odebrano żadnych filmów</string>
-  <string id="30306">Wystąpił błąd</string>
-  <string id="30307">Nie znaleziono żadnych elementów</string>
+
+  
   <string id="30308">Wystąpił nieznany błąd</string>
-  <string id="30309">Przypuszczalnie uruchomiony jest XBMC, ale nie znaleziono zmiennej środowiskowej XBMC_HOME lub KODI_HOME</string>
+
   <string id="30310">Ścieżka pobierania nie istnieje. Sprawdź ustawienia dodatku</string>
-  <string id="30311">torrent2http uległ awarii</string>
-  <string id="30312">Wystąpił błąd z torrent2http</string>
+
+  
   <string id="30313">Wystąpił błąd torrenta</string>
   <string id="30314">Ustawienia Torrent'a zostały zresetowane</string>
   <string id="30315">Nie znaleziono dostawców filmów lub programów TV</string>
   <string id="30316">Plik Torrent'a nie zawiera filmu</string>
   <string id="30317">Brak odpowiedzi na połączenie przed określonym czasem</string>
-  <string id="30318">Odtwarzanie zatrzymane z powodu przekroczonego czasu limitu</string>
+  <string id="30318">Odtwarzanie zatrzymane z powodu przekroczonego limitu czasu</string>
   <string id="30319">Pobieranie do niezamontowanego udziału jest nie wspierane. Sprawdź ustawienia dodatku</string>
   <string id="30320">Nie znaleziono torrent2http</string>
   <string id="30321">Nie można uczynić torrent2http wykonywalnym</string>
   <string id="30322">Nie można utworzyć katalogu pamięci podręcznej</string>
-  <string id="30323">Za mało miejsca w </string>
+  <string id="30323">Za mało miejsca do odtwarzania. Zwolnij trochę miejsca albo wybierz inne miejsce do pobierania</string>
   <string id="30324">Maksymalna prędkość pobierania musi być większa niż 15 kB/s. Proszę sprawdź ustawienia dodatku</string>
+  <string id="30325">Potrzebujesz więcej miejsca na odtwarzanie z jakością %s i %s albo wybierz niższą jakość</string>
+  <string id="30326">Potrzebujesz więcej miejsca na odtwarzanie z jakością %s albo wybierz niższą jakość</string>
+  <string id="30327">Niczego nie znaleziono</string>
+  <string id="30328">Nie można pozyskać listy mediów, ponieważ nie ma domen, które wcześniej działały</string>
+  <string id="30329">Błąd z odpowiedzią od dostawcy</string>
 
-  <!--
+  <!-- 
    * Genres
    * The range 30400-30499 - 99
    * See http://www.imdb.com/genre/
    -->
-   <string id="30400">Action</string>
-   <string id="30401">Adventure</string>
-   <string id="30402">Animation</string>
-   <string id="30403">Comedy</string>
-   <string id="30404">Crime</string>
-   <string id="30405">Disaster</string>
-   <string id="30406">Documentary</string>
-   <string id="30407">Drama</string>
-   <string id="30408">Eastern</string>
-   <string id="30409">Family</string>
-   <string id="30410">Fan-Film</string>
-   <string id="30411">Fantasy</string>
-   <string id="30412">Film-Noir</string>
-   <string id="30413">History</string>
-   <string id="30414">Horror</string>
-   <string id="30415">Indie</string>
-   <string id="30416">Music</string>
-   <string id="30417">Mystery</string>
-   <string id="30418">Road</string>
-   <string id="30419">Romance</string>
-   <string id="30420">Sci-Fi</string>
-   <string id="30421">Short</string>
-   <string id="30422">Sport</string>
-   <string id="30423">Sporting-event</string>
-   <string id="30424">Suspence</string>
-   <string id="30425">Thriller</string>
-   <string id="30426">TV-Movie</string>
-   <string id="30427">War</string>
-   <string id="30428">Western</string>
-   <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,30424,30425,30426,30427,30428</string> <!-- The order of the genres - You Cannot add new ids! -->
- </strings>
+  <string id="30400">Akcja</string>
+  <string id="30401">Przygodowy</string>
+  <string id="30402">Animacja</string>
+  <string id="30403">Biograficzny</string>
+  <string id="30404">Komedia</string>
+  <string id="30405">Kryminał</string>
+  <string id="30406">Dokumentalny</string>
+  <string id="30407">Dramat</string>
+  <string id="30408">Familijny</string>
+  <string id="30409">Fantasy</string>
+  <string id="30410">Film-Noir</string>
+  <string id="30411">Historyczny</string>
+  <string id="30412">Horror</string>
+  <string id="30413">Music</string>
+  <string id="30414">Musical</string>
+  <string id="30415">Mystery</string>
+  <string id="30416">Romans</string>
+  <string id="30417">Sci-Fi</string>
+  <string id="30418">Sport</string>
+  <string id="30419">Thriller</string>
+  <string id="30420">Wojenny</string>
+  <string id="30421">Western</string>
+  <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421</string> <!-- The order of the genres - You can not add new ids! --> 
+</strings>
+0Przeglądanie

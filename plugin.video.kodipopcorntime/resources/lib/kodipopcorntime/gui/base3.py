@@ -26,8 +26,9 @@ class _Base3(_Base2):
     def addItem(self, item, path, isFolder=True):
         if not isFolder:
             item["context_menu"] = []
+            log("(base3-context-menu) %s" %item, LOGLEVEL.INFO)
             for _q in QUALITIES:
-                if "&%s=" %_q in path:
+                if "&%s=" %_q in path or "?%s=" %_q in path:
                     log("(base3-context) %s" %_q, LOGLEVEL.INFO)
                     item["context_menu"] = item["context_menu"]+[('%s %s' %(__addon__.getLocalizedString(30009), _q), 'RunPlugin(%s&quality=%s)' %(path, _q))]
             item["context_menu"] = item["context_menu"]+[self.getOpenSettings()]

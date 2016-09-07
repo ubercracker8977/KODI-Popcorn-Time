@@ -76,7 +76,7 @@ class _MetaClass2(_MetaClass):
         if cls.play3d > 0:
             __qualities = [QUALITIES[0]]
         if __addon__.getSetting("%s_quality" %cls.mediaType) == '0':
-            cls.qualities = __qualities+QUALITIES[-1:]
+            cls.qualities = __qualities+QUALITIES[-2:]
         else:
             cls.qualities = __qualities+QUALITIES[1:]
 
@@ -265,4 +265,3 @@ def ensure_exec(binary_path):
     os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
     if not st.st_mode & stat.S_IEXEC:
         raise Error("Cannot make %s executable (%s)" % (binary, binary_path), 30321)
-

@@ -1,5 +1,5 @@
 import os, sys, json, xbmc
-import urllib2
+import urllib2, re
 from kodipopcorntime import settings
 from kodipopcorntime.logging import log, LOGLEVEL
 __addon__ = sys.modules['__main__'].__addon__
@@ -120,6 +120,17 @@ def _create_item(data):
         height = 480
 
     title = data["title"]
+
+    if data.get("trailer"):
+        trailer_regex = re.match('^[^v]+v=(.{11}).*', data.get("trailer"))
+        try:
+            trailer_id = trailer_regex.group(1)
+            log("(trailer) %s" %trailer_id, LOGLEVEL.INFO)
+            trailer = "plugin://plugin.video.youtube/?action=play_video&videoid=%s" %trailer_id
+        except:
+            trailer = ''
+            pass
+
     return {
         "label": title,
         "icon": data.get('images').get('poster'),
@@ -129,7 +140,8 @@ def _create_item(data):
             "year": int(data.get("year") or 0),
             "genre": u" / ".join(genre for genre in data.get("genres", [])) or None,
             "duration": int(0),
-            "code": data.get("imdb_id")
+            "code": data.get("imdb_id"),
+            "trailer": trailer
         },
         "properties": {
             "fanart_image": data.get('images').get('fanart')

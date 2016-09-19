@@ -198,6 +198,9 @@ def _create_shows_item(data):
         "thumbnail": data[-1]['image'],
         "info": {
             "title": data[0]['title'],
+            "season": int(data[0].get('season') or 0),
+            "episode": int(data[0].get('episode') or 0),
+            "tvshow": data[-1]['tvshow'],
             "year": int(data[0].get("year") or 0),
             "genre": u" / ".join(genre for genre in data[0].get("genres", [])) or None,
             "duration": int(0),
@@ -596,13 +599,17 @@ def folders(action, **kwargs):
                 "label": show['title'],                                         # "label" is require
                 "icon": show.get('images').get('poster'),
                 "thumbnail": show.get('images').get('poster'),
+                "properties": {
+                    "fanart_image": show.get('images').get('fanart')
+                },
                 "params": {
                     "seasons": show['num_seasons'],
                     "endpoint": "folders",                                      # "endpoint" is require
                     'action': "show-seasons",                                   # Require when calling browse or folders (Action is used to separate the content)
                     'imdb_id': show['imdb_id'],
                     'poster': show.get('images').get('poster'),
-                    'fanart': show.get('images').get('fanart')
+                    'fanart': show.get('images').get('fanart'),
+                    'tvshow': show['title']
                 }
             })
 
@@ -647,11 +654,15 @@ def folders(action, **kwargs):
                 "label": 'Season %s' %season2,                                  # "label" is require
                 "icon": kwargs['poster'],
                 "thumbnail": kwargs['poster'],
+                "properties": {
+                    "fanart_image": kwargs['fanart']
+                },
                 "params": {
                     'categ': 'shows',                                           # "categ" is required when using browse as an endpoint
                     'seasons': season2,
                     'image': kwargs['poster'],
                     'image2':kwargs['fanart'],
+                    'tvshow':kwargs['tvshow'],
                     "endpoint": "browse",                                       # "endpoint" is require
                     'action': kwargs['imdb_id']                                 # Require when calling browse or folders (Action is used to separate the content)
                 }
@@ -689,6 +700,9 @@ def folders(action, **kwargs):
                 "label": anime['title'],                                        # "label" is require
                 "icon": anime.get('images').get('poster'),
                 "thumbnail": anime.get('images').get('poster'),
+                "properties": {
+                    "fanart_image": anime.get('images').get('fanart')
+                },
                 "params": {
                     "endpoint": "folders",                                      # "endpoint" is require
                     'action': "anime-seasons",                                  # Require when calling browse or folders (Action is used to separate the content)
@@ -739,6 +753,9 @@ def folders(action, **kwargs):
                 "label": 'Season %s' %season2,                                  # "label" is require
                 "icon": kwargs['poster'],
                 "thumbnail": kwargs['poster'],
+                "properties": {
+                    "fanart_image": kwargs['fanart']
+                },
                 "params": {
                     'categ': 'anime',                                           # "categ" is required when using browse as an endpoint
                     'seasons': season2,

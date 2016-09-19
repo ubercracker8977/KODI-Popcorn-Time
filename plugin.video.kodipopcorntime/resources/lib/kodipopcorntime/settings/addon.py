@@ -1,7 +1,9 @@
 ﻿#!/usr/bin/python
-import xbmc, sys, os
+import xbmc, sys, os, datetime
+from datetime import date, timedelta
 from .base import _Base, _MetaClass
 from kodipopcorntime.exceptions import Error
+from kodipopcorntime.logging import log, LOGLEVEL
 
 __addon__ = sys.modules['__main__'].__addon__
 
@@ -46,7 +48,35 @@ class Addon(_Base):
             cls.version = __addon__.getAddonInfo('version')
 
         def _fanart(cls):
-            cls.fanart = __addon__.getAddonInfo('fanart')
+            #cls.fanart = __addon__.getAddonInfo('fanart')
+
+            year = datetime.datetime.today().year
+
+            #christmass
+            if date(year, 12, 22) <= date.today() <= date(year, 12, 27):
+                log("(settings-date) christmass %s" %date.today(), LOGLEVEL.INFO)
+                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'xmass.jpg')
+
+                #new_year
+            elif date(year, 12, 29) <= date.today() <= date(year, 12, 31):
+                log("(settings-date) new year", LOGLEVEL.INFO)
+                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'new_year.jpg')
+
+                #new_year2
+            elif date(year, 1, 1) <= date.today() <= date(year, 1, 5):
+                log("(settings-date) new year 2", LOGLEVEL.INFO)
+                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'new_year.jpg')
+
+                #valentine
+            elif date(year, 2, 13) <= date.today() <= date(year, 2, 15):
+                log("(settings-date) valentine %s" %date.today(), LOGLEVEL.INFO)
+                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'valentine.jpg')
+
+                #no special date
+            else:
+                log("(settings-date) no condition met %s" %date.today(), LOGLEVEL.INFO)
+                cls.fanart = __addon__.getAddonInfo('fanart')
+
 
         def _info_image(cls):
             cls.info_image = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'info.png')

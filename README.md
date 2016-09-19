@@ -29,7 +29,7 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
   - [x] Next page for TV shows and Anime
   - [x] Metadata for TV-Shows
   - [x] Add 480p selection
-  - [ ] Clean-up settings page
+  - [x] Clean-up settings page
   - [ ] Clean-up code
   - [ ] Clean-up media folder
   - [ ] Metadata for Anime
@@ -43,6 +43,12 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 ## Changelog ##
 
 #### KODI Popcorn Time Addon ####
+
+* Ver 1.5.4.rc2 (not yet released - testing some stuff)
+  - Fixes
+  - Polishing
+  - Fun stuff
+  - More icons
 
 * Ver 1.5.3.rc1
   - First Release Candidate

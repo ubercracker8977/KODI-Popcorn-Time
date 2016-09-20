@@ -44,7 +44,7 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
-* Ver 1.5.4.rc2 (not yet released - testing some stuff)
+* Ver 1.5.4.rc2
   - Fixes
   - Polishing
   - Fun stuff

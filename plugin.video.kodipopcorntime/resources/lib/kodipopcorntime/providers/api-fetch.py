@@ -708,7 +708,8 @@ def folders(action, **kwargs):
                     'action': "anime-seasons",                                  # Require when calling browse or folders (Action is used to separate the content)
                     '_id': anime['_id'],
                     'poster': anime.get('images').get('poster'),
-                    'fanart': anime.get('images').get('fanart')
+                    'fanart': anime.get('images').get('fanart'),
+                    'tvshow': anime['title']
                 }
             })
 
@@ -760,7 +761,8 @@ def folders(action, **kwargs):
                     'categ': 'anime',                                           # "categ" is required when using browse as an endpoint
                     'seasons': season2,
                     'image': kwargs['poster'],
-                    'image2':kwargs['fanart'],
+                    'image2': kwargs['fanart'],
+                    'tvshow': kwargs['tvshow'],
                     "endpoint": "browse",                                       # "endpoint" is require
                     'action': kwargs['_id']                                     # Require when calling browse or folders (Action is used to separate the content)
                 }

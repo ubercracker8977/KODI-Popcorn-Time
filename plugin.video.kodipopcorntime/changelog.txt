@@ -1,4 +1,8 @@
 v1.5.4.rc2
+- Fixed anime bug
+- test adding armv6 support
+
+v1.5.4.rc2
 - Fixes
 - Polishing
 - Fun stuff

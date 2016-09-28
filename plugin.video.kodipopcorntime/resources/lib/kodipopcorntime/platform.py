@@ -9,6 +9,8 @@ class Platform(object):
 
         def _arch(cls):
             if sys.platform.lower().startswith('linux') and (os.uname()[4].lower().startswith('arm') or os.uname()[4].lower().startswith('aarch')):
+                if os.uname()[4].lower().startswith('armv6'):
+                    cls.arch = 'armv6'
                 cls.arch = 'arm'
             elif sys.maxsize > 2**32:
                 cls.arch = 'x64'

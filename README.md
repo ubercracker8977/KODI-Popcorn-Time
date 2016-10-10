@@ -44,6 +44,10 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
+* Ver 1.5.5.rc3
+  - Fixed anime bug
+  - Test adding armv6 support (RPI 1st gen)
+
 * Ver 1.5.4.rc2
   - Fixes
   - Polishing

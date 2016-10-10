@@ -125,6 +125,7 @@ def _create_item(data):
         trailer_regex = re.match('^[^v]+v=(.{11}).*', data.get("trailer"))
         try:
             trailer_id = trailer_regex.group(1)
+            log("(trailer) %s" %trailer_id, LOGLEVEL.INFO)
             trailer = "plugin://plugin.video.youtube/?action=play_video&videoid=%s" %trailer_id
         except:
             trailer = ''
@@ -230,6 +231,7 @@ def folders(action, **kwargs):
        :param kwargs: (dict) When index is call, this parameter will be empty, then contains the user parameters.
        :return: (list) Return a list with items. (Only the first item are used when index is call.)
     '''
+    log("(api-fetch-folders) %s" %action, LOGLEVEL.INFO)
     if action == 'categories':
         '''Action categories creates list of categories '''
         items= []
@@ -572,14 +574,17 @@ def folders(action, **kwargs):
 
         # Search Dialog
         if kwargs['search'] == 'true':
+            log("(Search-TV-Shows) Getting search string")
             search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
             if not search_string:
+                log("(Search-TV-Shows) Showing keyboard")
                 keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
                 keyboard.doModal()
                 if not keyboard.isConfirmed() or not keyboard.getText():
                     raise Abort()
                 search_string = keyboard.getText()
                 search_string=search_string.replace(' ', '+')
+            log("(Search-TV-Shows) Returning search string '%s'" %search_string)
             search = '%s/tv/shows/1?keywords=%s' % (dom[0], search_string)
         else:
             search = '%s/tv/shows/%s?genre=%s&sort=%s' % (dom[0], page, kwargs['genre'], kwargs['act'])
@@ -589,6 +594,7 @@ def folders(action, **kwargs):
         shows = json.loads(response.read())
         items = []
         for show in shows:
+            log("(api-fetch-folder-show-list) %s" %show, LOGLEVEL.INFO)
             items.append({
                 "label": show['title'],                                         # "label" is require
                 "icon": show.get('images').get('poster'),
@@ -637,11 +643,13 @@ def folders(action, **kwargs):
         season_list = []
 
         for season in seasons:
+            log("(api-fetch-folder-show-list) %s" %season, LOGLEVEL.INFO)
             season_list.append(season['season'])
 
         season_list2 = sorted(list(set(season_list)))
 
         for season2 in season_list2:
+            log("(api-fetch-folder-show-list) %s" %season2, LOGLEVEL.INFO)
             items.append({
                 "label": 'Season %s' %season2,                                  # "label" is require
                 "icon": kwargs['poster'],
@@ -666,14 +674,17 @@ def folders(action, **kwargs):
         dom = _getDomains()
 
         if kwargs['search'] == 'true':
+            log("(Search-Animes) Getting search string")
             search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
             if not search_string:
+                log("(Search-Animes) Showing keyboard")
                 keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
                 keyboard.doModal()
                 if not keyboard.isConfirmed() or not keyboard.getText():
                     raise Abort()
                 search_string = keyboard.getText()
                 search_string = search_string.replace(' ', '+')
+            log("(Search-Animes) Returning search string '%s'" %search_string)
             search = '%s/tv/animes/1?keywords=%s' % (dom[0], search_string)
         else:
             search = '%s/tv/animes/%s?genre=%s&sort=%s' % (dom[0], kwargs['page'], kwargs['genre'], kwargs['act'])
@@ -684,6 +695,7 @@ def folders(action, **kwargs):
 
         items = []
         for anime in animes:
+            log("(api-fetch-folder-show-list) %s" %anime, LOGLEVEL.INFO)
             items.append({
                 "label": anime['title'],                                        # "label" is require
                 "icon": anime.get('images').get('poster'),
@@ -737,6 +749,7 @@ def folders(action, **kwargs):
         season_list2 = sorted(list(set(season_list)))
 
         for season2 in season_list2:
+            log("(api-fetch-folder-anime-list) %s" %season2, LOGLEVEL.INFO)
             items.append({
                 "label": 'Season %s' %season2,                                  # "label" is require
                 "icon": kwargs['poster'],

@@ -72,6 +72,12 @@ class Addon(_Base):
                 log("(settings-date) valentine %s" %date.today(), LOGLEVEL.INFO)
                 cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'valentine.jpg')
 
+                #haloween
+            elif date(year, 10, 28) <= date.today() <= date(year, 10, 31):
+                log("(settings-date) haloween %s" %date.today(), LOGLEVEL.INFO)
+                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'haloween.jpg')
+
+
                 #no special date
             else:
                 log("(settings-date) no condition met %s" %date.today(), LOGLEVEL.INFO)

@@ -28,7 +28,9 @@
   <string id="30022">Pobieranie zakończone</string>
   <string id="30023">Wybrana jakość nie znaleziona</string>
   <string id="30024">Próba </string>
-
+  <string id="30025">Wg tytułów</string>
+  <string id="30026">Wg roku wydania</string>
+  <string id="30027">Ostatnio zaktualizowane</string>
   
   
   <string id="30028">Wyszukiwanie</string>
@@ -54,7 +56,7 @@
   <string id="30106">Tylko 720p</string>
   <string id="30107">Preferuj</string>
   <string id="30108">Sieć</string>
-  <string id="30109">Odtwarzanie filmu w 3D</string>
+  <string id="30109">Odtwarzaj film w 3D</string>
   <string id="30110">Maksymalna prędkość pobierania (Kb - 0: Bez limitu)</string>
   <string id="30111">Szyfrowanie</string>
   <string id="30112">Ogólne</string>
@@ -63,12 +65,12 @@
   <string id="30115">Domeny proxy</string>
   <string id="30116">Filmy (hosty oddzielane przecinkiem)</string>
   <string id="30117">Jakość obrazu</string>
-  <string id="30118">1080p lub słabsza</string>
+  <string id="30118">1080p lub niższa</string>
   <string id="30119">Priorytet #1</string>
   <string id="30120">Priorytet #2</string>
   <string id="30121">Priorytet #3</string>
   <string id="30122">Maksymalna prędkość wysyłania (Kb - 0: Bez limitu - Min 15 kB/s)</string>
-  <string id="30123">Wymuszony</string>
+  <string id="30123">Wymuszanie</string>
   <string id="30124">Włączone</string>
   <string id="30125">Wyłączone</string>
   <string id="30126">Nie</string>
@@ -89,7 +91,7 @@
   <string id="30141">Włącz protokół TCP</string>
   <string id="30142">Włącz uTP (uTorrent Transport Protocol)</string>
   <string id="30143">Limit wszystkich połączeń</string>
-  <string id="30144">Zresetuj ustawienia Torrent'a</string>
+  <string id="30144">Reset</string>
   <string id="30145">Ilość peer'ów, którzy starają się połączyć po wstępnej odpowiedzi</string>
   <string id="30146">Ilość wszystkich prób połączeń na sekundę</string>
   <string id="30147">Ilość sekund przed nieudaną próbą połączenia</string>
@@ -118,7 +120,9 @@
   <string id="30170">Żaden</string>
   <string id="30171">Baza filmów</string>
   <string id="30172">Napisy YIFY</string>
-
+  <string id="30173">Tylko 480p</string>
+  <string id="30174">Wideo</string>
+  
   <!-- 
    * Languages
    * The range 30200-30299 - 99
@@ -198,7 +202,16 @@
   <string id="30328">Nie można pozyskać listy mediów, ponieważ nie ma domen, które wcześniej działały</string>
   <string id="30329">Błąd z odpowiedzią od dostawcy</string>
 
+  <!--
+   * categories
+   * The range 30350-30353 - 4
+  -->
+  <string id="30350">Filmy</string>
+  <string id="30351">Programy TV</string>
+  <string id="30352">Anime</string>
+  <string id="30353">30350,30351,30352</string>
   <!-- 
+  
    * Genres
    * The range 30400-30499 - 99
    * See http://www.imdb.com/genre/
@@ -206,25 +219,72 @@
   <string id="30400">Akcja</string>
   <string id="30401">Przygodowy</string>
   <string id="30402">Animacja</string>
-  <string id="30403">Biograficzny</string>
-  <string id="30404">Komedia</string>
-  <string id="30405">Kryminał</string>
+  <string id="30403">Komedia</string>
+  <string id="30404">Kryminał</string>
+  <string id="30405">Katastroficzny</string>
   <string id="30406">Dokumentalny</string>
   <string id="30407">Dramat</string>
-  <string id="30408">Familijny</string>
-  <string id="30409">Fantasy</string>
-  <string id="30410">Film-Noir</string>
-  <string id="30411">Historyczny</string>
-  <string id="30412">Horror</string>
-  <string id="30413">Music</string>
-  <string id="30414">Musical</string>
-  <string id="30415">Mystery</string>
-  <string id="30416">Romans</string>
-  <string id="30417">Sci-Fi</string>
-  <string id="30418">Sport</string>
-  <string id="30419">Thriller</string>
-  <string id="30420">Wojenny</string>
-  <string id="30421">Western</string>
-  <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421</string> <!-- The order of the genres - You can not add new ids! --> 
+  <string id="30408">Eastern</string>
+  <string id="30409">Familijny</string>
+  <string id="30410">Fan-Film</string>
+  <string id="30411">Fantasy</string>
+  <string id="30412">Film-Noir</string>
+  <string id="30413">Historyczny</string>
+  <string id="30414">Horror</string>
+  <string id="30415">Indie</string>
+  <string id="30416">Music</string>
+  <string id="30417">Mystery</string>
+  <string id="30418">Road</string>
+  <string id="30419">Romans</string>
+  <string id="30420">Sci-Fi</string>
+  <string id="30421">Krótkometrażowy</string>
+  <string id="30422">Sport</string>
+  <string id="30423">Sporting-event</string>
+  <string id="30424">Suspence</string>
+  <string id="30425">Thriller</string>
+  <string id="30426">TV-Movie</string>
+  <string id="30427">Wojenny</string>
+  <string id="30428">Western</string>
+  <string id="30450">Action</string>
+  <string id="30451">Ecchi</string>
+  <string id="30452">Harem</string>
+  <string id="30453">Romans</string>
+  <string id="30454">Szkolny</string>
+  <string id="30455">Supernatural</string>
+  <string id="30456">Dramat</string>
+  <string id="30457">Komedia</string>
+  <string id="30458">Mystery</string>
+  <string id="30459">Policyjny</string>
+  <string id="30461">Sports</string>
+  <string id="30462">Mecha</string>
+  <string id="30463">Sci-Fi</string>
+  <string id="30464">Slice of Life</string>
+  <string id="30465">Fantasy</string>
+  <string id="30466">Przygodowy</string>
+  <string id="30467">Gore</string>
+  <string id="30468">Music</string>
+  <string id="30469">Psychologiczny</string>
+  <string id="30470">Shoujo Ai</string>
+  <string id="30471">Yuri</string>
+  <string id="30472">Magia</string>
+  <string id="30473">Horror</string>
+  <string id="30474">Thriller</string>
+  <string id="30475">Gender Bender</string>
+  <string id="30476">Parodia</string>
+  <string id="30477">Historiczny</string>
+  <string id="30478">Wyścigowy</string>
+  <string id="30479">Samurai</string>
+  <string id="30480">Super Power</string>
+  <string id="30481">Militarny</string>
+  <string id="30482">Dementia</string>
+  <string id="30483">Mahou Shounen</string>
+  <string id="30484">Game</string>
+  <string id="30485">Martial Arts</string>
+  <string id="30486">Vampire</string>
+  <string id="30487">Kids</string>
+  <string id="30488">Mahou Shoujo</string>
+  <string id="30489">Space</string>
+  <string id="30490">Shounen Ai</string>
+  <string id="30498">30450,30451,30452,30453,30454,30455,30456,30457,30458,30459,30460,30461,30462,30463,30464,30465,30466,30467,30468,30469,30470,30471,30472,30473,30474,30475,30476,30477,30478,30479,30480,30481,30482,30483,30484,30485,30486,30487,30488,30489,30490</string>
+  <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,30424,30425,30426,30427,30428</string> <!-- The order of the genres - You Cannot add new ids! -->
 </strings>
-0Przeglądanie

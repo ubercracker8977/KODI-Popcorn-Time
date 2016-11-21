@@ -129,6 +129,8 @@ def _create_item(data):
         except:
             trailer = ''
             pass
+    else:
+        trailer = ''
 
     return {
         "label": title,

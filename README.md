@@ -44,6 +44,14 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
+* Ver 1.6.2
+  - Support for ARMv6 (RPI1 and RPI zero)
+  - Added binnaries to source
+
+* Ver 1.6.1
+  - Fixed trailer issue (not fetching movies)
+  - Updated Polish translation
+
 * Ver 1.6.0
   - Release version
   - Minor fixes

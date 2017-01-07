@@ -48,7 +48,7 @@ class Player(_Base):
                 "duration": int(xbmc.getInfoLabel('ListItem.Duration') or 0),
                 "code": xbmc.getInfoLabel('ListItem.IMDBNumber'),
                 "studio": xbmc.getInfoLabel('ListItem.Studio'),
-                "votes": xbmc.getInfoLabel('ListItem.Rating') and float(xbmc.getInfoLabel('ListItem.Votes')) or 0.0
+                "votes": xbmc.getInfoLabel('ListItem.Rating') or 0.0
             },
             "properties": {
                 "fanart_image": xbmc.getInfoLabel("ListItem.Property(fanart_image)")

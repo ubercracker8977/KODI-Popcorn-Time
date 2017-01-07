@@ -1,3 +1,6 @@
+v1.6.2
+- Support for ARMv6
+
 v1.6.1
 - fixed trailer issue (not fetching movies)
 - updated Polish translation

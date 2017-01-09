@@ -1,7 +1,10 @@
-import os, sys, json, xbmc
-import urllib2, re
+import json
+import os
+import re
+import sys
+import urllib2
+import xbmc
 from kodipopcorntime import settings
-from kodipopcorntime.logging import log, LOGLEVEL
 __addon__ = sys.modules['__main__'].__addon__
 
 _categories = {
@@ -95,42 +98,41 @@ def _getDomains():
     # User domains have highest priority
     return settings.movies.proxies+domains
 
+
 def _create_item(data):
     if not data.get("title"): # Title is require
         return {}
 
     torrents = {}
-    for torrent in data.get('torrents').get('en'):
-        if torrent in settings.QUALITIES:
-            torrents['%s' %torrent] = data.get('torrents').get('en').get('%s' %torrent).get('url')
-            torrents['%ssize' %torrent] = data.get('torrents').get('en').get('%s' %torrent).get('size')
+    for quality, torrent_info in data.get('torrents').get('en', {}).items():
+        if quality in settings.QUALITIES:
+            torrents[quality] = torrent_info.get('url')
+            torrents['%ssize' % quality] = torrent_info.get('size')
 
     # Do not show Movies without torrents
     if not torrents:
         return {}
 
-    # Set video width and hight
-    width = 1920
-    height = 1080
-    if not torrents.get('1080p'):
+    # Set video width and height
+    width = 640
+    height = 480
+    if torrents.get('1080p'):
+        width = 1920
+        height = 1080
+    elif torrents.get('720p'):
         width = 1280
         height = 720
-    elif not torrents.get('720p'):
-        width = 640
-        height = 480
 
     title = data["title"]
 
+    trailer = ''
     if data.get("trailer"):
         trailer_regex = re.match('^[^v]+v=(.{11}).*', data.get("trailer"))
         try:
             trailer_id = trailer_regex.group(1)
             trailer = "plugin://plugin.video.youtube/?action=play_video&videoid=%s" %trailer_id
         except:
-            trailer = ''
             pass
-    else:
-        trailer = ''
 
     return {
         "label": title,
@@ -174,24 +176,26 @@ def _create_shows_item(data):
     if not seasondata0 == seasondata_1:
         return {}
 
-    # Do not return Shows  without torrents
     torrents = {}
-    for torrent in data[0].get('torrents'):
-        if torrent in settings.QUALITIES and data[0].get('torrents').get('%s' %torrent).get('url') != None:
-            torrents['%s' %torrent] = data[0].get('torrents').get('%s' %torrent).get('url')
-            torrents['%ssize' %torrent] = 1000000000*60
+    for quality, torrent_info in data[0].get('torrents', {}).items():
+        torrent_url = torrent_info.get('url')
+        if quality in settings.QUALITIES and torrent_url is not None:
+            torrents[quality] = torrent_url
+            torrents['%ssize' % quality] = 1000000000*60
+
+    # Do not return Shows  without torrents
     if not torrents:
         return {}
 
     # Set video width and hight
-    width = 1920
-    height = 1080
-    if not torrents.get('1080p'):
+    width = 640
+    height = 480
+    if torrents.get('1080p'):
+        width = 1920
+        height = 1080
+    elif torrents.get('720p'):
         width = 1280
         height = 720
-    elif not torrents.get('720p'):
-        width = 640
-        height = 480
 
     return {
         "label": label,

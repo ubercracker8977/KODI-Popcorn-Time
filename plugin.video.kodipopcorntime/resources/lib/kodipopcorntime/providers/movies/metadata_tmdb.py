@@ -46,7 +46,7 @@ def _credits(credits):
         if c["job"] == 'Director':
             director.append(c["name"])
             continue
-        if c["job"] == 'Novel' or c["job"] == 'Writer' or c["job"] == 'Screenplay':
+        if c["job"] in ('Novel', 'Screenplay', 'Writer'):
             writer.append(c["name"])
 
     return {
@@ -128,7 +128,6 @@ def item(id, label, year, lang):
         response = urllib2.urlopen(req)
         result = json.loads(response.read())
         metadat = result['tv_episode_results']
-        test = "/3/tv/%s/season/%s/episode/%s" % (metadat[0]['show_id'], metadat[0]['season_number'], metadat[0]['episode_number'])
         return {
             'domain': _base_url,
             'path': "/3/tv/%s/season/%s/episode/%s" % (metadat[0]['show_id'], metadat[0]['season_number'], metadat[0]['episode_number']),

@@ -12,7 +12,7 @@ class Platform(object):
                 if os.uname()[4].lower().startswith('armv6'):
                     cls.arch = 'armv6'
                 cls.arch = 'arm'
-            elif sys.maxsize > 2**32:
+            elif sys.maxsize > 2**32 or sys.platform.lower().startswith('linux') and os.uname()[4].lower().startswith('x86_64'):
                 cls.arch = 'x64'
             else:
                 cls.arch = 'x86'

@@ -29,7 +29,7 @@ class _Base3(_Base2):
             log("(base3-context-menu) %s" %item, LOGLEVEL.INFO)
 
             if "info" in item and "trailer" in item["info"] and item["info"]["trailer"]:
-                item["context_menu"] = [('%s' %("Trailer"), 'PlayMedia(%s)' %(item["info"]["trailer"]))]
+                item["context_menu"] = [('%s' %(__addon__.getLocalizedString(30038)), 'PlayMedia(%s)' %(item["info"]["trailer"]))]
 
             for _q in QUALITIES:
                 if "&%s=" %_q in path or "?%s=" %_q in path:

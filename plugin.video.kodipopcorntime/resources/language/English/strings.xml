@@ -31,9 +31,8 @@
   <string id="30025">Sort by Title</string>
   <string id="30026">Sort by Year</string>
   <string id="30027">Last Updated</string>
-
-
   <string id="30028">Searching</string>
+
   <string id="30030">Movies</string>
   <string id="30031">Starting</string>
 
@@ -245,6 +244,7 @@
   <string id="30426">TV-Movie</string>
   <string id="30427">War</string>
   <string id="30428">Western</string>
+
   <string id="30450">Action</string>
   <string id="30451">Ecchi</string>
   <string id="30452">Harem</string>
@@ -255,6 +255,7 @@
   <string id="30457">Comedy</string>
   <string id="30458">Mystery</string>
   <string id="30459">Police</string>
+
   <string id="30461">Sports</string>
   <string id="30462">Mecha</string>
   <string id="30463">Sci-Fi</string>
@@ -285,6 +286,6 @@
   <string id="30488">Mahou Shoujo</string>
   <string id="30489">Space</string>
   <string id="30490">Shounen Ai</string>
-  <string id="30498">30450,30451,30452,30453,30454,30455,30456,30457,30458,30459,30460,30461,30462,30463,30464,30465,30466,30467,30468,30469,30470,30471,30472,30473,30474,30475,30476,30477,30478,30479,30480,30481,30482,30483,30484,30485,30486,30487,30488,30489,30490</string>
+  <string id="30498">30450,30451,30452,30453,30454,30455,30456,30457,30458,30459,30461,30462,30463,30464,30465,30466,30467,30468,30469,30470,30471,30472,30473,30474,30475,30476,30477,30478,30479,30480,30481,30482,30483,30484,30485,30486,30487,30488,30489,30490</string>
   <string id="30499">30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,30424,30425,30426,30427,30428</string> <!-- The order of the genres - You Cannot add new ids! -->
 </strings>

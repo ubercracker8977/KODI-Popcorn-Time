@@ -1,3 +1,8 @@
+v1.6.3
+- Trailer in context menu @tatostao
+- Spanish translation updated by @adamantike
+- Additional fixes by @adamantike
+
 v1.6.2
 - Support for ARMv6
 

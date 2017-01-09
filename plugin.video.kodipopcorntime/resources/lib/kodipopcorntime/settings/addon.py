@@ -1,11 +1,47 @@
 ﻿#!/usr/bin/python
-import xbmc, sys, os, datetime
-from datetime import date, timedelta
-from .base import _Base, _MetaClass
+import os
+import sys
+import xbmc
+from datetime import date
 from kodipopcorntime.exceptions import Error
 from kodipopcorntime.logging import log, LOGLEVEL
+from .base import _Base, _MetaClass
 
 __addon__ = sys.modules['__main__'].__addon__
+
+SPECIAL_DATES = (
+    {
+        'name': 'christmass',
+        'image': 'xmass.jpg',
+        'start': {'month': 12, 'day': 22},
+        'end': {'month': 12, 'day': 27},
+    },
+    {
+        'name': 'new year',
+        'image': 'new_year.jpg',
+        'start': {'month': 12, 'day': 29},
+        'end': {'month': 12, 'day': 31},
+    },
+    {
+        'name': 'new year 2',
+        'image': 'new_year.jpg',
+        'start': {'month': 1, 'day': 1},
+        'end': {'month': 1, 'day': 5},
+    },
+    {
+        'name': 'valentine',
+        'image': 'valentine.jpg',
+        'start': {'month': 2, 'day': 13},
+        'end': {'month': 2, 'day': 15},
+    },
+    {
+        'name': 'halloween',
+        'image': 'haloween.jpg',
+        'start': {'month': 10, 'day': 28},
+        'end': {'month': 10, 'day': 31},
+    },
+)
+
 
 class Addon(_Base):
     class __metaclass__(_MetaClass):
@@ -33,10 +69,7 @@ class Addon(_Base):
             cls.resources_path = os.path.join(__addon__.getAddonInfo('path'), 'resources')
 
         def _debug(cls):
-            if __addon__.getSetting("debug") == 'true':
-                cls.debug = True
-            else:
-                cls.debug = False
+            cls.debug = __addon__.getSetting("debug") == 'true'
 
         def _id(cls):
             cls.id = __addon__.getAddonInfo('id')
@@ -48,41 +81,30 @@ class Addon(_Base):
             cls.version = __addon__.getAddonInfo('version')
 
         def _fanart(cls):
-            #cls.fanart = __addon__.getAddonInfo('fanart')
+            today = date.today()
 
-            year = datetime.datetime.today().year
+            # Check special dates
+            for special_date in SPECIAL_DATES:
+                start_date = date(today.year, special_date['start']['month'], special_date['start']['day'])
+                end_date = date(today.year, special_date['end']['month'], special_date['end']['day'])
 
-            #christmass
-            if date(year, 12, 22) <= date.today() <= date(year, 12, 27):
-                log("(settings-date) christmass %s" %date.today(), LOGLEVEL.INFO)
-                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'xmass.jpg')
-
-                #new_year
-            elif date(year, 12, 29) <= date.today() <= date(year, 12, 31):
-                log("(settings-date) new year", LOGLEVEL.INFO)
-                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'new_year.jpg')
-
-                #new_year2
-            elif date(year, 1, 1) <= date.today() <= date(year, 1, 5):
-                log("(settings-date) new year 2", LOGLEVEL.INFO)
-                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'new_year.jpg')
-
-                #valentine
-            elif date(year, 2, 13) <= date.today() <= date(year, 2, 15):
-                log("(settings-date) valentine %s" %date.today(), LOGLEVEL.INFO)
-                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'valentine.jpg')
-
-                #haloween
-            elif date(year, 10, 28) <= date.today() <= date(year, 10, 31):
-                log("(settings-date) haloween %s" %date.today(), LOGLEVEL.INFO)
-                cls.fanart = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'background', 'haloween.jpg')
-
-
-                #no special date
+                if start_date <= today <= end_date:
+                    log(
+                        '(settings-date) {} {}'.format(special_date['name'], today),
+                        LOGLEVEL.INFO,
+                    )
+                    cls.fanart = os.path.join(
+                        __addon__.getAddonInfo('path'),
+                        'resources',
+                        'media',
+                        'background',
+                        special_date['image'],
+                    )
+                    break
+            # No special date
             else:
-                log("(settings-date) no condition met %s" %date.today(), LOGLEVEL.INFO)
+                log('(settings-date) no condition met {}'.format(today), LOGLEVEL.INFO)
                 cls.fanart = __addon__.getAddonInfo('fanart')
-
 
         def _info_image(cls):
             cls.info_image = os.path.join(__addon__.getAddonInfo('path'), 'resources', 'media', 'info.png')

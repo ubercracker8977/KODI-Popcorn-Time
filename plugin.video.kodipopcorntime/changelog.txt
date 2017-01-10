@@ -1,3 +1,7 @@
+v1.6.4
+- Slovenian translation
+- Additional fixes
+
 v1.6.3
 - Trailer in context menu @tatostao
 - Spanish translation updated by @adamantike

@@ -4,6 +4,8 @@
 
 # KODI Popcorn Time #
 
+[![Donate](https://img.shields.io/badge/Donate-Paypal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=83UA43TPBRHLL)
+
 ## What it is ##
 With KODI Popcorn Time you can search for Movies, TV Shows and Animes that you can see immediately in KODI.
 
@@ -43,6 +45,10 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 ## Changelog ##
 
 #### KODI Popcorn Time Addon ####
+
+* Ver 1.6.4
+  - Slovenian translation
+  - Additional fixes
 
 * Ver 1.6.3
   - Trailer in context menu @tatostao
@@ -112,5 +118,8 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 ## Need more information ##
 Check out our [WIKI page](https://github.com/markop159/KODI-Popcorn-Time/wiki)
+
+## Donate ##
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=83UA43TPBRHLL)
 
 ![1LF9LFXyr31ZWNyjBye53LHee6QhL8U1cW](http://i.imgur.com/501JXzC.png)

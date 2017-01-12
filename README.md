@@ -46,6 +46,9 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
+* Ver 1.6.5
+  - fixed Issue #43
+  
 * Ver 1.6.4
   - Slovenian translation
   - Additional fixes

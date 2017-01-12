@@ -103,7 +103,7 @@ class Addon(_Base):
                     break
             # No special date
             else:
-                log('(settings-date) no condition met {}'.format(today), LOGLEVEL.INFO)
+                #log('(settings-date) no condition met {}'.format(today), LOGLEVEL.INFO)
                 cls.fanart = __addon__.getAddonInfo('fanart')
 
         def _info_image(cls):

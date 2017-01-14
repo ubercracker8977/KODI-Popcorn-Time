@@ -90,7 +90,7 @@ class Addon(_Base):
 
                 if start_date <= today <= end_date:
                     log(
-                        '(settings-date) {} {}'.format(special_date['name'], today),
+                        '(settings-date) {0} {1}'.format(special_date['name'], today),
                         LOGLEVEL.INFO,
                     )
                     cls.fanart = os.path.join(
@@ -103,7 +103,7 @@ class Addon(_Base):
                     break
             # No special date
             else:
-                #log('(settings-date) no condition met {}'.format(today), LOGLEVEL.INFO)
+                log('(settings-date) no condition met {0}'.format(today), LOGLEVEL.INFO)
                 cls.fanart = __addon__.getAddonInfo('fanart')
 
         def _info_image(cls):

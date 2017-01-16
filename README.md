@@ -12,7 +12,7 @@ With KODI Popcorn Time you can search for Movies, TV Shows and Animes that you c
 I do this as a hobby and release it for free. But if you like it and want to you can always buy me a beer using the PayPal donation button on my [Developer Github Page](https://markop159.github.io), or donate via Bitcoin QR code on bottom of the page.
 
 ## Download ##
-Check out the [Releases](https://github.com/markop159/KODI-Popcorn-Time/tree/master/Releases) folder to download repository for installing and autoupdate add-on or you can download add-on separately.
+Best way to install KODI Popcorn Time is to install [Repository](https://github.com/markop159/Markop159-repository/blob/master/Releases/plugin.video.kodipopcorntime.repository/plugin.video.kodipopcorntime.repository-1.1.0.zip?raw=true) on your KODI and install it from there so it will update automaticaly when new version becomes available.
 
 ## Supported Platforms ##
 * XBMC/KODI 13.x and later

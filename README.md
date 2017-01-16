@@ -34,7 +34,8 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
   - [x] Clean-up settings page
   - [x] Clean-up code
   - [x] Clean-up media folder
-  - [ ] Metadata for Anime
+  - [x] Metadata for Anime
+  - [ ] Torrent health (seeds)
 
 ## Credits ##
 * Fixed KODI Popcorn Time add-on from [Diblo](https://github.com/Diblo/KODI-Popcorn-Time)
@@ -46,9 +47,16 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
+* Ver 1.6.6
+  - Croatian translation by @muzena
+  - Proper fix for issue #43 by @adamantike
+  - Data fetching from api related code changes (movies, tvshows, anime in separated files)
+  - Added more info for TV Shows and Anime
+  - And more...
+
 * Ver 1.6.5
   - fixed Issue #43
-  
+
 * Ver 1.6.4
   - Slovenian translation
   - Additional fixes

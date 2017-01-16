@@ -1,3 +1,10 @@
+v1.6.6
+- Croatian translation by @muzena
+- Proper fix for issue #43 by @adamantike
+- Data fetching from api related code changes (movies, tvshows, anime in separated files)
+- Added more info for TV Shows and Anime
+- And more...
+
 v1.6.5
 - Fixed Issue #43
 

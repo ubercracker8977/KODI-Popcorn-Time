@@ -2,6 +2,7 @@
 import sys, os
 from kodipopcorntime import settings
 from kodipopcorntime.utils import Dialog, notify, clear_cache, cleanDebris
+from kodipopcorntime import favourites as _favs
 
 __addon__ = sys.modules['__main__'].__addon__
 
@@ -40,3 +41,9 @@ def resetTorrentSettings():
         __addon__.setSetting("trackers", '')
         __addon__.setSetting("dht_routers", '')
         notify(30314)
+
+def add_fav(mediatype, _id):
+    _favs._add_to_favs(mediatype, _id)
+
+def remove_fav(mediatype, _id):
+    _favs._remove_from_favs(mediatype, _id)

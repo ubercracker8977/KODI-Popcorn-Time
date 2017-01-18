@@ -4,6 +4,7 @@ import sys
 import urllib2
 import xbmc
 from kodipopcorntime import settings
+from kodipopcorntime import favourites as _favs
 __addon__ = sys.modules['__main__'].__addon__
 
 _genres = {
@@ -118,6 +119,16 @@ def _folders(action, **kwargs):
                     "endpoint": "folders",                                      # "endpoint" is require
                     'action': "genres_anime"                                    # Require when calling browse or folders (Action is used to separate the content)
                 }
+            },
+            {
+                # Favourites Option
+                "label": __addon__.getLocalizedString(30029),                   # "label" is require
+                "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "params": {
+                    "action": "favorites_Anime",                                      # Require when calling browse or folders (Action is used to separate the content)
+                    "endpoint": "folders",                                      # "endpoint" is require
+                }
             }
         ]
 
@@ -143,6 +154,9 @@ def _folders(action, **kwargs):
         return items
 
 def _shows(dom, **kwargs):
+
+    action = 'anime'
+
     if kwargs['search'] == 'true':
         search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
         if not search_string:
@@ -162,6 +176,8 @@ def _shows(dom, **kwargs):
 
     items = []
     for anime in animes:
+        context_menu = []
+        context_menu = [('%s' %__addon__.getLocalizedString(30039), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=%s&id=%s)' % (action, anime['_id']))]
         items.append({
             "label": anime['title'],                                        # "label" is require
             "icon": anime.get('images').get('poster'),
@@ -180,7 +196,9 @@ def _shows(dom, **kwargs):
                 'poster': anime.get('images').get('poster'),
                 'fanart': anime.get('images').get('fanart'),
                 'tvshow': anime['title']
-            }
+            },
+            "context_menu": context_menu,
+            "replace_context_menu": True
         })
 
     # Next Page
@@ -197,6 +215,56 @@ def _shows(dom, **kwargs):
             'page': int(kwargs['page'])+1
         }
     })
+
+    return items
+
+def _favourites(dom, **kwargs):
+
+    action = 'anime'
+    favs = _favs._get_favs(action)
+
+    shows = []
+    for fa in favs:
+        search = '%s/tv/anime/%s' % (dom[0], fa['id'])
+        req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+        response = urllib2.urlopen(req)
+        show1 = json.loads(response.read())
+
+        shows.append({
+            "_id": fa['id'],
+            "title": show1['title'],
+            "year": show1['year'],
+            "slug": show1['slug'],
+            "images": show1['images'],
+            "rating": show1['rating']
+        })
+
+    items = []
+    for show in shows:
+        context_menu = []
+        context_menu = [('%s' %__addon__.getLocalizedString(30040), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=remove_fav&action=%s&id=%s)' % (action, show['_id']))]
+        items.append({
+            "label": show['title'],                                         # "label" is require
+            "icon": show.get('images').get('poster'),
+            "thumbnail": show.get('images').get('poster'),
+            "info": {
+                "title": show['title'],
+                "plot": 'Year: %s; Rating: %s' % (show['year'], show.get('rating').get('percentage')) or None
+            },
+            "properties": {
+                "fanart_image": show.get('images').get('fanart'),
+            },
+            "params": {
+                "endpoint": "folders",                                      # "endpoint" is require
+                'action': "anime-seasons",                                   # Require when calling browse or folders (Action is used to separate the content)
+                '_id': show['_id'],
+                'poster': show.get('images').get('poster'),
+                'fanart': show.get('images').get('fanart'),
+                'tvshow': show['title']
+            },
+            "context_menu": context_menu,
+            "replace_context_menu": True
+        })
 
     return items
 

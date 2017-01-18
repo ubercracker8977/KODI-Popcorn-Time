@@ -35,6 +35,8 @@ if __name__ == '__main__':
         if not params.get('cmd'):
             params = _fix(params)
             getattr(gui, params.pop('endpoint', 'index'))(params.pop('mediaType', '')).show(**params)
+        elif params.get('cmd') == 'add_fav' or params.get('cmd') == 'remove_fav':
+            getattr(gui.cmd, params.get('cmd'))(params.get('action'), params.get('id'))
         else:
             getattr(gui.cmd, params.get('cmd'))()
 

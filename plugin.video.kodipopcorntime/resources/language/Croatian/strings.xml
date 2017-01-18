@@ -32,6 +32,7 @@
   <string id="30026">Razvrstaj po godini</string>
   <string id="30027">Nedavno dodano</string>
   <string id="30028">Pretraživanje</string>
+  <string id="30029">Favourites</string>
 
   <string id="30030">Filmovi</string>
   <string id="30031">Pokretanje</string>
@@ -42,6 +43,8 @@
   <string id="30036">Čekanje</string>
   <string id="30037">Provjera podataka</string>
   <string id="30038">Najava</string>
+  <string id="30039">Add to Popcorn Favourites</string>
+  <string id="30040">Remove from Popcorn Favourites</string>
 
   <!--
    * Settings

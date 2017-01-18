@@ -67,6 +67,10 @@ def folders(action, **kwargs):
         '''Action genres_movies creates a list of genres'''
         return api_tvShows._folders(action)
 
+    if action == 'favorites_TV-Shows':
+        '''Action favorites_TV-Shows gets saved favourites for TV Shows'''
+        return api_tvShows._favourites(_dom, **kwargs)
+
     if action == 'cat_Anime':
         '''Action cat_TVShows creates a list of options for TV Shows '''
         return api_anime._folders(action)
@@ -74,6 +78,11 @@ def folders(action, **kwargs):
     if action == 'genres_anime':
         '''Action genres_anime creates a list of genres'''
         return api_anime._folders(action)
+
+    if action == 'favorites_Anime':
+        '''Action favorites_TV-Shows gets saved favourites for TV Shows'''
+        return api_anime._favourites(_dom, **kwargs)
+
 
     if action == 'show-list':
         '''Action show-list creates a list of TV Shows'''

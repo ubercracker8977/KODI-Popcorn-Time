@@ -32,6 +32,7 @@
   <string id="30026">Razvrsti po Letih</string>
   <string id="30027">Nazadnje posodobljeno</string>
   <string id="30028">Iskanje</string>
+  <string id="30029">Priljubljene</string>
 
   <string id="30030">Filmi</string>
   <string id="30031">Začetek</string>
@@ -42,6 +43,8 @@
   <string id="30036">Čakanje</string>
   <string id="30037">Preverba podatkov</string>
   <string id="30038">Napovednik</string>
+  <string id="30039">Dodaj v Popcorn priljubljene</string>
+  <string id="30040">Odstrani iz Popcorn priljubljenih</string>
 
   <!--
    * Settings

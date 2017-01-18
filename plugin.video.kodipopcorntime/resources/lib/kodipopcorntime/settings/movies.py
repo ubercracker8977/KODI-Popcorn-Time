@@ -7,7 +7,6 @@ __addon__ = sys.modules['__main__'].__addon__
 class Movies(_Base2):
     class __metaclass__(_MetaClass2):
         def _provider(cls):
-            #cls.provider = load_provider('movies_yify')
             cls.provider = load_provider('api-fetch')
 
         def _metadata_provider(cls):

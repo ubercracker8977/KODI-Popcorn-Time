@@ -176,7 +176,6 @@ def _shows(dom, **kwargs):
 
     items = []
     for anime in animes:
-        context_menu = []
         context_menu = [('%s' %__addon__.getLocalizedString(30039), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=%s&id=%s)' % (action, anime['_id']))]
         items.append({
             "label": anime['title'],                                        # "label" is require
@@ -241,7 +240,6 @@ def _favourites(dom, **kwargs):
 
     items = []
     for show in shows:
-        context_menu = []
         context_menu = [('%s' %__addon__.getLocalizedString(30040), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=remove_fav&action=%s&id=%s)' % (action, show['_id']))]
         items.append({
             "label": show['title'],                                         # "label" is require

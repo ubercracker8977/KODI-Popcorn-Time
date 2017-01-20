@@ -47,6 +47,11 @@ Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Ti
 
 #### KODI Popcorn Time Addon ####
 
+* Ver 1.6.7
+  - Added favourites for TV Shows and Anime (tnx @adamantike for fixes)
+  - Favourites are stil WIP (needs to implement clearing favourites from settings)
+  - translation fixes by @adamantike and @muzena
+
 * Ver 1.6.6
   - Croatian translation by @muzena
   - Proper fix for issue #43 by @adamantike

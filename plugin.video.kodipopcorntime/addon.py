@@ -9,6 +9,7 @@ from kodipopcorntime.exceptions import Notify, Error, HTTPError, ProxyError, Tor
 from kodipopcorntime.logging import log, LOGLEVEL, log_error
 from kodipopcorntime.utils import notify, NOTIFYLEVEL
 
+
 def _fix(params):
     if not params.get('endpoint'):
         params = settings.movies.provider.folders(None)[0]["params"]
@@ -32,13 +33,15 @@ if __name__ == '__main__':
             raise Error("Unsupported OS", 30302)
 
         params = dict(urlparse.parse_qsl(settings.addon.cur_uri))
-        if not params.get('cmd'):
+        cmd = params.get('cmd')
+
+        if not cmd:
             params = _fix(params)
             getattr(gui, params.pop('endpoint', 'index'))(params.pop('mediaType', '')).show(**params)
-        elif params.get('cmd') == 'add_fav' or params.get('cmd') == 'remove_fav':
-            getattr(gui.cmd, params.get('cmd'))(params.get('action'), params.get('id'))
+        elif cmd in ('add_fav', 'remove_fav'):
+            getattr(gui.cmd, cmd)(params.get('action'), params.get('id'))
         else:
-            getattr(gui.cmd, params.get('cmd'))()
+            getattr(gui.cmd, cmd)()
 
     except (Error, HTTPError, ProxyError, TorrentError) as e:
         notify(e.messageID, level=NOTIFYLEVEL.ERROR)

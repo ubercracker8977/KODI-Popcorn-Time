@@ -32,7 +32,7 @@
   <string id="30026">Por año</string>
   <string id="30027">Última actualización</string>
   <string id="30028">Buscando</string>
-
+  <string id="30029">Favoritos</string>
   <string id="30030">Películas</string>
   <string id="30031">Iniciando</string>
 
@@ -41,6 +41,9 @@
   <string id="30035">Nuevo título:</string>
   <string id="30036">Esperando</string>
   <string id="30037">Comprobando datos</string>
+  <string id="30038">Trailer</string>
+  <string id="30039">Añadir a los favoritos de Popcorn</string>
+  <string id="30040">Remover de los favoritos de Popcorn</string>
 
   <!--
    * Settings

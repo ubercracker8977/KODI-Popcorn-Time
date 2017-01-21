@@ -3,9 +3,13 @@ import os
 import sys
 import urllib2
 import xbmc
+
 from kodipopcorntime import settings
 from kodipopcorntime import favourites as _favs
-from kodipopcorntime.logging import log, LOGLEVEL
+
+from .base import BaseContentWithSeasons
+
+
 __addon__ = sys.modules['__main__'].__addon__
 
 _genres = {
@@ -39,6 +43,15 @@ _genres = {
     '30427': 'War',
     '30428': 'Western'
 }
+
+
+class TvShow(BaseContentWithSeasons):
+    category = 'show'
+    # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
+    # We need to provide the correct values for request_path and id_field.
+    request_path = 'tv/show'
+    id_field = 'imdb_id'
+
 
 def _folders(action, **kwargs):
     if action == 'cat_TVShows':
@@ -292,45 +305,10 @@ def _favourites(dom, **kwargs):
 
     return items
 
+
 def _seasons(dom, **kwargs):
-    items = []
-    search = '%s/tv/show/%s' % (dom[0], kwargs['imdb_id'])
-    req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-    response = urllib2.urlopen(req)
-    result = json.loads(response.read())
-    seasons = result['episodes']
+    return TvShow.get_seasons(dom, **kwargs)
 
-    season_list = []
-
-    for season in seasons:
-        season_list.append(season['season'])
-
-    season_list2 = sorted(list(set(season_list)))
-
-    for season2 in season_list2:
-        items.append({
-            "label": 'Season %s' %season2,                                  # "label" is require
-            "icon": kwargs['poster'],
-            "thumbnail": kwargs['poster'],
-            "info": {
-                "title": result['title'],
-                "plotoutline": result['synopsis'] or None,
-                "plot": result['synopsis']or None
-            },
-            "properties": {
-                "fanart_image": kwargs['fanart']
-            },
-            "params": {
-                'categ': 'show',                                           # "categ" is required when using browse as an endpoint
-                'seasons': season2,
-                'image': kwargs['poster'],
-                'image2':kwargs['fanart'],
-                'tvshow':kwargs['tvshow'],
-                "endpoint": "browse",                                       # "endpoint" is require
-                'action': kwargs['imdb_id']                                 # Require when calling browse or folders (Action is used to separate the content)
-            }
-        })
-    return items
 
 def _create_item(data):
     label = 'Episode %s: %s' % (data[0]['episode'], data[0]['title'])

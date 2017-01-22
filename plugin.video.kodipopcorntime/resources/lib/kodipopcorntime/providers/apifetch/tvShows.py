@@ -2,7 +2,6 @@ import json
 import os
 import sys
 import urllib2
-import xbmc
 
 from kodipopcorntime import settings
 from kodipopcorntime import favourites as _favs
@@ -46,11 +45,13 @@ _genres = {
 
 
 class TvShow(BaseContentWithSeasons):
+    action = 'tvshows'
     category = 'show'
     # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
     # We need to provide the correct values for request_path and id_field.
-    request_path = 'tv/show'
     id_field = 'imdb_id'
+    request_path = 'tv/show'
+    search_path = 'tv/shows'
 
 
 def _folders(action, **kwargs):
@@ -184,73 +185,6 @@ def _folders(action, **kwargs):
                 })
         return items
 
-def _shows(dom, **kwargs):
-
-        '''Action show-list creates a list of TV Shows'''
-        action = 'tvshows'
-
-        page = kwargs['page']
-
-        # Search Dialog
-        if kwargs['search'] == 'true':
-            search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
-            if not search_string:
-                keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
-                keyboard.doModal()
-                if not keyboard.isConfirmed() or not keyboard.getText():
-                    raise Abort()
-                search_string = keyboard.getText()
-                search_string=search_string.replace(' ', '+')
-            search = '%s/tv/shows/1?keywords=%s' % (dom[0], search_string)
-        else:
-            search = '%s/tv/shows/%s?genre=%s&sort=%s' % (dom[0], page, kwargs['genre'], kwargs['act'])
-
-        req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-        response = urllib2.urlopen(req)
-        shows = json.loads(response.read())
-        items = []
-        for show in shows:
-            context_menu = [('%s' %__addon__.getLocalizedString(30039), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=%s&id=%s)' % (action, show['imdb_id']))]
-            items.append({
-                "label": show['title'],                                         # "label" is require
-                "icon": show.get('images').get('poster'),
-                "thumbnail": show.get('images').get('poster'),
-                "info": {
-                    "title": show['title'],
-                    "plot": 'Year: %s; Rating: %s' % (show['year'], show.get('rating').get('percentage')) or None
-                },
-                "properties": {
-                    "fanart_image": show.get('images').get('fanart'),
-                },
-                "params": {
-                    "seasons": show['num_seasons'],
-                    "endpoint": "folders",                                      # "endpoint" is require
-                    'action': "show-seasons",                                   # Require when calling browse or folders (Action is used to separate the content)
-                    'imdb_id': show['imdb_id'],
-                    'poster': show.get('images').get('poster'),
-                    'fanart': show.get('images').get('fanart'),
-                    'tvshow': show['title']
-                },
-                "context_menu": context_menu,
-                "replace_context_menu": True
-            })
-
-        # Next Page
-        items.append({
-            "label": 'Show more',                                               # "label" is require
-            "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more.png'),
-            "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more_thumbnail.png'),
-            "params": {
-                "endpoint": "folders",                                          # "endpoint" is require
-                'action': "show-list",                                          # Require when calling browse or folders (Action is used to separate the content)
-                'act': kwargs['act'],
-                'genre': kwargs['genre'],
-                'search': kwargs['search'],
-                'page': int(page)+1
-            }
-        })
-
-        return items
 
 def _favourites(dom, **kwargs):
 
@@ -304,6 +238,10 @@ def _favourites(dom, **kwargs):
         })
 
     return items
+
+
+def _shows(dom, **kwargs):
+    return TvShow.get_shows(dom, **kwargs)
 
 
 def _seasons(dom, **kwargs):

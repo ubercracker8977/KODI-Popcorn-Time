@@ -57,11 +57,13 @@ _genres = {
 
 
 class Anime(BaseContentWithSeasons):
+    action = 'anime'
     category = 'anime'
     # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
     # We need to provide the correct values for request_path and id_field.
-    request_path = 'tv/anime'
     id_field = '_id'
+    request_path = 'tv/anime'
+    search_path = 'tv/animes'
 
 
 def _folders(action, **kwargs):
@@ -167,69 +169,6 @@ def _folders(action, **kwargs):
                 })
         return items
 
-def _shows(dom, **kwargs):
-
-    action = 'anime'
-
-    if kwargs['search'] == 'true':
-        search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
-        if not search_string:
-            keyboard = xbmc.Keyboard('', __addon__.getLocalizedString(30001), False)
-            keyboard.doModal()
-            if not keyboard.isConfirmed() or not keyboard.getText():
-                raise Abort()
-            search_string = keyboard.getText()
-            search_string = search_string.replace(' ', '+')
-        search = '%s/tv/animes/1?keywords=%s' % (dom[0], search_string)
-    else:
-        search = '%s/tv/animes/%s?genre=%s&sort=%s' % (dom[0], kwargs['page'], kwargs['genre'], kwargs['act'])
-
-    req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-    response = urllib2.urlopen(req)
-    animes = json.loads(response.read())
-
-    items = []
-    for anime in animes:
-        context_menu = [('%s' %__addon__.getLocalizedString(30039), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=%s&id=%s)' % (action, anime['_id']))]
-        items.append({
-            "label": anime['title'],                                        # "label" is require
-            "icon": anime.get('images').get('poster'),
-            "thumbnail": anime.get('images').get('poster'),
-            "info": {
-                "title": anime['title'],
-                "plot": 'Year: %s; Rating: %s' % (anime['year'], anime.get('rating').get('percentage')) or None
-            },
-            "properties": {
-                "fanart_image": anime.get('images').get('fanart')
-            },
-            "params": {
-                "endpoint": "folders",                                      # "endpoint" is require
-                'action': "anime-seasons",                                  # Require when calling browse or folders (Action is used to separate the content)
-                '_id': anime['_id'],
-                'poster': anime.get('images').get('poster'),
-                'fanart': anime.get('images').get('fanart'),
-                'tvshow': anime['title']
-            },
-            "context_menu": context_menu,
-            "replace_context_menu": True
-        })
-
-    # Next Page
-    items.append({
-        "label": 'Show more',                                               # "label" is require
-        "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more.png'),
-        "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'more_thumbnail.png'),
-        "params": {
-            "endpoint": "folders",                                          # "endpoint" is require
-            'action': "anime-list",                                          # Require when calling browse or folders (Action is used to separate the content)
-            'act': kwargs['act'],
-            'genre': kwargs['genre'],
-            'search': kwargs['search'],
-            'page': int(kwargs['page'])+1
-        }
-    })
-
-    return items
 
 def _favourites(dom, **kwargs):
 
@@ -279,6 +218,10 @@ def _favourites(dom, **kwargs):
         })
 
     return items
+
+
+def _shows(dom, **kwargs):
+    return Anime.get_shows(dom, **kwargs)
 
 
 def _seasons(dom, **kwargs):

@@ -1,9 +1,12 @@
 import os
 import re
 import sys
-import urllib2
-import xbmc
+
 from kodipopcorntime import settings
+
+from .base import BaseContent
+
+
 __addon__ = sys.modules['__main__'].__addon__
 
 _genres = {
@@ -38,73 +41,66 @@ _genres = {
     '30428': 'Western'
 }
 
+
+class Movie(BaseContent):
+    @staticmethod
+    def _is_item_valid_for_data(data):
+        # Title is required
+        return bool(data.get('title'))
+
+    @staticmethod
+    def _get_item_icon(data):
+        return data.get('images').get('poster')
+
+    @classmethod
+    def _get_item_info(cls, data):
+        return {
+            'title': data['title'],
+            'year': int(data.get('year') or 0),
+            'genre': u' / '.join(genre for genre in data.get('genres', [])) or None,
+            'code': data.get('imdb_id'),
+            'plot': data.get('synopsis') or None,
+            'plotoutline': data.get('synopsis') or None,
+            'trailer': cls._get_item_trailer(data)
+        }
+
+    @staticmethod
+    def _get_item_label(data):
+        return data['title']
+
+    @staticmethod
+    def _get_item_properties(data):
+        return {
+            'fanart_image': data.get('images').get('fanart'),
+        }
+
+    @staticmethod
+    def _get_item_trailer(data):
+        trailer = ''
+        if data.get('trailer'):
+            trailer_regex = re.match('^[^v]+v=(.{11}).*', data.get('trailer'))
+            try:
+                trailer_id = trailer_regex.group(1)
+                trailer = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % trailer_id
+            except:
+                pass
+        return trailer
+
+    @staticmethod
+    def _get_torrents_information(data):
+        torrents = {}
+        for quality, torrent_info in data.get('torrents').get('en', {}).items():
+            if quality in settings.QUALITIES:
+                torrents.update({
+                    quality: torrent_info.get('url'),
+                    '{0}size'.format(quality): torrent_info.get('size'),
+                })
+        return torrents
+
+
 def _create_item(data):
-    if not data.get("title"): # Title is require
-        return {}
+    return Movie._create_item(data)
 
-    torrents = {}
-    for quality, torrent_info in data.get('torrents').get('en', {}).items():
-        if quality in settings.QUALITIES:
-            torrents[quality] = torrent_info.get('url')
-            torrents['%ssize' % quality] = torrent_info.get('size')
-
-    # Do not show Movies without torrents
-    if not torrents:
-        return {}
-
-    # Set video width and height
-    width = 640
-    height = 480
-    if torrents.get('1080p'):
-        width = 1920
-        height = 1080
-    elif torrents.get('720p'):
-        width = 1280
-        height = 720
-
-    title = data["title"]
-
-    trailer = ''
-    if data.get("trailer"):
-        trailer_regex = re.match('^[^v]+v=(.{11}).*', data.get("trailer"))
-        try:
-            trailer_id = trailer_regex.group(1)
-            trailer = "plugin://plugin.video.youtube/?action=play_video&videoid=%s" %trailer_id
-        except:
-            pass
-
-    return {
-        "label": title,
-        "icon": data.get('images').get('poster'),
-        "thumbnail": data.get('images').get('poster'),
-        "info": {
-            "title": title,
-            "year": int(data.get("year") or 0),
-            "genre": u" / ".join(genre for genre in data.get("genres", [])) or None,
-            #"duration": int(0),
-            "code": data.get("imdb_id"),
-            "plot": data.get('synopsis') or None,
-            "plotoutline": data.get('synopsis') or None,
-            "trailer": trailer
-        },
-        "properties": {
-            "fanart_image": data.get('images').get('fanart')
-        },
-        "stream_info": {
-            "video": {
-                "codec": u"h264",
-                "duration": int(0),
-                "width": width,
-                "height": height
-            },
-            "audio": {
-                "codec": u"aac",
-                "language": u"en",
-                "channels": 2
-            }
-        },
-        "params": torrents
-    }
 
 def _folders(action, **kwargs):
     if action == 'cat_Movies':

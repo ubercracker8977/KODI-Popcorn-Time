@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 import urllib2
 
@@ -13,8 +14,51 @@ __addon__ = sys.modules['__main__'].__addon__
 
 
 class BaseContent(object):
-    # TODO: WIP for common functionality
-    pass
+    @classmethod
+    def _create_item(cls, data):
+        if not cls._is_item_valid_for_data(data):
+            return {}
+
+        torrents = cls._get_torrents_information(data)
+        # Do not show content without torrents
+        if not torrents:
+            return {}
+
+        return {
+            'label': cls._get_item_label(data),
+            'icon': cls._get_item_icon(data),
+            'thumbnail': cls._get_item_icon(data),
+            'info': cls._get_item_info(data),
+            'properties': cls._get_item_properties(data),
+            'stream_info': cls._get_item_stream_info(torrents),
+            'params': torrents,
+        }
+
+    @classmethod
+    def _get_item_stream_info(cls, torrents):
+        # Set video width and hight
+        width = 640
+        height = 480
+        if torrents.get('1080p'):
+            width = 1920
+            height = 1080
+        elif torrents.get('720p'):
+            width = 1280
+            height = 720
+
+        return {
+            'video': {
+                'codec': u'h264',
+                'duration': int(0),
+                'width': width,
+                'height': height,
+            },
+            'audio': {
+                'codec': u'aac',
+                'language': u'en',
+                'channels': 2,
+            },
+        }
 
 
 class BaseContentWithSeasons(BaseContent):
@@ -152,3 +196,42 @@ class BaseContentWithSeasons(BaseContent):
             }
             for season in season_list
         ]
+
+    @staticmethod
+    def _is_item_valid_for_data(data):
+        # seasondata0 has all the data from show
+        seasondata0 = int(data[0]['season'])
+        # seasondata_1 carries additional user data not included in show data
+        seasondata_1 = int(data[-1]['seasons'])
+
+        return (seasondata0 == seasondata_1)
+
+    @staticmethod
+    def _get_item_icon(data):
+        return data[-1]['image']
+
+    @staticmethod
+    def _get_item_label(data):
+        return 'Episode {number}: {title}'.format(
+            number=data[0]['episode'],
+            title=data[0]['title'],
+        )
+
+    @staticmethod
+    def _get_item_properties(data):
+        return {
+            'fanart_image': data[-1]['image2'],
+            'tvshowthumb': data[-1]['image2'],
+        }
+
+    @staticmethod
+    def _get_torrents_information(data):
+        torrents = {}
+        for quality, torrent_info in data[0].get('torrents', {}).items():
+            torrent_url = torrent_info.get('url')
+            if quality in settings.QUALITIES and torrent_url is not None:
+                torrents.update({
+                    quality: torrent_url,
+                    '{0}size'.format(quality): 1000000000*60,
+                })
+        return torrents

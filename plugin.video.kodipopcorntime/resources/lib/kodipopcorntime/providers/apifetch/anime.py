@@ -65,6 +65,19 @@ class Anime(BaseContentWithSeasons):
     request_path = 'tv/anime'
     search_path = 'tv/animes'
 
+    @classmethod
+    def _get_item_info(cls, data):
+        return {
+            "title": data[0]['title'],
+            "season": int(data[0].get('season') or 0),
+            "episode": int(data[0].get('episode') or 0),
+            "tvshowtitle": data[-1]['tvshow'],
+            "genre": u" / ".join(genre for genre in data[0].get("genres", [])) or None,
+            "code": data[0].get("tvdb_id"),
+            "plot": data[0]['overview'],
+            "plotoutline": data[0]['overview']
+        }
+
 
 def _folders(action, **kwargs):
     if action == 'cat_Anime':
@@ -229,68 +242,4 @@ def _seasons(dom, **kwargs):
 
 
 def _create_item(data):
-    label = 'Episode %s: %s' % (data[0]['episode'], data[0]['title'])
-
-    # seasondata0 has all the data from show
-    seasondata0 = int(data[0]['season'])
-
-    # seasondata_1 carries additional user data not included in show data
-    seasondata_1 = int(data[-1]['seasons'])
-    if not seasondata0 == seasondata_1:
-        return {}
-
-    torrents = {}
-    for quality, torrent_info in data[0].get('torrents', {}).items():
-        torrent_url = torrent_info.get('url')
-        if quality in settings.QUALITIES and torrent_url is not None:
-            torrents[quality] = torrent_url
-            torrents['%ssize' % quality] = 1000000000*60
-
-    # Do not return Shows  without torrents
-    if not torrents:
-        return {}
-
-    # Set video width and hight
-    width = 640
-    height = 480
-    if torrents.get('1080p'):
-        width = 1920
-        height = 1080
-    elif torrents.get('720p'):
-        width = 1280
-        height = 720
-
-    return {
-        "label": label,
-        "icon": data[-1]['image'],
-        "thumbnail": data[-1]['image'],
-        "info": {
-            "title": data[0]['title'],
-            "season": int(data[0].get('season') or 0),
-            "episode": int(data[0].get('episode') or 0),
-            "tvshowtitle": data[-1]['tvshow'],
-            "genre": u" / ".join(genre for genre in data[0].get("genres", [])) or None,
-            #"duration": int(0),
-            "code": data[0].get("tvdb_id"),
-            "plot": data[0]['overview'],
-            "plotoutline": data[0]['overview']
-        },
-        "properties": {
-            "fanart_image": data[-1]['image2'],
-            "tvshowthumb": data[-1]['image2']
-        },
-        "stream_info": {
-            "video": {
-                "codec": u"h264",
-                #"duration": int(0),
-                "width": width,
-                "height": height
-            },
-            "audio": {
-                "codec": u"aac",
-                "language": u"en",
-                "channels": 2
-            }
-        },
-        "params": torrents
-    }
+    return Anime._create_item(data)

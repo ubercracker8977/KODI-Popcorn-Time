@@ -420,10 +420,6 @@ msgctxt "#30160"
 msgid "Search"
 msgstr ""
 
-msgctxt "#30101"
-msgid "Trailer"
-msgstr ""
-
 msgctxt "#30162"
 msgid "Movie"
 msgstr ""

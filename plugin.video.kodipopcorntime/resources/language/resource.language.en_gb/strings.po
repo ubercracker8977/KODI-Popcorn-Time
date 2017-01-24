@@ -397,7 +397,7 @@ msgid "Enable UPnP (Universal Plug and Play)"
 msgstr ""
 
 msgctxt "#30155"
-msgid "Trailer"
+msgid "Enable sending scrape request to tracker (Tracker Scrape)"
 msgstr ""
 
 msgctxt "#30156"

@@ -1,0 +1,1283 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: KODI Addons\n"
+"Report-Msgid-Bugs-To: https://github.com/markop159/KODI-Popcorn-Time/issues\n"
+"POT-Creation-Date: 2017-01-24 07:03+0000\n"
+"PO-Revision-Date: 2017-01-24 08:32+0000\n"
+"Last-Translator: Markop159\n"
+"Language-Team: Slovenian (Slovenia)\n"
+"Language: sl-SI\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : "
+"n%100==3||n%100==4 ? 2 : 3;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz\n"
+"X-Loco-Source-Locale: en-SI\n"
+"X-Loco-Project-Id: 20435\n"
+"X-Loco-Api-Version: 1.0.15 20170120-1"
+
+#: loco:5886fcec52e1a1f9718b4567
+msgctxt "#30000"
+msgid "Show More"
+msgstr "Prikaži več"
+
+#: loco:5886fcec52e1a1f9718b4568
+msgctxt "#30001"
+msgid "KODI Popcorn Time - Search"
+msgstr "KODI Popcorn Time - Iskanje"
+
+#: loco:5886fcec52e1a1f9718b4569
+msgctxt "#30002"
+msgid "Search"
+msgstr "Iskanje"
+
+#: loco:5886fcec52e1a1f9718b456a
+msgctxt "#30003"
+msgid "Browse by Genre"
+msgstr "Brskaj po Žanru"
+
+#: loco:5886fcec52e1a1f9718b456b
+msgctxt "#30004"
+msgid "Most Popular"
+msgstr "Najbolj Popularno"
+
+#: loco:5886fcec52e1a1f9718b456c
+msgctxt "#30005"
+msgid "Best Rated"
+msgstr "Najbolje Ocenjeno"
+
+#: loco:5886fcec52e1a1f9718b456d
+msgctxt "#30006"
+msgid "Recently Added"
+msgstr "Nazadnje Dodano"
+
+#: loco:5886fcec52e1a1f9718b456e
+msgctxt "#30007"
+msgid "Fetching content"
+msgstr "Pridobivanje vsebine"
+
+#: loco:5886fcec52e1a1f9718b456f
+msgctxt "#30008"
+msgid "Down: %s/s, Up: %s/s"
+msgstr "Pobiranje: %s/s, Nalaganje: %s/s"
+
+#: loco:5886fcec52e1a1f9718b4570
+msgctxt "#30009"
+msgid "Play"
+msgstr "Predvajaj"
+
+#: loco:5886fcec52e1a1f9718b4571
+msgctxt "#30010"
+msgid "Add-on settings"
+msgstr "Add-on nastavitve"
+
+#: loco:5886fcec52e1a1f9718b4572
+msgctxt "#30011"
+msgid "Do you want to play this movie in 3D?"
+msgstr "Predvajaj v 3d?"
+
+#: loco:5886fcec52e1a1f9718b4573
+msgctxt "#30012"
+msgid "Subtitle:"
+msgstr "Podnapisi:"
+
+#: loco:5886fcec52e1a1f9718b4574
+msgctxt "#30013"
+msgid "Are you sure you want to reset Torrent settings?"
+msgstr "Resetiram Torrent nastavitve?"
+
+#: loco:5886fcec52e1a1f9718b4575
+msgctxt "#30014"
+msgid ""
+"It is only the settings with \"(Torrent)\" in the headline, there are "
+"affected."
+msgstr "Vpliva le na Torrent nastavitve."
+
+#: loco:5886fcec52e1a1f9718b4576
+msgctxt "#30015"
+msgid "Seeds: "
+msgstr "Semena: "
+
+#: loco:5886fcec52e1a1f9718b4577
+msgctxt "#30016"
+msgid "Fetching information"
+msgstr "Pridobivanje informacij"
+
+#: loco:5886fcec52e1a1f9718b4578
+msgctxt "#30017"
+msgid "Done"
+msgstr "Končano"
+
+#: loco:5886fcec52e1a1f9718b4579
+msgctxt "#30018"
+msgid "Fetching information"
+msgstr ">Pridobivanje informacij"
+
+#: loco:5886fcec52e1a1f9718b457a
+msgctxt "#30019"
+msgid "Downloading subtitle"
+msgstr "Pobiranje podnapisov"
+
+#: loco:5886fcec52e1a1f9718b457b
+msgctxt "#30020"
+msgid "Starting playback"
+msgstr "Pričetek predvajanja"
+
+#: loco:5886fcec52e1a1f9718b457c
+msgctxt "#30021"
+msgid "Downloading"
+msgstr "Pobiranje"
+
+#: loco:5886fcec52e1a1f9718b457d
+msgctxt "#30022"
+msgid "Download is complete"
+msgstr "Pobiranje je končano"
+
+#: loco:5886fcec52e1a1f9718b457e
+msgctxt "#30023"
+msgid "The quality was not found<"
+msgstr "Kvaliteta videa ni najdena"
+
+#: loco:5886fcec52e1a1f9718b457f
+msgctxt "#30024"
+msgid "Attempt "
+msgstr "Poskus "
+
+#: loco:5886fcec52e1a1f9718b4580
+msgctxt "#30025"
+msgid "Sort by Title"
+msgstr "Razvrsti po Naslovu"
+
+#: loco:5886fcec52e1a1f9718b4581
+msgctxt "#30026"
+msgid "Sort by Year"
+msgstr "Razvrsti po Letih"
+
+#: loco:5886fcec52e1a1f9718b4582
+msgctxt "#30027"
+msgid "Last Updated"
+msgstr "Nazadnje posodobljeno"
+
+#: loco:5886fcec52e1a1f9718b4583
+msgctxt "#30028"
+msgid "Searching"
+msgstr "Iskanje"
+
+#: loco:5886fcec52e1a1f9718b4584
+msgctxt "#30029"
+msgid "Favourites"
+msgstr "Priljubljene"
+
+#: loco:5886fcec52e1a1f9718b4585
+msgctxt "#30030"
+msgid "Movies"
+msgstr "Filmi"
+
+#: loco:5886fcec52e1a1f9718b4586
+msgctxt "#30031"
+msgid "Starting"
+msgstr "Začetek"
+
+#: loco:5886fcec52e1a1f9718b4587
+msgctxt "#30033"
+msgid "Are you sure you want to delete the cache?"
+msgstr "Ali si prepričan da pobrišem predpomnilnik?"
+
+#: loco:5886fcec52e1a1f9718b4588
+msgctxt "#30034"
+msgid "Title:"
+msgstr "Naslov:"
+
+#: loco:5886fcec52e1a1f9718b4589
+msgctxt "#30035"
+msgid "New title:"
+msgstr "Nov Naslov:"
+
+#: loco:5886fcec52e1a1f9718b458a
+msgctxt "#30036"
+msgid "Waiting"
+msgstr "Čakanje"
+
+#: loco:5886fcec52e1a1f9718b458b
+msgctxt "#30037"
+msgid "Checking data"
+msgstr "Preverba podatkov"
+
+#: loco:5886fcec52e1a1f9718b458c
+msgctxt "#30038"
+msgid "Trailer"
+msgstr "Napovednik"
+
+#: loco:5886fcec52e1a1f9718b458d
+msgctxt "#30039"
+msgid "Add to Popcorn Favourites"
+msgstr "Dodaj v Popcorn priljubljene"
+
+#: loco:5886fcec52e1a1f9718b458e
+msgctxt "#30040"
+msgid "Remove from Popcorn Favourites"
+msgstr "Odstrani iz Popcorn priljubljenih"
+
+#: loco:5886fcec52e1a1f9718b458f
+msgctxt "#30101"
+msgid "Clear media files"
+msgstr "pobriši media vsebine"
+
+#: loco:5886fcec52e1a1f9718b4590
+msgctxt "#30102"
+msgid "Files"
+msgstr "Datoteke"
+
+#: loco:5886fcec52e1a1f9718b4591
+msgctxt "#30103"
+msgid "Download Path"
+msgstr "Mapa prenosa"
+
+#: loco:5886fcec52e1a1f9718b4592
+msgctxt "#30104"
+msgid "Keep files after playback/download stops"
+msgstr "Obdrži datoteke po koncu predvajanja/prenosa."
+
+#: loco:5886fcec52e1a1f9718b4593
+msgctxt "#30105"
+msgid "Subtitles"
+msgstr "Podnapisi"
+
+#: loco:5886fcec52e1a1f9718b4594
+msgctxt "#30106"
+msgid "720p and lower"
+msgstr "720p ter nižja"
+
+#: loco:5886fcec52e1a1f9718b4595
+msgctxt "#30107"
+msgid "Prefer"
+msgstr "Prednostno"
+
+#: loco:5886fcec52e1a1f9718b4596
+msgctxt "#30108"
+msgid "Network"
+msgstr "Omrežje"
+
+#: loco:5886fcec52e1a1f9718b4597
+msgctxt "#30109"
+msgid "Play 3D video"
+msgstr "Predvajaj 3D vsebino"
+
+#: loco:5886fcec52e1a1f9718b4598
+msgctxt "#30110"
+msgid "Max Download Rate (Kilobyte - 0: Unlimited)"
+msgstr "Največja hitrost prenašanja (Kilobyte - 0: Neomejeno)"
+
+#: loco:5886fcec52e1a1f9718b4599
+msgctxt "#30111"
+msgid "Encryption"
+msgstr "Enkripcija"
+
+#: loco:5886fcec52e1a1f9718b459a
+msgctxt "#30112"
+msgid "Global"
+msgstr "Globalno"
+
+#: loco:5886fcec52e1a1f9718b459b
+msgctxt "#30113"
+msgid "Maintenance"
+msgstr "Vzdrževanje"
+
+#: loco:5886fcec52e1a1f9718b459c
+msgctxt "#30114"
+msgid "Clear media information"
+msgstr "Brisanje medija informacij"
+
+#: loco:5886fcec52e1a1f9718b459d
+msgctxt "#30115"
+msgid "Proxy domains"
+msgstr "Proxy domene"
+
+#: loco:5886fcec52e1a1f9718b459e
+msgctxt "#30116"
+msgid "Movies (comma-separated hosts)"
+msgstr "Filmi (gostitelji ločeni z vejico)"
+
+#: loco:5886fcec52e1a1f9718b459f
+msgctxt "#30117"
+msgid "Video Quality"
+msgstr "Kvalitea videa"
+
+#: loco:5886fcec52e1a1f9718b45a0
+msgctxt "#30118"
+msgid "1080p and lower"
+msgstr "1080p ter nižja"
+
+#: loco:5886fcec52e1a1f9718b45a1
+msgctxt "#30119"
+msgid "First priority"
+msgstr "Prva prioriteta"
+
+#: loco:5886fcec52e1a1f9718b45a2
+msgctxt "#30120"
+msgid "Second priority"
+msgstr "Druga prioriteta"
+
+#: loco:5886fcec52e1a1f9718b45a3
+msgctxt "#30121"
+msgid "Third priority"
+msgstr "Tretja prioriteta"
+
+#: loco:5886fcec52e1a1f9718b45a4
+msgctxt "#30122"
+msgid "Max Upload Rate (Kilobyte - 0: Unlimited - Min 15 kB/s)"
+msgstr "Maksimalna hitrost deljenja (Kilobyte - 0: Neomojeno - Min 15 kB/s)"
+
+#: loco:5886fcec52e1a1f9718b45a5
+msgctxt "#30123"
+msgid "Forced"
+msgstr "Prisiljeno"
+
+#: loco:5886fcec52e1a1f9718b45a6
+msgctxt "#30124"
+msgid "Enabled"
+msgstr "Vklopljeno"
+
+#: loco:5886fcec52e1a1f9718b45a7
+msgctxt "#30125"
+msgid "Disabled"
+msgstr "Izklopljeno"
+
+#: loco:5886fcec52e1a1f9718b45a8
+msgctxt "#30126"
+msgid "No"
+msgstr "Ne"
+
+#: loco:5886fcec52e1a1f9718b45a9
+msgctxt "#30127"
+msgid "Ask me"
+msgstr "Vedno vprašaj"
+
+#: loco:5886fcec52e1a1f9718b45aa
+msgctxt "#30128"
+msgid "Always"
+msgstr "Vedno"
+
+#: loco:5886fcec52e1a1f9718b45ab
+msgctxt "#30129"
+msgid "TV Shows (comma-separated hosts)"
+msgstr "TV Serije (gostitelji ločeni z vejico)"
+
+#: loco:5886fcec52e1a1f9718b45ac
+msgctxt "#30130"
+msgid "Advanced"
+msgstr "Napredno"
+
+#: loco:5886fcec52e1a1f9718b45ad
+msgctxt "#30131"
+msgid "Torrent settings"
+msgstr "Torrent nastavitve"
+
+#: loco:5886fcec52e1a1f9718b45ae
+msgctxt "#30132"
+msgid "Providers"
+msgstr "Ponudniki"
+
+#: loco:5886fcec52e1a1f9718b45af
+msgctxt "#30133"
+msgid "Peers (Torrent)"
+msgstr "Vrstniki (Torrent)"
+
+#: loco:5886fcec52e1a1f9718b45b0
+msgctxt "#30134"
+msgid "Features (Torrent)"
+msgstr "Lastnosti (Torrent)"
+
+#: loco:5886fcec52e1a1f9718b45b1
+msgctxt "#30135"
+msgid "Log / debug"
+msgstr "Log / razhroščevanje"
+
+#: loco:5886fcec52e1a1f9718b45b2
+msgctxt "#30136"
+msgid "Keep only incomplete files after exiting"
+msgstr "Obdrži samo nedokončane"
+
+#: loco:5886fcec52e1a1f9718b45b3
+msgctxt "#30137"
+msgid "Keep only complete files after exiting"
+msgstr "Obdrži samo dokončane"
+
+#: loco:5886fcec52e1a1f9718b45b4
+msgctxt "#30138"
+msgid "Additional (Torrent)"
+msgstr "Dodatno (Torrent)"
+
+#: loco:5886fcec52e1a1f9718b45b5
+msgctxt "#30139"
+msgid "Port for incoming connections"
+msgstr "Vrata vhodne povezave"
+
+#: loco:5886fcec52e1a1f9718b45b6
+msgctxt "#30140"
+msgid "Use random port (49152-65535)"
+msgstr "Uporabi naključna vrata (49152-65535)"
+
+#: loco:5886fcec52e1a1f9718b45b7
+msgctxt "#30141"
+msgid "Enable TCP protocol"
+msgstr "Uporabi TCP protokol"
+
+#: loco:5886fcec52e1a1f9718b45b8
+msgctxt "#30142"
+msgid "Enable uTP (uTorrent Transport Protocol)"
+msgstr "Uporabi uTP (uTorrent Transport Protocol)<"
+
+#: loco:5886fcec52e1a1f9718b45b9
+msgctxt "#30143"
+msgid "The limit of the total number of connections"
+msgstr "Maksimalno število povezav"
+
+#: loco:5886fcec52e1a1f9718b45ba
+msgctxt "#30144"
+msgid "Reset"
+msgstr "Ponastavitev"
+
+#: loco:5886fcec52e1a1f9718b45bb
+msgctxt "#30145"
+msgid "The number of peers who try to connect after the initial response"
+msgstr "Število vrstnikov ki se poskušajo povezati"
+
+#: loco:5886fcec52e1a1f9718b45bc
+msgctxt "#30146"
+msgid "The total number of connection attempts per second"
+msgstr "Število poskusov povezav na sekundo"
+
+#: loco:5886fcec52e1a1f9718b45bd
+msgctxt "#30147"
+msgid "Number of seconds before the connection attempt failed"
+msgstr "Number of seconds before the connection attempt failed"
+
+#: loco:5886fcec52e1a1f9718b45be
+msgctxt "#30149"
+msgid "Number of seconds to wait between connection failures"
+msgstr "Čas čakanja med neuspelimi poskusi povezave"
+
+#: loco:5886fcec52e1a1f9718b45bf
+msgctxt "#30150"
+msgid "Number of failure attempts before peer will be discarded"
+msgstr "Number of failure attempts before peer will be discarded"
+
+#: loco:5886fcec52e1a1f9718b45c0
+msgctxt "#30151"
+msgid "Enable DHT (Distributed Hash Table)"
+msgstr "Vključi DHT (Distributed Hash Table)"
+
+#: loco:5886fcec52e1a1f9718b45c1
+msgctxt "#30152"
+msgid "Enable LSD (Local Service Discovery)"
+msgstr "Vključi LSD (Local Service Discovery)"
+
+#: loco:5886fcec52e1a1f9718b45c2
+msgctxt "#30153"
+msgid "Enable NATPMP (NAT Port Mapping Protocol)"
+msgstr "Vključi NATPMP (NAT Port Mapping Protocol)"
+
+#: loco:5886fcec52e1a1f9718b45c3
+msgctxt "#30154"
+msgid "Enable UPnP (Universal Plug and Play)"
+msgstr "Vključi UPnP (Universal Plug and Play)"
+
+#: loco:5886fcec52e1a1f9718b45c4
+msgctxt "#30155"
+msgid "Enable sending scrape request to tracker (Tracker Scrape)"
+msgstr "Vključi pošiljanje \"Tracker Scrape\" zahtevkov"
+
+#: loco:5886fcec52e1a1f9718b45c5
+msgctxt "#30156"
+msgid "Trackers (comma-separated URLs)"
+msgstr "Sledilniki (URL naslovi ločeni z vejico)"
+
+#: loco:5886fcec52e1a1f9718b45c6
+msgctxt "#30157"
+msgid "DHT routers (comma-separated host:port pairs)"
+msgstr "DHT usmerjevalniki (gostitelj:vrata pari ločeni z vejico)"
+
+#: loco:5886fcec52e1a1f9718b45c7
+msgctxt "#30158"
+msgid "Enable debugging"
+msgstr "Vključi razhroščevanje"
+
+#: loco:5886fcec52e1a1f9718b45c8
+msgctxt "#30159"
+msgid "Network (Torrent)"
+msgstr "Omrežje (Torrent)"
+
+#: loco:5886fcec52e1a1f9718b45c9
+msgctxt "#30160"
+msgid "Search"
+msgstr "Iskanje"
+
+#: loco:5886fcec52e1a1f9718b45cb
+msgctxt "#30162"
+msgid "Movie"
+msgstr "Filmi"
+
+#: loco:5886fcec52e1a1f9718b45cc
+msgctxt "#30163"
+msgid "TV Shows"
+msgstr "TV Serije"
+
+#: loco:5886fcec52e1a1f9718b45cd
+msgctxt "#30164"
+msgid "Prioritize Hearing Impaired Subtitles"
+msgstr "Prednostno podnapisi za slušno prizadete"
+
+#: loco:5886fcec52e1a1f9718b45ce
+msgctxt "#30165"
+msgid "Gather movie information from"
+msgstr "Pridobi informacije za Filme iz:"
+
+#: loco:5886fcec52e1a1f9718b45cf
+msgctxt "#30168"
+msgid "Get subtitles from"
+msgstr "Pridobi podnapise od:"
+
+#: loco:5886fcec52e1a1f9718b45d0
+msgctxt "#30169"
+msgid "Gather TV information from"
+msgstr "Pridobi informacije za TV Serije iz:"
+
+#: loco:5886fcec52e1a1f9718b45d1
+msgctxt "#30170"
+msgid "None"
+msgstr "Brez"
+
+#: loco:5886fcec52e1a1f9718b45d2
+msgctxt "#30171"
+msgid "The Movie Database"
+msgstr "The Movie Database"
+
+#: loco:5886fcec52e1a1f9718b45d3
+msgctxt "#30172"
+msgid "YIFY Subtitles"
+msgstr "YIFY Subtitles"
+
+#: loco:5886fcec52e1a1f9718b45d4
+msgctxt "#30173"
+msgid "Only 480p"
+msgstr "Samo 480p"
+
+#: loco:5886fcec52e1a1f9718b45d5
+msgctxt "#30174"
+msgid "Video"
+msgstr "Video"
+
+#: loco:5886fcec52e1a1f9718b45d6
+msgctxt "#30201"
+msgid "Albanian"
+msgstr "Albanski"
+
+#: loco:5886fcec52e1a1f9718b45d7
+msgctxt "#30202"
+msgid "Arabic"
+msgstr "Arabski"
+
+#: loco:5886fcec52e1a1f9718b45d8
+msgctxt "#30203"
+msgid "Bengali"
+msgstr "Bengalski"
+
+#: loco:5886fcec52e1a1f9718b45d9
+msgctxt "#30204"
+msgid "Brazilian Portuguese"
+msgstr "Brazilsko Portugalski"
+
+#: loco:5886fcec52e1a1f9718b45da
+msgctxt "#30205"
+msgid "Bulgarian"
+msgstr "Bulgarski"
+
+#: loco:5886fcec52e1a1f9718b45db
+msgctxt "#30206"
+msgid "Chinese"
+msgstr "Kitajski"
+
+#: loco:5886fcec52e1a1f9718b45dc
+msgctxt "#30207"
+msgid "Croatian"
+msgstr "Hrvaški"
+
+#: loco:5886fcec52e1a1f9718b45dd
+msgctxt "#30208"
+msgid "Czech"
+msgstr "Češki"
+
+#: loco:5886fcec52e1a1f9718b45de
+msgctxt "#30209"
+msgid "Danish"
+msgstr "Danski"
+
+#: loco:5886fcec52e1a1f9718b45df
+msgctxt "#30210"
+msgid "Dutch"
+msgstr "Nizozemski"
+
+#: loco:5886fcec52e1a1f9718b45e0
+msgctxt "#30211"
+msgid "English"
+msgstr "Angleški"
+
+#: loco:5886fcec52e1a1f9718b45e1
+msgctxt "#30212"
+msgid "Farsi/Persian"
+msgstr "Farsi/Persian"
+
+#: loco:5886fcec52e1a1f9718b45e2
+msgctxt "#30213"
+msgid "Finnish"
+msgstr "Finski"
+
+#: loco:5886fcec52e1a1f9718b45e3
+msgctxt "#30214"
+msgid "French"
+msgstr "Francoski"
+
+#: loco:5886fcec52e1a1f9718b45e4
+msgctxt "#30215"
+msgid "German"
+msgstr "Nemški"
+
+#: loco:5886fcec52e1a1f9718b45e5
+msgctxt "#30216"
+msgid "Greek"
+msgstr "Grški"
+
+#: loco:5886fcec52e1a1f9718b45e6
+msgctxt "#30217"
+msgid "Hebrew"
+msgstr "Hebrew"
+
+#: loco:5886fcec52e1a1f9718b45e7
+msgctxt "#30218"
+msgid "Hungarian"
+msgstr "Madžarski"
+
+#: loco:5886fcec52e1a1f9718b45e8
+msgctxt "#30219"
+msgid "Indonesian"
+msgstr "Indonezijski"
+
+#: loco:5886fcec52e1a1f9718b45e9
+msgctxt "#30220"
+msgid "Italian"
+msgstr "Italijanski"
+
+#: loco:5886fcec52e1a1f9718b45ea
+msgctxt "#30221"
+msgid "Japanese"
+msgstr "Japonski"
+
+#: loco:5886fcec52e1a1f9718b45eb
+msgctxt "#30222"
+msgid "Korean"
+msgstr "Korejski"
+
+#: loco:5886fcec52e1a1f9718b45ec
+msgctxt "#30223"
+msgid "Lithuanian"
+msgstr "Litvanski"
+
+#: loco:5886fcec52e1a1f9718b45ed
+msgctxt "#30224"
+msgid "Macedonian"
+msgstr "Makedonski"
+
+#: loco:5886fcec52e1a1f9718b45ee
+msgctxt "#30225"
+msgid "Malay"
+msgstr "Malajski"
+
+#: loco:5886fcec52e1a1f9718b45ef
+msgctxt "#30226"
+msgid "Norwegian"
+msgstr "Norveški"
+
+#: loco:5886fcec52e1a1f9718b45f0
+msgctxt "#30227"
+msgid "Polish"
+msgstr "Poljski"
+
+#: loco:5886fcec52e1a1f9718b45f1
+msgctxt "#30228"
+msgid "Portuguese"
+msgstr "Portugalski"
+
+#: loco:5886fcec52e1a1f9718b45f2
+msgctxt "#30229"
+msgid "Romanian"
+msgstr "Romunski"
+
+#: loco:5886fcec52e1a1f9718b45f3
+msgctxt "#30230"
+msgid "Russian"
+msgstr "Ruski"
+
+#: loco:5886fcec52e1a1f9718b45f4
+msgctxt "#30231"
+msgid "Serbian"
+msgstr "Srbski"
+
+#: loco:5886fcec52e1a1f9718b45f5
+msgctxt "#30232"
+msgid "Slovenian"
+msgstr "Slovenski"
+
+#: loco:5886fcec52e1a1f9718b45f6
+msgctxt "#30233"
+msgid "Spanish"
+msgstr "Španski"
+
+#: loco:5886fcec52e1a1f9718b45f7
+msgctxt "#30234"
+msgid "Swedish"
+msgstr "Švedski"
+
+#: loco:5886fcec52e1a1f9718b45f8
+msgctxt "#30235"
+msgid "Thai"
+msgstr "Tajski"
+
+#: loco:5886fcec52e1a1f9718b45f9
+msgctxt "#30236"
+msgid "Turkish"
+msgstr "Turški"
+
+#: loco:5886fcec52e1a1f9718b45fa
+msgctxt "#30237"
+msgid "Urdu"
+msgstr "Urdu"
+
+#: loco:5886fcec52e1a1f9718b45fb
+msgctxt "#30238"
+msgid "Vietnamese"
+msgstr "Vietnamski"
+
+#: loco:5886fcec52e1a1f9718b45fc
+msgctxt "#30300"
+msgid "Cannot find port to bind torrent2http"
+msgstr "Ni možno pridobiti vrat za torrent2http"
+
+#: loco:5886fcec52e1a1f9718b45fd
+msgctxt "#30301"
+msgid "Cache cleared"
+msgstr "Predpomnilnik pobrisan"
+
+#: loco:5886fcec52e1a1f9718b45fe
+msgctxt "#30302"
+msgid "Your OS is not supported"
+msgstr "OS ni podprt"
+
+#: loco:5886fcec52e1a1f9718b45ff
+msgctxt "#30304"
+msgid "Did not receive any data"
+msgstr "Ni podatkov"
+
+#: loco:5886fcec52e1a1f9718b4600
+msgctxt "#30305"
+msgid "Did not receive any movies"
+msgstr "Ni filmov"
+
+#: loco:5886fcec52e1a1f9718b4601
+msgctxt "#30308"
+msgid "An unknown error has occurred"
+msgstr "Zgodila se je neznana napaka"
+
+#: loco:5886fcec52e1a1f9718b4602
+msgctxt "#30310"
+msgid "Download path does not exist. Please check your addon settings"
+msgstr "Mapa za prenos ne obstaja. Preveri nastavitve"
+
+#: loco:5886fcec52e1a1f9718b4603
+msgctxt "#30313"
+msgid "A torrent error has occurred"
+msgstr "Napaka z Torrent-om"
+
+#: loco:5886fcec52e1a1f9718b4604
+msgctxt "#30314"
+msgid "Torrent settings were reset"
+msgstr "Nastavitve za Torrent so resetirane"
+
+#: loco:5886fcec52e1a1f9718b4605
+msgctxt "#30315"
+msgid "No movie or tv-show providers were found"
+msgstr "Ne najdem nobenih ponudnikov"
+
+#: loco:5886fcec52e1a1f9718b4606
+msgctxt "#30316"
+msgid "Torrent file did not contain a movie"
+msgstr "Torrent datoteka ne vsebije videa"
+
+#: loco:5886fcec52e1a1f9718b4607
+msgctxt "#30317"
+msgid "A connection has not answered before timeout"
+msgstr "Povezava se ne oglasi"
+
+#: loco:5886fcec52e1a1f9718b4608
+msgctxt "#30318"
+msgid "Playback is terminated due to timeout"
+msgstr "Predvajanje se je prekinilo zaradi preteka časa"
+
+#: loco:5886fcec52e1a1f9718b4609
+msgctxt "#30319"
+msgid ""
+"Downloading to an unmounted network share is not supported. Please check "
+"your addon settings"
+msgstr "Prenos na odklopljen mrežni disk ni podprt. Preveri nastavitve"
+
+#: loco:5886fcec52e1a1f9718b460a
+msgctxt "#30320"
+msgid "Cannot find torrent2http"
+msgstr "Ne najdem torrent2http"
+
+#: loco:5886fcec52e1a1f9718b460b
+msgctxt "#30321"
+msgid "Cannot make torrent2http executable"
+msgstr "Ni možno zagnati torrent2http"
+
+#: loco:5886fcec52e1a1f9718b460c
+msgctxt "#30322"
+msgid "Unable to create cache directory"
+msgstr "Ni možno narediti predpomnilnika"
+
+#: loco:5886fcec52e1a1f9718b460d
+msgctxt "#30323"
+msgid ""
+"There is not enough free space to play. Please free up some space or choose "
+"a different download location"
+msgstr ""
+"Premalo prostora za predvajanje. Potrebno sprostiti nekaj prostora na disku."
+
+#: loco:5886fcec52e1a1f9718b460e
+msgctxt "#30324"
+msgid ""
+"Max Upload Rate must be above 15 Kilobytes per second. Please go to the "
+"addon settings and set a minimum speed of 15 kilobytes per second"
+msgstr ""
+"Maksimalna hitrost nalaganja mora biti višja od 15 Kb na sekundo. Preveri "
+"nastavitve."
+
+#: loco:5886fcec52e1a1f9718b460f
+msgctxt "#30325"
+msgid ""
+"You need more space to play %s and %s qualities or choose a lower quality"
+msgstr ""
+"Potrebuješ več prostora za predvajanje v %s in %s kvalitetah, ali izberi "
+"nižjo kvaliteto."
+
+#: loco:5886fcec52e1a1f9718b4610
+msgctxt "#30326"
+msgid "You need more space to play %s quality or choose a lower quality"
+msgstr ""
+"Potrebuješ več prostora za predvajanje v %s kvaliteti ali izberi nižjo "
+"kvaliteto."
+
+#: loco:5886fcec52e1a1f9718b4611
+msgctxt "#30327"
+msgid "No results found"
+msgstr "Ni najdenih rezultatov"
+
+#: loco:5886fcec52e1a1f9718b4612
+msgctxt "#30328"
+msgid "Could not receive a media list as there was no domains that worked"
+msgstr "Ne morem pridobiti informacij ker nobena domena ne deluje."
+
+#: loco:5886fcec52e1a1f9718b4613
+msgctxt "#30329"
+msgid "There was an error with the response from the provider"
+msgstr "Prišlo je do napake pri odgovoru s strani ponudnika."
+
+#: loco:5886fcec52e1a1f9718b4614
+msgctxt "#30350"
+msgid "Movies"
+msgstr "Filmi"
+
+#: loco:5886fcec52e1a1f9718b4615
+msgctxt "#30351"
+msgid "TV-Shows"
+msgstr "TV Serije"
+
+#: loco:5886fcec52e1a1f9718b4616
+msgctxt "#30352"
+msgid "Anime"
+msgstr "Anime"
+
+#: loco:5886fcec52e1a1f9718b4617
+msgctxt "#30353"
+msgid "30350,30351,30352"
+msgstr "30350,30351,30352"
+
+#: loco:5886fcec52e1a1f9718b4618
+msgctxt "#30400"
+msgid "Action"
+msgstr "Akcija"
+
+#: loco:5886fcec52e1a1f9718b4619
+msgctxt "#30401"
+msgid "Adventure"
+msgstr "Avantura"
+
+#: loco:5886fcec52e1a1f9718b461a
+msgctxt "#30402"
+msgid "Animation"
+msgstr "Animacija"
+
+#: loco:5886fcec52e1a1f9718b461b
+msgctxt "#30403"
+msgid "Comedy"
+msgstr "Komedija"
+
+#: loco:5886fcec52e1a1f9718b461c
+msgctxt "#30404"
+msgid "Crime"
+msgstr "Kriminalka"
+
+#: loco:5886fcec52e1a1f9718b461d
+msgctxt "#30405"
+msgid "Disaster"
+msgstr "Katastrofa"
+
+#: loco:5886fcec52e1a1f9718b461e
+msgctxt "#30406"
+msgid "Documentary"
+msgstr "Dokumentarci"
+
+#: loco:5886fcec52e1a1f9718b461f
+msgctxt "#30407"
+msgid "Drama"
+msgstr "Drama"
+
+#: loco:5886fcec52e1a1f9718b4620
+msgctxt "#30408"
+msgid "Eastern"
+msgstr "Vzhodnji"
+
+#: loco:5886fcec52e1a1f9718b4621
+msgctxt "#30409"
+msgid "Family"
+msgstr "Družinski"
+
+#: loco:5886fcec52e1a1f9718b4622
+msgctxt "#30410"
+msgid "Fan-Film"
+msgstr "Ljubiteljski"
+
+#: loco:5886fcec52e1a1f9718b4623
+msgctxt "#30411"
+msgid "Fantasy"
+msgstr "Domišljijski"
+
+#: loco:5886fcec52e1a1f9718b4624
+msgctxt "#30412"
+msgid "Film-Noir"
+msgstr "Črno-Beli Film"
+
+#: loco:5886fcec52e1a1f9718b4625
+msgctxt "#30413"
+msgid "History"
+msgstr "Zgodovinski"
+
+#: loco:5886fcec52e1a1f9718b4626
+msgctxt "#30414"
+msgid "Horror"
+msgstr "Grozljivka"
+
+#: loco:5886fcec52e1a1f9718b4627
+msgctxt "#30415"
+msgid "Indie"
+msgstr "Indie"
+
+#: loco:5886fcec52e1a1f9718b4628
+msgctxt "#30416"
+msgid "Music"
+msgstr "Glasbeni"
+
+#: loco:5886fcec52e1a1f9718b4629
+msgctxt "#30417"
+msgid "Mystery"
+msgstr "Misterij"
+
+#: loco:5886fcec52e1a1f9718b462a
+msgctxt "#30418"
+msgid "Road"
+msgstr "Popotovanje"
+
+#: loco:5886fcec52e1a1f9718b462b
+msgctxt "#30419"
+msgid "Romance"
+msgstr "Romanca"
+
+#: loco:5886fcec52e1a1f9718b462c
+msgctxt "#30420"
+msgid "Sci-Fi"
+msgstr "Znanstvena Fantastika"
+
+#: loco:5886fcec52e1a1f9718b462d
+msgctxt "#30421"
+msgid "Short"
+msgstr "Kratki"
+
+#: loco:5886fcec52e1a1f9718b462e
+msgctxt "#30422"
+msgid "Sport"
+msgstr "Šport"
+
+#: loco:5886fcec52e1a1f9718b462f
+msgctxt "#30423"
+msgid "Sporting-event"
+msgstr "Športni Dogodek"
+
+#: loco:5886fcec52e1a1f9718b4630
+msgctxt "#30424"
+msgid "Suspence"
+msgstr "Suspence"
+
+#: loco:5886fcec52e1a1f9718b4631
+msgctxt "#30425"
+msgid "Thriller"
+msgstr "Triler"
+
+#: loco:5886fcec52e1a1f9718b4632
+msgctxt "#30426"
+msgid "TV-Movie"
+msgstr "TV-Film"
+
+#: loco:5886fcec52e1a1f9718b4633
+msgctxt "#30427"
+msgid "War"
+msgstr "Vojaški"
+
+#: loco:5886fcec52e1a1f9718b4634
+msgctxt "#30428"
+msgid "Western"
+msgstr "Western"
+
+#: loco:5886fcec52e1a1f9718b4635
+msgctxt "#30450"
+msgid "Action"
+msgstr "Akcija"
+
+#: loco:5886fcec52e1a1f9718b4636
+msgctxt "#30451"
+msgid "Ecchi"
+msgstr "Ecchi"
+
+#: loco:5886fcec52e1a1f9718b4637
+msgctxt "#30452"
+msgid "Harem"
+msgstr "Harem"
+
+#: loco:5886fcec52e1a1f9718b4638
+msgctxt "#30453"
+msgid "Romance"
+msgstr "Romantika"
+
+#: loco:5886fcec52e1a1f9718b4639
+msgctxt "#30454"
+msgid "School"
+msgstr "Šolski"
+
+#: loco:5886fcec52e1a1f9718b463a
+msgctxt "#30455"
+msgid "Supernatural"
+msgstr "Nadnaravno"
+
+#: loco:5886fcec52e1a1f9718b463b
+msgctxt "#30456"
+msgid "Drama"
+msgstr "Drama"
+
+#: loco:5886fcec52e1a1f9718b463c
+msgctxt "#30457"
+msgid "Comedy"
+msgstr "Komedija"
+
+#: loco:5886fcec52e1a1f9718b463d
+msgctxt "#30458"
+msgid "Mystery"
+msgstr "Misterij"
+
+#: loco:5886fcec52e1a1f9718b463e
+msgctxt "#30459"
+msgid "Police"
+msgstr "Policijski"
+
+#: loco:5886fcec52e1a1f9718b463f
+msgctxt "#30461"
+msgid "Sports"
+msgstr "Šport"
+
+#: loco:5886fcec52e1a1f9718b4640
+msgctxt "#30462"
+msgid "Mecha"
+msgstr "Mecha"
+
+#: loco:5886fcec52e1a1f9718b4641
+msgctxt "#30463"
+msgid "Sci-Fi"
+msgstr "Znanstvena Fantastika"
+
+#: loco:5886fcec52e1a1f9718b4642
+msgctxt "#30464"
+msgid "Slice of Life"
+msgstr "Slice of Life"
+
+#: loco:5886fcec52e1a1f9718b4643
+msgctxt "#30465"
+msgid "Fantasy"
+msgstr "Fantazijski"
+
+#: loco:5886fcec52e1a1f9718b4644
+msgctxt "#30466"
+msgid "Adventure"
+msgstr "Avantura"
+
+#: loco:5886fcec52e1a1f9718b4645
+msgctxt "#30467"
+msgid "Gore"
+msgstr "Gore"
+
+#: loco:5886fcec52e1a1f9718b4646
+msgctxt "#30468"
+msgid "Music"
+msgstr "Glasbeni"
+
+#: loco:5886fcec52e1a1f9718b4647
+msgctxt "#30469"
+msgid "Psychological"
+msgstr "Psihološki"
+
+#: loco:5886fcec52e1a1f9718b4648
+msgctxt "#30470"
+msgid "Shoujo Ai"
+msgstr "Shoujo Ai"
+
+#: loco:5886fcec52e1a1f9718b4649
+msgctxt "#30471"
+msgid "Yuri"
+msgstr "Yuri"
+
+#: loco:5886fcec52e1a1f9718b464a
+msgctxt "#30472"
+msgid "Magic"
+msgstr "Čarobno"
+
+#: loco:5886fcec52e1a1f9718b464b
+msgctxt "#30473"
+msgid "Horror"
+msgstr "Grozljivka"
+
+#: loco:5886fcec52e1a1f9718b464c
+msgctxt "#30474"
+msgid "Thriller"
+msgstr "Triler"
+
+#: loco:5886fcec52e1a1f9718b464d
+msgctxt "#30475"
+msgid "Gender Bender"
+msgstr "Menjava spola"
+
+#: loco:5886fcec52e1a1f9718b464e
+msgctxt "#30476"
+msgid "Parody"
+msgstr "Parodija"
+
+#: loco:5886fcec52e1a1f9718b464f
+msgctxt "#30477"
+msgid "Historical"
+msgstr "Zgodovinski"
+
+#: loco:5886fcec52e1a1f9718b4650
+msgctxt "#30478"
+msgid "Racing"
+msgstr "Dirkaška"
+
+#: loco:5886fcec52e1a1f9718b4651
+msgctxt "#30479"
+msgid "Samurai"
+msgstr "Samurai"
+
+#: loco:5886fcec52e1a1f9718b4652
+msgctxt "#30480"
+msgid "Super Power"
+msgstr "Super Moč"
+
+#: loco:5886fcec52e1a1f9718b4653
+msgctxt "#30481"
+msgid "Military"
+msgstr "Vojaški"
+
+#: loco:5886fcec52e1a1f9718b4654
+msgctxt "#30482"
+msgid "Dementia"
+msgstr "Dementia"
+
+#: loco:5886fcec52e1a1f9718b4655
+msgctxt "#30483"
+msgid "Mahou Shounen"
+msgstr "Mahou Shounen"
+
+#: loco:5886fcec52e1a1f9718b4656
+msgctxt "#30484"
+msgid "Game"
+msgstr "Igra"
+
+#: loco:5886fcec52e1a1f9718b4657
+msgctxt "#30485"
+msgid "Martial Arts"
+msgstr "Borilne veščine"
+
+#: loco:5886fcec52e1a1f9718b4658
+msgctxt "#30486"
+msgid "Vampire"
+msgstr "Vampirski"
+
+#: loco:5886fcec52e1a1f9718b4659
+msgctxt "#30487"
+msgid "Kids"
+msgstr "Otroci"
+
+#: loco:5886fcec52e1a1f9718b465a
+msgctxt "#30488"
+msgid "Mahou Shoujo"
+msgstr "Mahou Shoujo"
+
+#: loco:5886fcec52e1a1f9718b465b
+msgctxt "#30489"
+msgid "Space"
+msgstr "Vesolje"
+
+#: loco:5886fcec52e1a1f9718b465c
+msgctxt "#30490"
+msgid "Shounen Ai"
+msgstr "Shounen Ai"
+
+#: loco:5886fcec52e1a1f9718b465d
+msgctxt "#30498"
+msgid ""
+"30450,30451,30452,30453,30454,30455,30456,30457,30458,30459,30461,30462,"
+"30463,30464,30465,30466,30467,30468,30469,30470,30471,30472,30473,30474,"
+"30475,30476,30477,30478,30479,30480,30481,30482,30483,30484,30485,30486,"
+"30487,30488,30489,30490"
+msgstr ""
+"30450,30451,30452,30453,30454,30455,30456,30457,30458,30459,30461,30462,"
+"30463,30464,30465,30466,30467,30468,30469,30470,30471,30472,30473,30474,"
+"30475,30476,30477,30478,30479,30480,30481,30482,30483,30484,30485,30486,"
+"30487,30488,30489,30490"
+
+#: loco:5886fcec52e1a1f9718b465e
+msgctxt "#30499"
+msgid ""
+"30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,"
+"30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,"
+"30424,30425,30426,30427,30428"
+msgstr ""
+"30400,30401,30402,30403,30404,30405,30406,30407,30408,30409,30410,30411,"
+"30412,30413,30414,30415,30416,30417,30418,30419,30420,30421,30422,30423,"
+"30424,30425,30426,30427,30428"

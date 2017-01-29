@@ -5,7 +5,7 @@ from contextlib import closing
 from kodipopcorntime import media
 from kodipopcorntime.exceptions import Notify, Error, Abort
 from kodipopcorntime.logging import log, LOGLEVEL
-from kodipopcorntime.utils import SafeDialogProgress, Cache, isoToLang
+from kodipopcorntime.utils import SafeDialogProgress, Cache, isoToLang, NOTIFYLEVEL
 
 __addon__ = sys.modules['__main__'].__addon__
 

@@ -98,7 +98,7 @@ class _MetaClass2(_MetaClass):
         _path = xbmc.translatePath(__addon__.getSetting("%s_download_path"  %cls.mediaType))
         if _path:
             if _path.lower().startswith("smb://"):
-                if not platform.system == "windows":
+                if Platform.system != "windows":
                     raise Notify("Downloading to an unmounted network share is not supported (%s)" % _path, 30319, 0)
                 _path.replace("smb:", "").replace("/", "\\")
 
@@ -264,4 +264,4 @@ def ensure_exec(binary_path):
     st = os.stat(binary_path)
     os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
     if not st.st_mode & stat.S_IEXEC:
-        raise Error("Cannot make %s executable (%s)" % (binary, binary_path), 30321)
+        raise Error("Cannot make torrent2http executable (%s)" % binary_path, 30321)

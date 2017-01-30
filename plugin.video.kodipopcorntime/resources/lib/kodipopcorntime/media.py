@@ -206,6 +206,7 @@ class _Dispenser(_Base):
                         self._callbackfn(self._progressValue, item, metadata or {})
 
                 if not self._mediaSettings.metadata_provider.FALLBACKLANG == _settings.language:
+                    fallbackMeta = None
                     try:
                         log("(Media) Getting fallback metadata")
                         _res = self._handle_param(**self._mediaSettings.metadata_provider.item(*args+[_settings.language]))

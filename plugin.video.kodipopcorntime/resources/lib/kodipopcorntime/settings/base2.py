@@ -263,5 +263,6 @@ def ensure_android_binary_location(binary_path, android_binary_path):
 def ensure_exec(binary_path):
     st = os.stat(binary_path)
     os.chmod(binary_path, st.st_mode | stat.S_IEXEC)
+    st = os.stat(binary_path)
     if not st.st_mode & stat.S_IEXEC:
         raise Error("Cannot make torrent2http executable (%s)" % binary_path, 30321)

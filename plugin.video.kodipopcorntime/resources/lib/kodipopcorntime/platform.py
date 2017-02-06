@@ -1,5 +1,7 @@
 ﻿#!/usr/bin/python
-import sys, os
+import os
+import sys
+
 
 class Platform(object):
     class __metaclass__(type):
@@ -9,8 +11,6 @@ class Platform(object):
 
         def _arch(cls):
             if sys.platform.lower().startswith('linux') and (os.uname()[4].lower().startswith('arm') or os.uname()[4].lower().startswith('aarch')):
-                if os.uname()[4].lower().startswith('armv6'):
-                    cls.arch = 'armv6'
                 cls.arch = 'arm'
             elif sys.maxsize > 2**32 or sys.platform.lower().startswith('linux') and os.uname()[4].lower().startswith('x86_64'):
                 cls.arch = 'x64'

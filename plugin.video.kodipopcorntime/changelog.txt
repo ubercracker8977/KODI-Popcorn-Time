@@ -1,3 +1,6 @@
+v1.6.8
+- Multiple Changes and Fixes
+
 v1.6.7
 - Added favourites for TV Shows and Anime (tnx @adamantike for fixes)
 - Favourites are stil WIP (needs to implement clearing favourites from settings)

@@ -55,10 +55,31 @@ class TvShow(BaseContentWithSeasons):
 
     @classmethod
     def _get_item_info(cls, data):
+        tagline = ''
+        try:
+            tagline_temp = ('1080p: %s seeds; ' %data[0].get('torrents').get('1080p').get('seeds'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+        try:
+            tagline_temp = ('720p: %s seeds; ' %data[0].get('torrents').get('720p').get('seeds'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+        try:
+            tagline_temp = ('480p: %s seeds; ' %data[0].get('torrents').get('480p').get('seeds'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+
         return {
             "mediatype": "episode",
             "title": data[0]['title'],
             "originaltitle": data[0]['title'],
+            "tagline": tagline,
             "season": int(data[0].get('season') or 0),
             "episode": int(data[0].get('episode') or 0),
             "tvshowtitle": data[-1]['tvshow'],
@@ -68,7 +89,6 @@ class TvShow(BaseContentWithSeasons):
             "code": data[0].get("tvdb_id"),
             "plot": data[0]['overview'],
             "plotoutline": data[0]['overview'],
-            "overlay": 5,
         }
 
 

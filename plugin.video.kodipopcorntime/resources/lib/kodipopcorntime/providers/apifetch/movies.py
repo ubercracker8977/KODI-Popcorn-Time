@@ -54,10 +54,31 @@ class Movie(BaseContent):
 
     @classmethod
     def _get_item_info(cls, data):
+        tagline = ''
+        try:
+            tagline_temp = ('1080p: %s seeds; ' %data.get('torrents').get('en').get('1080p').get('seed'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+        try:
+            tagline_temp = ('720p: %s seeds; ' %data.get('torrents').get('en').get('720p').get('seed'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+        try:
+            tagline_temp = ('480p: %s seeds; ' %data.get('torrents').get('en').get('480p').get('seed'))
+        except:
+            pass
+        else:
+            tagline += tagline_temp
+
         return {
             'mediatype': 'movie',
             'title': data['title'],
             'originaltitle': data['title'],
+            'tagline': tagline,
             'duration': int(data.get('runtime'))*60 or 0,
             'year': int(data.get('year') or 0),
             'genre': u' / '.join(genre for genre in data.get('genres', [])) or None,

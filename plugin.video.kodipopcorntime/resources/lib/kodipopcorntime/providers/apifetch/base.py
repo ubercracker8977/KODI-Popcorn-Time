@@ -7,6 +7,8 @@ import xbmc
 
 from kodipopcorntime import settings
 from kodipopcorntime.exceptions import Abort
+from kodipopcorntime.providers.movies import metadata_tmdb
+from kodipopcorntime.settings import addon as _settings
 
 
 __addon__ = sys.modules['__main__'].__addon__
@@ -102,8 +104,14 @@ class BaseContentWithSeasons(BaseContent):
                 "icon": result.get('images').get('poster'),
                 "thumbnail": result.get('images').get('poster'),
                 "info": {
-                    "title": result['title'],
-                    "plot": 'Year: %s; Rating: %s' % (result['year'], result.get('rating').get('percentage')),
+                    'mediatype': 'tvshow',
+                    'title': result['title'],
+                    'originaltitle': result['title'],
+                    'year': int(result['year']),
+                    'rating': float(int(result.get('rating').get('percentage'))/10),
+                    'votes': result.get('rating').get('votes'),
+                    'code': result['_id'],
+                    'imdbnumber': result['_id'],
                 },
                 "properties": {
                     "fanart_image": result.get('images').get('fanart'),
@@ -170,13 +178,23 @@ class BaseContentWithSeasons(BaseContent):
             for season in seasons
         )))
 
+        try:
+            result['country']
+        except:
+            country = None
+        else:
+            country = result['country']
+
         return [
             {
                 "label": 'Season %s' % season,  # "label" is required
                 "icon": kwargs['poster'],
                 "thumbnail": kwargs['poster'],
                 "info": {
+                    "mediatype": "season",
                     "title": result['title'],
+                    "tvshowtitle": result['title'],
+                    "country": country,
                     "plotoutline": result['synopsis'] or None,
                     "plot": result['synopsis'] or None
                 },
@@ -189,6 +207,9 @@ class BaseContentWithSeasons(BaseContent):
                     'image': kwargs['poster'],
                     'image2': kwargs['fanart'],
                     'tvshow': kwargs['tvshow'],
+                    "status": result['status'],
+                    "runtime": result['runtime'],
+                    "country": country,
                     "endpoint": "browse",  # "endpoint" is required
                     'action': kwargs[cls.id_field]  # Required when calling browse or folders (Action is used to separate the content)
                 }

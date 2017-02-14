@@ -68,10 +68,14 @@ class Anime(BaseContentWithSeasons):
     @classmethod
     def _get_item_info(cls, data):
         return {
+            "mediatype": "episode",
             "title": data[0]['title'],
+            "originaltitle": data[0]['title'],
             "season": int(data[0].get('season') or 0),
             "episode": int(data[0].get('episode') or 0),
             "tvshowtitle": data[-1]['tvshow'],
+            "duration": int(data[-1]['runtime'])*60,
+            "status": data[-1]['status'],
             "genre": u" / ".join(genre for genre in data[0].get("genres", [])) or None,
             "code": data[0].get("tvdb_id"),
             "plot": data[0]['overview'],
@@ -212,8 +216,14 @@ def _favourites(dom, **kwargs):
             "icon": show.get('images').get('poster'),
             "thumbnail": show.get('images').get('poster'),
             "info": {
+                'mediatype': 'tvshow',
                 "title": show['title'],
-                "plot": 'Year: %s; Rating: %s' % (show['year'], show.get('rating').get('percentage')) or None
+                'originaltitle': show['title'],
+                'year': int(show['year']),
+                'rating': float(int(show.get('rating').get('percentage'))/10),
+                'votes': show.get('rating').get('votes'),
+                'code': show['_id'],
+                'imdbnumber': show['_id'],
             },
             "properties": {
                 "fanart_image": show.get('images').get('fanart'),

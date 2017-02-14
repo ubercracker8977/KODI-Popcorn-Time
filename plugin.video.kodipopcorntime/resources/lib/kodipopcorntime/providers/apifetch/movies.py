@@ -55,13 +55,18 @@ class Movie(BaseContent):
     @classmethod
     def _get_item_info(cls, data):
         return {
+            'mediatype': 'movie',
             'title': data['title'],
+            'originaltitle': data['title'],
+            'duration': int(data.get('runtime'))*60 or 0,
             'year': int(data.get('year') or 0),
             'genre': u' / '.join(genre for genre in data.get('genres', [])) or None,
             'code': data.get('imdb_id'),
+            'imdbnumber': data.get('imdb_id'),
+            'mpaa': data.get('certification'),
             'plot': data.get('synopsis') or None,
             'plotoutline': data.get('synopsis') or None,
-            'trailer': cls._get_item_trailer(data)
+            'trailer': cls._get_item_trailer(data),
         }
 
     @staticmethod

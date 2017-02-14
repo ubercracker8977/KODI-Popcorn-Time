@@ -170,6 +170,7 @@ def browse_build(data, action, page, **kwargs):
                 items.append(item)
         if not items:
             return {}
+        items = sorted(items, key=lambda k: k['info']['episode'])
     return {
         'pages': 50, #int(movie_count/settings.addon.limit) + (movie_count%settings.addon.limit > 0), # Specify the total number of pages (require)
         'items': items

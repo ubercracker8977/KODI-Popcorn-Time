@@ -124,6 +124,22 @@ class BaseContentWithSeasons(BaseContent):
                     "plotoutline": result['synopsis'] or None,
                     "plot": result['synopsis'] or None
                 }
+        else:
+            try:
+                meta = metadata_tmdb._get_anime_info(result['_id'])
+                info = {
+                    'mediatype': 'tvshow',
+                    'title': meta['attributes']['titles']['en'],
+                    'originaltitle': meta['attributes']['titles']['ja_jp'],
+                    'year': int(result['year']),
+                    'rating': float(int(result.get('rating').get('percentage'))/10),
+                    'votes': result.get('rating').get('votes'),
+                    'code': result['_id'],
+                    'plot':  meta['attributes']['synopsis'],
+                    'plotoutline': meta['attributes']['synopsis'],
+                }
+            except:
+                pass
         return info
 
     @classmethod

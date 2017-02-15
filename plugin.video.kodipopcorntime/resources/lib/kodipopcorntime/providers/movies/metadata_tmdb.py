@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/python
-import time, json, urllib2
+import time, json, urllib2, urllib
 from kodipopcorntime.utils import Cache
 from kodipopcorntime.logging import log, LOGLEVEL
 
@@ -7,6 +7,7 @@ FALLBACKLANG = 'en' # Or None
 
 _api_key = "308a68c313ff66d165c1eb029b0716bc"
 _base_url = "http://api.themoviedb.org"
+_anime_base_url = "https://kitsu.io/api/edge"
 _images_base_url = None
 
 class _Data():
@@ -188,3 +189,10 @@ def _get_info(id, season):
     response2 = urllib2.urlopen(req2)
     result2 = json.loads(response2.read())
     return result2
+
+def _get_anime_info(id):
+    url = '%s/anime/%s' % (_anime_base_url, id)
+    req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+    response = urllib2.urlopen(req)
+    result = json.loads(response.read())
+    return result['data']

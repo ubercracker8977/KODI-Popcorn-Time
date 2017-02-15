@@ -3,9 +3,11 @@ import os
 import sys
 import urllib2
 import xbmc
+import re
 
 from kodipopcorntime import settings
 from kodipopcorntime import favourites as _favs
+from kodipopcorntime.providers.movies import metadata_tmdb
 
 from .base import BaseContentWithSeasons
 
@@ -86,7 +88,6 @@ class Anime(BaseContentWithSeasons):
             pass
         else:
             tagline += tagline_temp
-
         return {
             "mediatype": "episode",
             "title": data[0]['title'],
@@ -236,16 +237,7 @@ def _favourites(dom, **kwargs):
             "label": show['title'],                                         # "label" is require
             "icon": show.get('images').get('poster'),
             "thumbnail": show.get('images').get('poster'),
-            "info": {
-                'mediatype': 'tvshow',
-                "title": show['title'],
-                'originaltitle': show['title'],
-                'year': int(show['year']),
-                'rating': float(int(show.get('rating').get('percentage'))/10),
-                'votes': show.get('rating').get('votes'),
-                'code': show['_id'],
-                'imdbnumber': show['_id'],
-            },
+            "info": Anime.get_meta_info(show, 0),
             "properties": {
                 "fanart_image": show.get('images').get('fanart'),
             },

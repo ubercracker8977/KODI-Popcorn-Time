@@ -255,16 +255,7 @@ def _favourites(dom, **kwargs):
             "label": show['title'],                                         # "label" is require
             "icon": show.get('images').get('poster'),
             "thumbnail": show.get('images').get('poster'),
-            "info": {
-                'mediatype': 'tvshow',
-                "title": show['title'],
-                'originaltitle': show['title'],
-                'year': int(show['year']),
-                'rating': float(int(show.get('rating').get('percentage'))/10),
-                'votes': show.get('rating').get('votes'),
-                'code': show['_id'],
-                'imdbnumber': show['_id'],
-            },
+            "info": TvShow.get_meta_info(show, 0),
             "properties": {
                 "fanart_image": show.get('images').get('fanart'),
             },

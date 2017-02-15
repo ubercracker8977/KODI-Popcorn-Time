@@ -14,7 +14,7 @@ class _Data():
     _timelimit = 10
     _count     = 0
     _time      = 0
-    imageUrl   = None
+    imageUrl   = "http://image.tmdb.org/t/p"
 
     @staticmethod
     def limit():
@@ -159,7 +159,7 @@ def build_item(meta, id, label, year, lang):
 
     poster = meta.get("poster_path", '')
     if _Data.imageUrl and poster:
-        poster = "%s/w500%s" %(_Data.imageUrl, poster)
+        poster = "%s/w185%s" %(_Data.imageUrl, poster)
 
     item = {
         "label": title,
@@ -172,3 +172,19 @@ def build_item(meta, id, label, year, lang):
 
     log("(tmdb-return) %s" %item, LOGLEVEL.INFO)
     return item
+
+def _get_info(id, season):
+    url =  '%s/3/find/%s?api_key=%s&external_source=imdb_id' % (_base_url, id, _api_key)
+    req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+    response = urllib2.urlopen(req)
+    result = json.loads(response.read())
+    metadat = result['tv_results']
+
+    if season == 0:
+        url2 =  '%s/3/tv/%s?api_key=%s&append_to_response=credits&include_image_language=en,null' % (_base_url, metadat[0]['id'], _api_key)
+    else:
+        url2 =  '%s/3/tv/%s/season/%s?api_key=%s&append_to_response=credits&include_image_language=en,null' % (_base_url, metadat[0]['id'],season, _api_key)
+    req2 = urllib2.Request(url2, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+    response2 = urllib2.urlopen(req2)
+    result2 = json.loads(response2.read())
+    return result2

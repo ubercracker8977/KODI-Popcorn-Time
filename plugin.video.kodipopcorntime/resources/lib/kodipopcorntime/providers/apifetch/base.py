@@ -64,6 +64,69 @@ class BaseContent(object):
 
 class BaseContentWithSeasons(BaseContent):
     @classmethod
+    def get_meta_info(a, result, season):
+        info = {
+            'mediatype': 'tvshow',
+            'title': result['title'],
+            'originaltitle': result['title'],
+            'year': int(result['year']),
+            'rating': float(int(result.get('rating').get('percentage'))/10),
+            'votes': result.get('rating').get('votes'),
+            'code': result['_id'],
+            'imdbnumber': result['_id'],
+        }
+        if season == 0 and result['_id'].startswith('tt'):
+            try:
+                meta = metadata_tmdb._get_info(result['_id'], 0)
+                castandrole = []
+                for c in meta['credits'].get("cast", []):
+                    castandrole.append((c["name"], c.get("character", '')))
+                info = {
+                    'mediatype': 'tvshow',
+                    'title': meta['name'],
+                    'originaltitle': meta['original_name'],
+                    'year': int(result['year']),
+                    'rating': float(meta['vote_average']),
+                    'votes': meta['vote_count'],
+                    'status': meta['status'],
+                    'country': meta['origin_country'][0],
+                    'code': result['_id'],
+                    'imdbnumber': result['_id'],
+                    'plot': meta['overview'],
+                    'plotoutline': meta['overview'],
+                    'castandrole': castandrole,
+                }
+            except:
+                pass
+        if not season == 0 and result['_id'].startswith('tt'):
+            try:
+                meta = metadata_tmdb._get_info(result['_id'], season)
+                castandrole = []
+                for c in meta['credits'].get("cast", []):
+                    castandrole.append((c["name"], c.get("character", '')))
+                info = {
+                    "mediatype": "season",
+                    "title": result['title'],
+                    "tvshowtitle": result['title'],
+                    'season': season,
+                    'status': result['status'],
+                    'code': result['_id'],
+                    'imdbnumber': result['_id'],
+                    "plotoutline": meta['overview'] or None,
+                    "plot": meta['overview'] or None,
+                    'castandrole': castandrole,
+                }
+            except:
+                info = {
+                    "mediatype": "season",
+                    "title": result['title'],
+                    "tvshowtitle": result['title'],
+                    "plotoutline": result['synopsis'] or None,
+                    "plot": result['synopsis'] or None
+                }
+        return info
+
+    @classmethod
     def get_shows(cls, dom, **kwargs):
         if kwargs['search'] == 'true':
             search_string = xbmc.getInfoLabel("ListItem.Property(searchString)")
@@ -103,16 +166,7 @@ class BaseContentWithSeasons(BaseContent):
                 "label": result['title'],  # "label" is required
                 "icon": result.get('images').get('poster'),
                 "thumbnail": result.get('images').get('poster'),
-                "info": {
-                    'mediatype': 'tvshow',
-                    'title': result['title'],
-                    'originaltitle': result['title'],
-                    'year': int(result['year']),
-                    'rating': float(int(result.get('rating').get('percentage'))/10),
-                    'votes': result.get('rating').get('votes'),
-                    'code': result['_id'],
-                    'imdbnumber': result['_id'],
-                },
+                "info": cls.get_meta_info(result, 0),
                 "properties": {
                     "fanart_image": result.get('images').get('fanart'),
                 },
@@ -190,14 +244,7 @@ class BaseContentWithSeasons(BaseContent):
                 "label": 'Season %s' % season,  # "label" is required
                 "icon": kwargs['poster'],
                 "thumbnail": kwargs['poster'],
-                "info": {
-                    "mediatype": "season",
-                    "title": result['title'],
-                    "tvshowtitle": result['title'],
-                    "country": country,
-                    "plotoutline": result['synopsis'] or None,
-                    "plot": result['synopsis'] or None
-                },
+                "info": cls.get_meta_info(result, season),
                 "properties": {
                     "fanart_image": kwargs['fanart']
                 },

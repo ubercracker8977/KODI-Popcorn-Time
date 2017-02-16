@@ -58,26 +58,38 @@ def _credits(credits):
 
 def _info(meta, title=''):
     log("(tmdb-info) %s; %s" % (meta, title), LOGLEVEL.INFO)
-    overview = meta.get('overview', '')
-    vote_average = meta.get('vote_average')
-    item = {
-        "title": title,
-        "year": int(meta.get("release_date", '0').split("-").pop(0)),
-        "originaltitle": meta.get("original_title", ''),
-        "genre": u" / ".join(g["name"] for g in meta.get("genres", [])),
-        "plot": overview,
-        "plotoutline": overview,
-        "tagline": meta.get("tagline", ''),
-        "rating": float(vote_average or 0.0),
-        "duration": int(meta.get("runtime") or 0),
-        "code": meta.get("imdb_id"),
-        "studio": u" / ".join([s['name'] for s in meta.get("production_companies", [])]),
-        "votes": vote_average and float(meta.get("vote_count")) or 0.0
-    }
-
-    credits = meta.get("credits")
-    if credits:
-        item.update(_credits(credits))
+    if meta['data']:
+        log("(tmdb-info-except) %s" %meta['data'][0]['attributes']['canonicalTitle'], LOGLEVEL.INFO)
+        if not meta['data'][0]['attributes']['canonicalTitle'] == 'None':
+            title = meta['data'][0]['attributes']['canonicalTitle']
+        item = {
+            "title": title,
+            "year": int(meta['data'][0]['attributes']['airdate'].split("-").pop(0)),
+            "originaltitle": title,
+            "plot": meta['data'][0]['attributes']['synopsis'],
+            "plotoutline": meta['data'][0]['attributes']['synopsis'],
+            "code": meta['data'][0]['id'],
+        }
+    else:
+        overview = meta.get('overview', '')
+        vote_average = meta.get('vote_average')
+        item = {
+            "title": title,
+            "year": int(meta.get("release_date", '0').split("-").pop(0)),
+            "originaltitle": meta.get("original_title", ''),
+            "genre": u" / ".join(g["name"] for g in meta.get("genres", [])),
+            "plot": overview,
+            "plotoutline": overview,
+            "tagline": meta.get("tagline", ''),
+            "rating": float(vote_average or 0.0),
+            "duration": int(meta.get("runtime") or 0),
+            "code": meta.get("imdb_id"),
+            "studio": u" / ".join([s['name'] for s in meta.get("production_companies", [])]),
+            "votes": vote_average and float(meta.get("vote_count")) or 0.0
+        }
+        credits = meta.get("credits")
+        if credits:
+            item.update(_credits(credits))
 
     return item
 
@@ -124,21 +136,33 @@ def item(id, label, year, lang):
     _Data.limit()
     time.sleep(50.0 / 1000.0)
     if label.startswith('Episode'):
-        url =  '%s/3/find/%s?api_key=%s&external_source=tvdb_id' % (_base_url, id, _api_key)
-        req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-        response = urllib2.urlopen(req)
-        result = json.loads(response.read())
-        metadat = result['tv_episode_results']
-        return {
-            'domain': _base_url,
-            'path': "/3/tv/%s/season/%s/episode/%s" % (metadat[0]['show_id'], metadat[0]['season_number'], metadat[0]['episode_number']),
-            'params':  {
-                "api_key": _api_key,
-                "append_to_response": "credits",
-                "language": lang,
-                "include_image_language": "en,null"
+        try:
+            url =  '%s/3/find/%s?api_key=%s&external_source=tvdb_id' % (_base_url, id, _api_key)
+            req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+            response = urllib2.urlopen(req)
+            result = json.loads(response.read())
+            metadat = result['tv_episode_results']
+            return {
+                'domain': _base_url,
+                'path': "/3/tv/%s/season/%s/episode/%s" % (metadat[0]['show_id'], metadat[0]['season_number'], metadat[0]['episode_number']),
+                'params': {
+                    "api_key": _api_key,
+                    "append_to_response": "credits",
+                    "language": lang,
+                    "include_image_language": "en,null"
+                }
             }
-        }
+        except:
+            episode = int(label[-1:])-1
+            id = id.split('-')[0]
+            path = '/anime/%s/episodes?page limit=1&page offset=%s&sort=number' % (id, episode)
+            path = path.replace(' ', '%5B')
+            return {
+                'domain': _anime_base_url,
+                'path': path,
+                'params': {
+                }
+            }
     else:
         return {
             'domain': _base_url,

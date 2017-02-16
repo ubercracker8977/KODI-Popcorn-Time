@@ -2,7 +2,7 @@
 import xbmcgui, xbmc, simplejson, sys, time, os, UserDict, socket, glob
 from urllib import urlencode
 from kodipopcorntime.exceptions import Error
-from kodipopcorntime.logging import log, log_error
+from kodipopcorntime.logging import log, log_error, LOGLEVEL
 from kodipopcorntime import settings
 from kodipopcorntime.threads import FLock
 
@@ -24,8 +24,10 @@ def notify(messageID=0, message=None, level=NOTIFYLEVEL.INFO):
     if not message:
         message = __addon__.getLocalizedString(messageID)
 
-    xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' %
-                        (settings.addon.name, message, len(message)*210, image))
+    try:
+        xbmc.executebuiltin('XBMC.Notification("%s", "%s", "%s", "%s")' % (settings.addon.name, message, len(message)*210, image))
+    except Exception as e:
+        log('(Utils) Notification failed: %s' % (str(e)), LOGLEVEL.ERROR)
 
 def xbmcItem(label='', label2='', icon=None, thumbnail=None, path=None, info=None,
              info_type='video', properties=None, stream_info=None,

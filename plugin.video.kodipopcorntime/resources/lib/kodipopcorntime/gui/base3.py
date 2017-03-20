@@ -35,6 +35,8 @@ class _Base3(_Base2):
                 if "&%s=" %_q in path or "?%s=" %_q in path:
                     log("(base3-context) %s" %_q, LOGLEVEL.INFO)
                     item["context_menu"] = item["context_menu"]+[('%s %s' %(__addon__.getLocalizedString(30009), _q), 'RunPlugin(%s&quality=%s)' %(path, _q))]
+            if item["info"]["mediatype"] == "movie":
+			    item["context_menu"] = item["context_menu"]+[('%s' %(__addon__.getLocalizedString(30039)), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=movies&id=%s)' %item["info"]["imdbnumber"])]
             item["context_menu"] = item["context_menu"]+[self.getOpenSettings()]
             item["replace_context_menu"] = True
         super(_Base3, self).addItem(item, path, isFolder)

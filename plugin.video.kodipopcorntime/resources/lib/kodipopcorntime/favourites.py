@@ -1,4 +1,5 @@
 import json
+import urllib2
 import os
 import xbmc
 import xbmcaddon
@@ -11,6 +12,7 @@ __addonname__ = __addon__.getAddonInfo('name')
 __addondir__ = xbmc.translatePath(__addon__.getAddonInfo('profile'))
 
 _json_file = os.path.join(__addondir__, 'favourites.json')
+_json_movie_file = os.path.join(__addondir__, 'test.json')
 
 _skeleton = {
     "movies": [],
@@ -110,3 +112,18 @@ def remove_favourite_by_type(fav_id, fav_type, favourites):
         lambda fav: fav['id'] != fav_id,
         favourites.get(fav_type),
     )
+
+def _create_movie_favs():
+	movie_favs = _get_favs('movies')
+	log("(Favourites_movie) %s" % movie_favs)
+	movie_favs1 = []
+	for fav in movie_favs:
+		search = '%s/tv/movie/%s' % ('https://api-fetch.website', fav['id'])
+		req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+        response = urllib2.urlopen(req)
+        movie_fav = json.loads(response.read())
+        movie_favs1.append(movie_fav)
+        log("(Favourites_movie) %s" % movie_favs1)
+	with open(_json_movie_file, mode='w') as json_write:
+		json_write.write(json.dumps(movie_favs1))
+		log("(Favourites_movie) %s" % movie_favs1)

@@ -88,6 +88,16 @@ class Movie(BaseContent):
             'plot': data.get('synopsis') or None,
             'plotoutline': data.get('synopsis') or None,
             'trailer': cls._get_item_trailer(data),
+			"context_menu": [
+                    (
+                        '%s' % __addon__.getLocalizedString(30039),
+                        'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action={action}&id={id})'.format(
+                            action='movies',
+                            id=data.get('imdb_id'),
+                        ),
+                    )
+                ],
+			"replace_context_menu": True
         }
 
     @staticmethod
@@ -210,6 +220,18 @@ def _folders(action, **kwargs):
                     "endpoint": "folders",                                      # "endpoint" is require
                     'action': "genres_movies"                                   # Require when calling browse or folders (Action is used to separate the content)
                 }
+            },
+			{
+                # Favourites Option
+                "label": __addon__.getLocalizedString(30029),                   # "label" is require
+                "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
+                "params": {
+					"categ": "movie_test",
+                    "action": "tt1431045",                                      # Require when calling browse or folders (Action is used to separate the content)
+                    "endpoint": "browse",                                      # "endpoint" is require
+					"order": '-1'
+				}
             }
             ]
     if action == 'genres_movies':

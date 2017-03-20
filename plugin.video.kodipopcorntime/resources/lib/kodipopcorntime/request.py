@@ -1,11 +1,18 @@
 ﻿#!/usr/bin/python
-import zlib, simplejson, sys, socket, httplib, errno
+import zlib, simplejson, sys, socket, httplib, errno, xbmcaddon, xbmc, os, json
 from urlparse import urlparse
 from urllib import urlencode
 from kodipopcorntime.utils import Cache
 from kodipopcorntime.exceptions import HTTPError, ProxyError
 from kodipopcorntime.logging import log, LOGLEVEL
 from kodipopcorntime.settings import addon as _settings
+from kodipopcorntime import favourites as _favs
+
+__addon__ = xbmcaddon.Addon()
+__addonname__ = __addon__.getAddonInfo('name')
+__addondir__ = xbmc.translatePath(__addon__.getAddonInfo('profile'))
+
+_json_file = os.path.join(__addondir__, 'test.json')
 
 class URL(object):
     def __init__(self):
@@ -24,9 +31,14 @@ class URL(object):
 
             for proxy in proxies_cache['proxies'][:]:
                 try:
-                    _data = self.request(proxy, path, params, headers, timeout)
-                    if _data or _data is None:
-                        return _data
+					if path == 'movie_favs':
+						_favs._create_movie_favs()
+						with open(_json_file) as json_read:
+							_data = json.load(json_read)
+					else:
+						_data = self.request(proxy, path, params, headers, timeout)
+					if _data or _data is None:
+						return _data
                 except (HTTPError, socket.timeout, socket.gaierror, socket.herror, socket.error) as e:
                     if e.__class__.__name__ == 'error':
                         if not e.errno in [errno.EUSERS, errno.ECONNRESET, errno.ETIMEDOUT, errno.ECONNREFUSED, errno.EHOSTDOWN]:

@@ -228,7 +228,7 @@ def _folders(action, **kwargs):
                 "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
                 "params": {
 					"categ": "movie_test",
-                    "action": "tt1431045",                                      # Require when calling browse or folders (Action is used to separate the content)
+                    "action": "watch_list",                                      # Require when calling browse or folders (Action is used to separate the content)
                     "endpoint": "browse",                                      # "endpoint" is require
 					"order": '-1'
 				}

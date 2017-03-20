@@ -3,6 +3,7 @@ import urllib2
 import os
 import xbmc
 import xbmcaddon
+import hashlib
 
 from kodipopcorntime.logging import log
 
@@ -48,6 +49,14 @@ def _add_to_favs(mediatype, data):
     favourites = get_favourites_from_file()
     log("(Favourites) _add_to_favs %s" % favourites)
 
+    string1 ={'action': 'watch_list', 'categ': 'movie_test', 'order': '-1'}
+    filename = 'movies.browse.%s' %hashlib.md5(str(string1)).hexdigest()
+    log("(Favourites) filename %s" % filename)
+    try:
+        os.remove(os.path.join(__addondir__, 'cache', filename))
+    except:
+        pass
+
     add_favourite_by_type(new_fav_id=data, fav_type=mediatype, favourites=favourites)
 
     log("(Favourites2) _add_to_favs %s" % favourites)
@@ -59,6 +68,14 @@ def _add_to_favs(mediatype, data):
 def _remove_from_favs(mediatype, data):
     favourites = get_favourites_from_file()
     log("(Favourites) _remove_from_favs %s" % favourites)
+
+    string1 ={'action': 'watch_list', 'categ': 'movie_test', 'order': '-1'}
+    filename = 'movies.browse.%s' %hashlib.md5(str(string1)).hexdigest()
+    log("(Favourites) filename %s" % filename)
+    try:
+        os.remove(os.path.join(__addondir__, 'cache', filename))
+    except:
+        pass
 
     remove_favourite_by_type(fav_id=data, fav_type=mediatype, favourites=favourites)
 
@@ -114,12 +131,13 @@ def remove_favourite_by_type(fav_id, fav_type, favourites):
     )
 
 def _create_movie_favs():
-	movie_favs = _get_favs('movies')
-	log("(Favourites_movie) %s" % movie_favs)
-	movie_favs1 = []
-	for fav in movie_favs:
-		search = '%s/tv/movie/%s' % ('https://api-fetch.website', fav['id'])
-		req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
+    movie_favs = _get_favs('movies')
+    log("(Favourites_movie) %s" % movie_favs)
+    movie_favs1 = []
+    for fav in movie_favs:
+        log("(Favourites_movie) %s" % fav)
+        search = '%s/tv/movie/%s' % ('https://api-fetch.website', fav['id'])
+        req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
         response = urllib2.urlopen(req)
         movie_fav = json.loads(response.read())
         movie_favs1.append(movie_fav)

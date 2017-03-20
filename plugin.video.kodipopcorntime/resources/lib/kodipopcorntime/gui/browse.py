@@ -13,6 +13,7 @@ __addon__ = sys.modules['__main__'].__addon__
 class Browse(_Base3):
     def show(self, action, **params):
         log("(Browse) Creating view", LOGLEVEL.INFO)
+        log("(Browse) Action: %s" %str(dict([('action', action)], **params)))
         curPageNum = self.getCurPageNum()
         with closing(Cache("%s.browse.%s" %(self.mediaSettings.mediaType, hashlib.md5(str(dict([('action', action)], **params))).hexdigest()), ttl=24 * 3600, last_changed=self.mediaSettings.lastchanged)) as cache:
             # Reset page number if the user have cleaned the cache

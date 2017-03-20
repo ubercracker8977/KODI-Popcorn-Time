@@ -162,4 +162,3 @@ class Download(URL):
             f.write(response.read())
         log("(Download) Successful stored data at %s" %self.url, LOGLEVEL.NONE)
         return self.downloadPath
-

@@ -29,7 +29,10 @@ class _Base3(_Base2):
             log("(base3-context-menu) %s" %item, LOGLEVEL.INFO)
 
             if "info" in item and "trailer" in item["info"] and item["info"]["trailer"]:
-                item["context_menu"] = [('%s' %(__addon__.getLocalizedString(30038)), 'PlayMedia(%s)' %(item["info"]["trailer"]))]
+                item["context_menu"] = item["context_menu"]+[('%s' %(__addon__.getLocalizedString(30038)), 'PlayMedia(%s)' %(item["info"]["trailer"]))]
+
+            if "info" in item and "mediatype" in item["info"] and item["info"]["mediatype"] == 'movie':
+                item["context_menu"] = item["context_menu"]+[('Add to Watch list', 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=movies&id=%s)' % (item["info"]["code"]))]
 
             for _q in QUALITIES:
                 if "&%s=" %_q in path or "?%s=" %_q in path:

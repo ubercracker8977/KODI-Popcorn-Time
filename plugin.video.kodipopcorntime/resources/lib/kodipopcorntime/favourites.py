@@ -77,13 +77,18 @@ def _remove_from_favs(mediatype, data):
     except:
         pass
 
-    remove_favourite_by_type(fav_id=data, fav_type=mediatype, favourites=favourites)
-
-    log("(Favourites2) _remove_from_favs %s" % favourites)
-    set_favourites_to_file(favourites)
+    if data == 'all':
+        _clear_favourites(mediatype)
+    else:
+        remove_favourite_by_type(fav_id=data, fav_type=mediatype, favourites=favourites)
+        log("(Favourites2) _remove_from_favs %s" % favourites)
+        set_favourites_to_file(favourites)
 
     xbmc.executebuiltin('Notification(%s, %s favourite has been removed, 5000)' % (__addonname__, mediatype))
-    xbmc.executebuiltin('Container.Refresh')
+    if mediatype == 'movies':
+        pass
+    else:
+        xbmc.executebuiltin('Container.Refresh')
 
 
 def _get_favs(mediatype):

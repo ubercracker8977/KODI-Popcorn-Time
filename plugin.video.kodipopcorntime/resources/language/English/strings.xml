@@ -35,6 +35,7 @@
   <string id="30029">Favourites</string>
   <string id="30030">Movies</string>
   <string id="30031">Starting</string>
+  <string id="30032">Watch Later</string>
 
   <string id="30033">Are you sure you want to delete the cache?</string>
   <string id="30034">Title:</string>
@@ -44,6 +45,10 @@
   <string id="30038">Trailer</string>
   <string id="30039">Add to Popcorn Favourites</string>
   <string id="30040">Remove from Popcorn Favourites</string>
+  <string id="30041">Add to Watch Later list</string>
+  <string id="30042">Remove from Watch Later list</string>
+  <string id="30043">Remove all from Popcorn Favourites</string>
+  <string id="30044">Remove all from Watch Later list</string>
 
   <!--
    * Settings

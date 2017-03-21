@@ -1,3 +1,9 @@
+v1.7.0
+- Additional metadata information scraping for movies, TV Shows and Anime
+- Watch Later list for Movies implemented
+- Now you can remove all favourites for mediatype with context menu item
+- Last feature ritch update new updates will be more of bug fix updates
+
 v1.6.8
 - Multiple Changes and Fixes
 

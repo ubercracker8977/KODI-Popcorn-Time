@@ -4,6 +4,7 @@ from .base2 import _Base2
 from kodipopcorntime.settings import BUILD, QUALITIES, addon as _settings
 from kodipopcorntime.logging import log, log_error, LOGLEVEL
 from kodipopcorntime.utils import xbmcItem, clear_cache
+from kodipopcorntime import favourites
 
 __addon__ = sys.modules['__main__'].__addon__
 
@@ -32,8 +33,16 @@ class _Base3(_Base2):
                 item["context_menu"] = item["context_menu"]+[('%s' %(__addon__.getLocalizedString(30038)), 'PlayMedia(%s)' %(item["info"]["trailer"]))]
 
             if "info" in item and "mediatype" in item["info"] and item["info"]["mediatype"] == 'movie':
-                item["context_menu"] = item["context_menu"]+[('Add to Watch list', 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=movies&id=%s)' % (item["info"]["code"]))]
-                item["context_menu"] = item["context_menu"]+[('Remove From Watch list', 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=remove_fav&action=movies&id=%s)' % (item["info"]["code"]))]
+                isfav = False
+                favs = favourites._get_favs('movies')
+                for fav in favs:
+                    if fav['id'] == item["info"]["code"]:
+                        isfav = True
+                if isfav == True:
+                    item["context_menu"] = item["context_menu"]+[('%s' %__addon__.getLocalizedString(30042), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=remove_fav&action=movies&id=%s)' % (item["info"]["code"]))]
+                    item["context_menu"] = item["context_menu"]+[('%s' %__addon__.getLocalizedString(30044), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=remove_fav&action=movies&id=all)')]
+                else:
+                    item["context_menu"] = item["context_menu"]+[('%s' %__addon__.getLocalizedString(30041), 'RunPlugin(plugin://plugin.video.kodipopcorntime?cmd=add_fav&action=movies&id=%s)' % (item["info"]["code"]))]
 
             for _q in QUALITIES:
                 if "&%s=" %_q in path or "?%s=" %_q in path:

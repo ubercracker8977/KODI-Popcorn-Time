@@ -222,8 +222,8 @@ def _folders(action, **kwargs):
                 }
             },
 			{
-                # Favourites Option
-                "label": __addon__.getLocalizedString(30029),                   # "label" is require
+                # Watch Later Option
+                "label": __addon__.getLocalizedString(30032),                   # "label" is require
                 "icon": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
                 "thumbnail": os.path.join(settings.addon.resources_path, 'media', 'movies', 'rated.png'),
                 "params": {

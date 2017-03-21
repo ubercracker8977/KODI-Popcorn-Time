@@ -36,6 +36,7 @@
 
   <string id="30030">Filmi</string>
   <string id="30031">Začetek</string>
+  <string id="30032">Poglej Kasneje</string>
 
   <string id="30033">Ali si prepričan da pobrišem predpomnilnik?</string>
   <string id="30034">Naslov:</string>
@@ -45,6 +46,10 @@
   <string id="30038">Napovednik</string>
   <string id="30039">Dodaj v Popcorn priljubljene</string>
   <string id="30040">Odstrani iz Popcorn priljubljenih</string>
+  <string id="30041">Dodaj v Oglej Kasneje</string>
+  <string id="30042">Odstrani iz Oglej Kasneje</string>
+  <string id="30043">Odstrani vse iz Popcorn priljubljenih</string>
+  <string id="30044">Odstrani vse iz Oglej Kasneje</string>
 
   <!--
    * Settings

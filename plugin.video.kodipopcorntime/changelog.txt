@@ -1,3 +1,6 @@
+v1.7.1
+- Metadata for movies fix
+
 v1.7.0
 - Additional metadata information scraping for movies, TV Shows and Anime
 - Watch Later list for Movies implemented

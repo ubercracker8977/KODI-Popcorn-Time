@@ -58,19 +58,20 @@ def _credits(credits):
 
 def _info(meta, title=''):
     log("(tmdb-info) %s; %s" % (meta, title), LOGLEVEL.INFO)
-    if meta['data']:
-        log("(tmdb-info-except) %s" %meta['data'][0]['attributes']['canonicalTitle'], LOGLEVEL.INFO)
-        if not meta['data'][0]['attributes']['canonicalTitle'] == 'None':
-            title = meta['data'][0]['attributes']['canonicalTitle']
-        item = {
-            "title": title,
-            "year": int(meta['data'][0]['attributes']['airdate'].split("-").pop(0)),
-            "originaltitle": title,
-            "plot": meta['data'][0]['attributes']['synopsis'],
-            "plotoutline": meta['data'][0]['attributes']['synopsis'],
-            "code": meta['data'][0]['id'],
-        }
-    else:
+    try:
+        if meta['data']:
+            log("(tmdb-info-except) %s" %meta['data'][0]['attributes']['canonicalTitle'], LOGLEVEL.INFO)
+            if not meta['data'][0]['attributes']['canonicalTitle'] == 'None':
+                title = meta['data'][0]['attributes']['canonicalTitle']
+            item = {
+                "title": title,
+                "year": int(meta['data'][0]['attributes']['airdate'].split("-").pop(0)),
+                "originaltitle": title,
+                "plot": meta['data'][0]['attributes']['synopsis'],
+                "plotoutline": meta['data'][0]['attributes']['synopsis'],
+                "code": meta['data'][0]['id'],
+            }
+    except:
         overview = meta.get('overview', '')
         vote_average = meta.get('vote_average')
         item = {

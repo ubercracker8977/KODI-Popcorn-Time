@@ -45,7 +45,6 @@ class Player(_Base):
                 "tagline": xbmc.getInfoLabel('ListItem.Tagline'),
                 "writer": xbmc.getInfoLabel('ListItem.Writer'),
                 "rating": float(xbmc.getInfoLabel('ListItem.Rating') or 0.0),
-                "duration": int(xbmc.getInfoLabel('ListItem.Duration') or 0),
                 "code": xbmc.getInfoLabel('ListItem.IMDBNumber'),
                 "studio": xbmc.getInfoLabel('ListItem.Studio'),
                 "votes": xbmc.getInfoLabel('ListItem.Rating') or 0.0
@@ -56,7 +55,6 @@ class Player(_Base):
             "stream_info": {
                 "video": {
                     "codec": xbmc.getInfoLabel('ListItem.VideoCodec'),
-                    "duration": int(xbmc.getInfoLabel('ListItem.Duration') or 0)*60,
                     "width": int(xbmc.getInfoLabel('ListItem.VideoResolution')),
                     "height": xbmc.getInfoLabel('ListItem.VideoResolution') == '1920' and 1080 or 720
                 },

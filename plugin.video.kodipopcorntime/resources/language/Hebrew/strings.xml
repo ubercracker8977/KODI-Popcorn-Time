@@ -97,19 +97,19 @@
   <string id="30140">תשתמש בפורט אקראי (49152-65535)</string>
   <string id="30141">אפשר פרוטוקול TCP</string>
   <string id="30142">אפשר פרוטוקול UTP (uTorrent Transport Protocol)</string>
-  <string id="30143">הגבלת של מספר החיבורים הכולל</string>
+  <string id="30143">הגבלה של מספר החיבורים הכולל</string>
   <string id="30144">איפוס</string>
-  <string id="30145">מספר העמיתים שמנסים להתחבר לאחר התגובה הראשונית</string>
+  <string id="30145">מספר העמיתים שינסו להתחבר לאחר התגובה הראשונית</string>
   <string id="30146">המספר הכולל של ניסיונות חיבור לשנייה</string>
-  <string id="30147">מספר השניות לפני שנסיון החיבור נכשל</string>
+  <string id="30147">מספר השניות לפני שנסיון החיבור יכשל</string>
 
   <string id="30149">מספר השניות להמתנה בין כשלי חיבור</string>
-  <string id="30150">מספר ניסיונות הכישלון לפני עמיתים יימחק</string>
+  <string id="30150">מספר ניסיונות הכישלון לפני מחיקת עמיתים</string>
   <string id="30151">אפשר DHT (Distributed Hash Table)</string>
   <string id="30152">אפשר LSD (Local Service Discovery)</string>
   <string id="30153">אפשר NATPMP (NAT Port Mapping Protocol)</string>
   <string id="30154">אפשר UPnP (Universal Plug and Play)</string>
-  <string id="30155">אפשר שליחת בקשהמהסקייפר לטראקר(Tracker Scrape)</string>
+  <string id="30155">אפשר שליחת בקשה מהסקייפר לטראקר (Tracker Scrape)</string>
   <string id="30156">טראקר (כתובות מופרדות באמצעות פסיק)</string>
   <string id="30157">ראוטרים של DHT (מארח מופרד באמצעות פסיק: זוגות פורטים)</string>
   <string id="30158">אפשר איתור באגים</string>

@@ -7,7 +7,6 @@ FALLBACKLANG = 'en' # Or None
 
 _api_key = "308a68c313ff66d165c1eb029b0716bc"
 _base_url = "http://api.themoviedb.org"
-_anime_base_url = "https://kitsu.io/api/edge"
 _images_base_url = None
 
 class _Data():
@@ -198,26 +197,3 @@ def build_item(meta, id, label, year, lang):
 
     log("(tmdb-return) %s" %item, LOGLEVEL.INFO)
     return item
-
-def _get_info(id, season):
-    url =  '%s/3/find/%s?api_key=%s&external_source=imdb_id' % (_base_url, id, _api_key)
-    req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-    response = urllib2.urlopen(req)
-    result = json.loads(response.read())
-    metadat = result['tv_results']
-
-    if season == 0:
-        url2 =  '%s/3/tv/%s?api_key=%s&append_to_response=credits&include_image_language=en,null' % (_base_url, metadat[0]['id'], _api_key)
-    else:
-        url2 =  '%s/3/tv/%s/season/%s?api_key=%s&append_to_response=credits&include_image_language=en,null' % (_base_url, metadat[0]['id'],season, _api_key)
-    req2 = urllib2.Request(url2, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-    response2 = urllib2.urlopen(req2)
-    result2 = json.loads(response2.read())
-    return result2
-
-def _get_anime_info(id):
-    url = '%s/anime/%s' % (_anime_base_url, id)
-    req = urllib2.Request(url, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
-    response = urllib2.urlopen(req)
-    result = json.loads(response.read())
-    return result['data']

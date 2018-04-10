@@ -170,7 +170,6 @@ class SafeDialogProgress(xbmcgui.DialogProgress):
         super(SafeDialogProgress, self).__init__()
 
     def create(self, *args, **kwargs):
-        time.sleep(0.750)
         super(SafeDialogProgress, self).create(*args, **kwargs)
 
     def set_mentions(self, number):

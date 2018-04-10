@@ -7,7 +7,6 @@ import xbmc
 
 from kodipopcorntime import settings
 from kodipopcorntime.exceptions import Abort
-from kodipopcorntime.providers.movies import metadata_tmdb
 from kodipopcorntime.settings import addon as _settings
 
 
@@ -75,71 +74,16 @@ class BaseContentWithSeasons(BaseContent):
             'code': result['_id'],
             'imdbnumber': result['_id'],
         }
-        if season == 0 and result['_id'].startswith('tt'):
-            try:
-                meta = metadata_tmdb._get_info(result['_id'], 0)
-                castandrole = []
-                for c in meta['credits'].get("cast", []):
-                    castandrole.append((c["name"], c.get("character", '')))
-                info = {
-                    'mediatype': 'tvshow',
-                    'title': meta['name'],
-                    'originaltitle': meta['original_name'],
-                    'year': int(result['year']),
-                    'rating': float(meta['vote_average']),
-                    'votes': meta['vote_count'],
-                    'status': meta['status'],
-                    'country': meta['origin_country'][0],
-                    'code': result['_id'],
-                    'imdbnumber': result['_id'],
-                    'plot': meta['overview'],
-                    'plotoutline': meta['overview'],
-                    'castandrole': castandrole,
-                }
-            except:
-                pass
         if not season == 0 and result['_id'].startswith('tt'):
-            try:
-                meta = metadata_tmdb._get_info(result['_id'], season)
-                castandrole = []
-                for c in meta['credits'].get("cast", []):
-                    castandrole.append((c["name"], c.get("character", '')))
-                info = {
-                    "mediatype": "season",
-                    "title": result['title'],
-                    "tvshowtitle": result['title'],
-                    'season': season,
-                    'status': result['status'],
-                    'code': result['_id'],
-                    'imdbnumber': result['_id'],
-                    "plotoutline": meta['overview'] or None,
-                    "plot": meta['overview'] or None,
-                    'castandrole': castandrole,
-                }
-            except:
-                info = {
-                    "mediatype": "season",
-                    "title": result['title'],
-                    "tvshowtitle": result['title'],
-                    "plotoutline": result['synopsis'] or None,
-                    "plot": result['synopsis'] or None
-                }
+            info = {
+                "mediatype": "season",
+                "title": result['title'],
+                "tvshowtitle": result['title'],
+                "plotoutline": result['synopsis'] or None,
+                "plot": result['synopsis'] or None
+            }
         else:
-            try:
-                meta = metadata_tmdb._get_anime_info(result['_id'])
-                info = {
-                    'mediatype': 'tvshow',
-                    'title': meta['attributes']['titles']['en'],
-                    'originaltitle': meta['attributes']['titles']['ja_jp'],
-                    'year': int(result['year']),
-                    'rating': float(int(result.get('rating').get('percentage'))/10),
-                    'votes': result.get('rating').get('votes'),
-                    'code': result['_id'],
-                    'plot':  meta['attributes']['synopsis'],
-                    'plotoutline': meta['attributes']['synopsis'],
-                }
-            except:
-                pass
+            pass
         return info
 
     @classmethod

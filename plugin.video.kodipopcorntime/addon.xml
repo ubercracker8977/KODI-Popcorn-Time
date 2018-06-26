@@ -7,6 +7,7 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
+		<reuselanguageinvoker>false</reuselanguageinvoker>
         <platform>all</platform>
         <website><![CDATA[https://markop159.github.io/KodiPopcornTime/]]></website>
         <forum><![CDATA[http://forums.tvaddons.ag/addon-releases/47568-kodi-popcorn-time]]></forum>

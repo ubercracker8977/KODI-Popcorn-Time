@@ -7,7 +7,7 @@ __addon__ = sys.modules['__main__'].__addon__
 class Movies(_Base2):
     class __metaclass__(_MetaClass2):
         def _provider(cls):
-            cls.provider = load_provider('api-fetch')
+            cls.provider = load_provider('api-domain')
 
         def _metadata_provider(cls):
             provider = __addon__.getSetting('movies_metadata_provider')

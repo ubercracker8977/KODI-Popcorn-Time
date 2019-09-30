@@ -1,3 +1,7 @@
+v1.7.3
+- Fixed "cannot find torrent2http" error on x64 windows systems
+- Fixed "connection refused to torrent2http" error on latest revisions of linux
+
 v1.7.2
 - Fixes
 

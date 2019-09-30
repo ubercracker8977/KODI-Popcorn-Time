@@ -14,6 +14,8 @@ class Platform(object):
                 cls.arch = 'arm'
             elif sys.maxsize > 2**32 or sys.platform.lower().startswith('linux') and os.uname()[4].lower().startswith('x86_64'):
                 cls.arch = 'x64'
+            elif sys.platform.lower().startswith('win'):
+                cls.arch = 'x86'
             else:
                 cls.arch = 'x86'
 

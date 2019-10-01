@@ -50,8 +50,8 @@ def build_pre(data):
 
 def item(id, label, year):
     return {
-        'domain': 'http://api.yifysubtitles.com',
-        'path': "/subs/%s" %id
+        'domain': 'https://api.yts-subs.com',
+        'path': "/movie-imdb/%s" %id
     }
 
 def build_item(data, id, label, year):
@@ -88,7 +88,7 @@ def build_item(data, id, label, year):
                 }
             },
             "params": {
-                "subtitle": 'http://www.yifysubtitles.com%s' %subtitle["url"]
+                "subtitle": 'https://api.yts-subs.com%s' %subtitle["url"]
             }
         }
 

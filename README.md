@@ -25,6 +25,14 @@ Best way to install KODI Popcorn Time is to install [Repository](https://github.
 ## Issues ##
 Please, file an issue :) - [Issues](https://github.com/markop159/KODI-Popcorn-Time/issues), or go to [TVADDONS forum](https://forums.tvaddons.ag/addon-releases/47568-kodi-popcorn-time.html) and post there.
 
+## torrent2http not found Issue ##
+Please refer to [Issue 102](https://github.com/markop159/KODI-Popcorn-Time/issues/102), and follow this instructions ->
+
+On directory:
+*"C:\Users\Admin\AppData\Roaming\Kodi\addons\plugin.video.kodipopcorntime\resources\bin"*
+
+Rename folder "windows_x86" to "windows_x64" and restart Kodi. 
+
 ## TODO ##
   - [x] Resolve timeout Issue
   - [x] TV shows section

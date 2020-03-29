@@ -263,7 +263,7 @@ def _search(proxy, dom, query, page, **kwargs):
     '''
     return {
         'proxies': dom,
-        'path': "/tv/movies/%s" %page,
+        'path': "/movies/%s" %page,
         'params': {
             'page': page,
             'quality': 'all',

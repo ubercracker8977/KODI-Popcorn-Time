@@ -27,7 +27,7 @@ _proxy_identifier = 'api-fetch.proxies'
 def _getDomains():
     domains = [
         # Currently working and has all 3 categories
-        "https://api-fetch.website"
+        "https://tv-v2.api-fetch.website"
     ]
 
     # User domains have highest priority
@@ -133,7 +133,7 @@ def browse(action, page, **kwargs):
     if kwargs['categ'] == 'movies':
         return {
             'proxies': _getDomains(),
-            'path': "/tv/movies/%s" %page,
+            'path': "/movies/%s" %page,
             'params': {
                 'genre': action == 'genre' and kwargs['genre'] or 'all',
                 'sort': action == 'genre' and "seeds" or action,
@@ -154,7 +154,7 @@ def browse(action, page, **kwargs):
         else:
 			return {
 				'proxies': _getDomains(),
-				'path': "/tv/%s/%s" % (kwargs['categ'], action),
+				'path': "/%s/%s" % (kwargs['categ'], action),
 				'params': {
 				},
 				'proxyid': _proxy_identifier

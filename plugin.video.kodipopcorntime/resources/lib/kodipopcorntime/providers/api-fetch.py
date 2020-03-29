@@ -154,7 +154,7 @@ def browse(action, page, **kwargs):
         else:
 			return {
 				'proxies': _getDomains(),
-				'path': "/tv/%s/%s" % (kwargs['categ'], action),
+				'path': "/%s/%s" % (kwargs['categ'], action),
 				'params': {
 				},
 				'proxyid': _proxy_identifier

@@ -216,7 +216,7 @@ def _favourites(dom, **kwargs):
 
     shows = []
     for fa in favs:
-        search = '%s/tv/anime/%s' % (dom[0], fa['id'])
+        search = '%s/anime/%s' % (dom[0], fa['id'])
         req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
         response = urllib2.urlopen(req)
         show1 = json.loads(response.read())

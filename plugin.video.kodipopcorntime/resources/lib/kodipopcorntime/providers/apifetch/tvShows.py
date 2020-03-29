@@ -50,8 +50,8 @@ class TvShow(BaseContentWithSeasons):
     # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
     # We need to provide the correct values for request_path and id_field.
     id_field = 'imdb_id'
-    request_path = 'tv/show'
-    search_path = 'tv/shows'
+    request_path = 'show'
+    search_path = 'shows'
 
     @classmethod
     def _get_item_info(cls, data):

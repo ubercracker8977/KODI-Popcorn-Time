@@ -64,8 +64,8 @@ class Anime(BaseContentWithSeasons):
     # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
     # We need to provide the correct values for request_path and id_field.
     id_field = '_id'
-    request_path = 'tv/anime'
-    search_path = 'tv/animes'
+    request_path = 'anime'
+    search_path = 'animes'
 
     @classmethod
     def _get_item_info(cls, data):

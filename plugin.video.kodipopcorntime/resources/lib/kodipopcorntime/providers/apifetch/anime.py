@@ -64,8 +64,8 @@ class Anime(BaseContentWithSeasons):
     # Request path is created as: '{domain}/{request_path}/kwargs[id_field]'.
     # We need to provide the correct values for request_path and id_field.
     id_field = '_id'
-    request_path = 'tv/anime'
-    search_path = 'tv/animes'
+    request_path = 'anime'
+    search_path = 'animes'
 
     @classmethod
     def _get_item_info(cls, data):
@@ -216,7 +216,7 @@ def _favourites(dom, **kwargs):
 
     shows = []
     for fa in favs:
-        search = '%s/tv/anime/%s' % (dom[0], fa['id'])
+        search = '%s/anime/%s' % (dom[0], fa['id'])
         req = urllib2.Request(search, headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36", "Accept-Encoding": "none"})
         response = urllib2.urlopen(req)
         show1 = json.loads(response.read())

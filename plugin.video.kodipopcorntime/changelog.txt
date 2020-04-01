@@ -1,3 +1,10 @@
+v1.7.5
+- fix anime list, favourites and add portuguese lang #124 thanks to @daniel3xxx
+
+v1.7.4
+- fix for Could not receive media list #123 for movies thanks to @daniel3xxx
+- fix for TV Shows
+
 v1.7.3
 - Fixed "cannot find torrent2http" error on x64 windows systems
 - Fixed "connection refused to torrent2http" error on latest revisions of linux
